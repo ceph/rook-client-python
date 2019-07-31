@@ -10,5 +10,5 @@ setup(
     author_email='swagner@suse.com',
     description='Client model classes for the CRDs exposes by Rook',
     setup_requires=['pytest-runner'],
-    tests_require=['pytest']
+    tests_require=['pytest', 'mypy', 'pytest-mypy']
 )

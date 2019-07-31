@@ -5,38 +5,40 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
-_omit = object()  # to distinguish None and omit
+NoneType = type(None)  
+_omit = None  # type: NoneType
+_omit = object()  # type: ignore
 
 class Rados(object):
     def __init__(self,
-                 pool=_omit,  # type: str
-                 namespace=_omit,  # type: str
+                 pool=_omit,  # type: Optional[str]
+                 namespace=_omit,  # type: Optional[str]
                  ):
         self.pool = pool
         self.namespace = namespace
 
     @property
     def pool(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._pool is _omit:
             raise AttributeError('pool not found')
         return self._pool
     
     @pool.setter
     def pool(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._pool = new_val
     
     @property
     def namespace(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._namespace is _omit:
             raise AttributeError('namespace not found')
         return self._namespace
     
     @namespace.setter
     def namespace(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._namespace = new_val
 
     def to_json(self):
@@ -48,7 +50,7 @@ class Rados(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Rados
+        # type: (dict) -> Optional[Rados]
         return cls(
             pool=data.get('pool', _omit),
             namespace=data.get('namespace', _omit),
@@ -57,10 +59,10 @@ class Rados(object):
 
 class Server(object):
     def __init__(self,
-                 active=_omit,  # type: int
-                 annotations=_omit,  # type: Any
-                 placement=_omit,  # type: Any
-                 resources=_omit,  # type: Any
+                 active=_omit,  # type: Optional[int]
+                 annotations=_omit,  # type: Optional[Any]
+                 placement=_omit,  # type: Optional[Any]
+                 resources=_omit,  # type: Optional[Any]
                  ):
         self.active = active
         self.annotations = annotations
@@ -69,50 +71,50 @@ class Server(object):
 
     @property
     def active(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._active is _omit:
             raise AttributeError('active not found')
         return self._active
     
     @active.setter
     def active(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._active = new_val
     
     @property
     def annotations(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
     
     @annotations.setter
     def annotations(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._annotations = new_val
     
     @property
     def placement(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
     
     @placement.setter
     def placement(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._placement = new_val
     
     @property
     def resources(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
     
     @resources.setter
     def resources(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._resources = new_val
 
     def to_json(self):
@@ -126,7 +128,7 @@ class Server(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Server
+        # type: (dict) -> Optional[Server]
         return cls(
             active=data.get('active', _omit),
             annotations=data.get('annotations', _omit),
@@ -137,34 +139,34 @@ class Server(object):
 
 class Spec(object):
     def __init__(self,
-                 rados=_omit,  # type: Rados
-                 server=_omit,  # type: Server
+                 rados=_omit,  # type: Optional[Rados]
+                 server=_omit,  # type: Optional[Server]
                  ):
         self.rados = rados
         self.server = server
 
     @property
     def rados(self):
-        # type: () -> Rados
+        # type: () -> Optional[Rados]
         if self._rados is _omit:
             raise AttributeError('rados not found')
         return self._rados
     
     @rados.setter
     def rados(self, new_val):
-        # type: (Rados) -> None
+        # type: (Optional[Rados]) -> None
         self._rados = new_val
     
     @property
     def server(self):
-        # type: () -> Server
+        # type: () -> Optional[Server]
         if self._server is _omit:
             raise AttributeError('server not found')
         return self._server
     
     @server.setter
     def server(self, new_val):
-        # type: (Server) -> None
+        # type: (Optional[Server]) -> None
         self._server = new_val
 
     def to_json(self):
@@ -176,7 +178,7 @@ class Spec(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Spec
+        # type: (dict) -> Optional[Spec]
         return cls(
             rados=Rados.from_json(data['rados']) if 'rados' in data else _omit,
             server=Server.from_json(data['server']) if 'server' in data else _omit,
@@ -185,10 +187,10 @@ class Spec(object):
 
 class CephNFS(object):
     def __init__(self,
-                 apiVersion=_omit,  # type: str
-                 kind="CephNFS",  # type: str
-                 metadata=_omit,  # type: Any
-                 spec=_omit,  # type: Spec
+                 apiVersion,  # type: str
+                 kind,  # type: str
+                 metadata,  # type: Any
+                 spec=_omit,  # type: Optional[Spec]
                  ):
         self.apiVersion = apiVersion
         self.kind = kind
@@ -233,14 +235,14 @@ class CephNFS(object):
     
     @property
     def spec(self):
-        # type: () -> Spec
+        # type: () -> Optional[Spec]
         if self._spec is _omit:
             raise AttributeError('spec not found')
         return self._spec
     
     @spec.setter
     def spec(self, new_val):
-        # type: (Spec) -> None
+        # type: (Optional[Spec]) -> None
         self._spec = new_val
 
     def to_json(self):
@@ -256,8 +258,8 @@ class CephNFS(object):
     def from_json(cls, data):
         # type: (dict) -> CephNFS
         return cls(
-            apiVersion=data.get('apiVersion', _omit),
-            kind=data.get('kind', _omit),
-            metadata=data.get('metadata', _omit),
+            apiVersion=data['apiVersion'],
+            kind=data['kind'],
+            metadata=data['metadata'],
             spec=Spec.from_json(data['spec']) if 'spec' in data else _omit,
         )

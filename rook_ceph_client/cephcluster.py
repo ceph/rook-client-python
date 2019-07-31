@@ -5,13 +5,15 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
-_omit = object()  # to distinguish None and omit
+NoneType = type(None)  
+_omit = None  # type: NoneType
+_omit = object()  # type: ignore
 
 class CephVersion(object):
     def __init__(self,
-                 allowUnsupported=_omit,  # type: bool
-                 image=_omit,  # type: str
-                 name=_omit,  # type: str
+                 allowUnsupported=_omit,  # type: Optional[bool]
+                 image=_omit,  # type: Optional[str]
+                 name=_omit,  # type: Optional[str]
                  ):
         self.allowUnsupported = allowUnsupported
         self.image = image
@@ -19,38 +21,38 @@ class CephVersion(object):
 
     @property
     def allowUnsupported(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._allowUnsupported is _omit:
             raise AttributeError('allowUnsupported not found')
         return self._allowUnsupported
     
     @allowUnsupported.setter
     def allowUnsupported(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._allowUnsupported = new_val
     
     @property
     def image(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._image is _omit:
             raise AttributeError('image not found')
         return self._image
     
     @image.setter
     def image(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._image = new_val
     
     @property
     def name(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._name is _omit:
             raise AttributeError('name not found')
         return self._name
     
     @name.setter
     def name(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._name = new_val
 
     def to_json(self):
@@ -63,7 +65,7 @@ class CephVersion(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> CephVersion
+        # type: (dict) -> Optional[CephVersion]
         return cls(
             allowUnsupported=data.get('allowUnsupported', _omit),
             image=data.get('image', _omit),
@@ -73,10 +75,10 @@ class CephVersion(object):
 
 class Dashboard(object):
     def __init__(self,
-                 enabled=_omit,  # type: bool
-                 urlPrefix=_omit,  # type: str
-                 port=_omit,  # type: int
-                 ssl=_omit,  # type: bool
+                 enabled=_omit,  # type: Optional[bool]
+                 urlPrefix=_omit,  # type: Optional[str]
+                 port=_omit,  # type: Optional[int]
+                 ssl=_omit,  # type: Optional[bool]
                  ):
         self.enabled = enabled
         self.urlPrefix = urlPrefix
@@ -85,50 +87,50 @@ class Dashboard(object):
 
     @property
     def enabled(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._enabled is _omit:
             raise AttributeError('enabled not found')
         return self._enabled
     
     @enabled.setter
     def enabled(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._enabled = new_val
     
     @property
     def urlPrefix(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._urlPrefix is _omit:
             raise AttributeError('urlPrefix not found')
         return self._urlPrefix
     
     @urlPrefix.setter
     def urlPrefix(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._urlPrefix = new_val
     
     @property
     def port(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._port is _omit:
             raise AttributeError('port not found')
         return self._port
     
     @port.setter
     def port(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._port = new_val
     
     @property
     def ssl(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._ssl is _omit:
             raise AttributeError('ssl not found')
         return self._ssl
     
     @ssl.setter
     def ssl(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._ssl = new_val
 
     def to_json(self):
@@ -142,7 +144,7 @@ class Dashboard(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Dashboard
+        # type: (dict) -> Optional[Dashboard]
         return cls(
             enabled=data.get('enabled', _omit),
             urlPrefix=data.get('urlPrefix', _omit),
@@ -153,24 +155,24 @@ class Dashboard(object):
 
 class Mon(object):
     def __init__(self,
-                 allowMultiplePerNode=_omit,  # type: bool
-                 count=_omit,  # type: int
-                 preferredCount=_omit,  # type: int
+                 count,  # type: int
+                 allowMultiplePerNode=_omit,  # type: Optional[bool]
+                 preferredCount=_omit,  # type: Optional[int]
                  ):
-        self.allowMultiplePerNode = allowMultiplePerNode
         self.count = count
+        self.allowMultiplePerNode = allowMultiplePerNode
         self.preferredCount = preferredCount
 
     @property
     def allowMultiplePerNode(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._allowMultiplePerNode is _omit:
             raise AttributeError('allowMultiplePerNode not found')
         return self._allowMultiplePerNode
     
     @allowMultiplePerNode.setter
     def allowMultiplePerNode(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._allowMultiplePerNode = new_val
     
     @property
@@ -187,14 +189,14 @@ class Mon(object):
     
     @property
     def preferredCount(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._preferredCount is _omit:
             raise AttributeError('preferredCount not found')
         return self._preferredCount
     
     @preferredCount.setter
     def preferredCount(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._preferredCount = new_val
 
     def to_json(self):
@@ -210,27 +212,27 @@ class Mon(object):
         # type: (dict) -> Mon
         return cls(
             allowMultiplePerNode=data.get('allowMultiplePerNode', _omit),
-            count=data.get('count', _omit),
+            count=data['count'],
             preferredCount=data.get('preferredCount', _omit),
         )
 
 
 class Network(object):
     def __init__(self,
-                 hostNetwork=_omit,  # type: bool
+                 hostNetwork=_omit,  # type: Optional[bool]
                  ):
         self.hostNetwork = hostNetwork
 
     @property
     def hostNetwork(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._hostNetwork is _omit:
             raise AttributeError('hostNetwork not found')
         return self._hostNetwork
     
     @hostNetwork.setter
     def hostNetwork(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._hostNetwork = new_val
 
     def to_json(self):
@@ -241,7 +243,7 @@ class Network(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Network
+        # type: (dict) -> Optional[Network]
         return cls(
             hostNetwork=data.get('hostNetwork', _omit),
         )
@@ -249,13 +251,13 @@ class Network(object):
 
 class Config(object):
     def __init__(self,
-                 metadataDevice=_omit,  # type: str
-                 storeType=_omit,  # type: str
-                 databaseSizeMB=_omit,  # type: str
-                 walSizeMB=_omit,  # type: str
-                 journalSizeMB=_omit,  # type: str
-                 osdsPerDevice=_omit,  # type: str
-                 encryptedDevice=_omit,  # type: str
+                 metadataDevice=_omit,  # type: Optional[str]
+                 storeType=_omit,  # type: Optional[str]
+                 databaseSizeMB=_omit,  # type: Optional[str]
+                 walSizeMB=_omit,  # type: Optional[str]
+                 journalSizeMB=_omit,  # type: Optional[str]
+                 osdsPerDevice=_omit,  # type: Optional[str]
+                 encryptedDevice=_omit,  # type: Optional[str]
                  ):
         self.metadataDevice = metadataDevice
         self.storeType = storeType
@@ -267,256 +269,86 @@ class Config(object):
 
     @property
     def metadataDevice(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._metadataDevice is _omit:
             raise AttributeError('metadataDevice not found')
         return self._metadataDevice
     
     @metadataDevice.setter
     def metadataDevice(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._metadataDevice = new_val
     
     @property
     def storeType(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._storeType is _omit:
             raise AttributeError('storeType not found')
         return self._storeType
     
     @storeType.setter
     def storeType(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._storeType = new_val
     
     @property
     def databaseSizeMB(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._databaseSizeMB is _omit:
             raise AttributeError('databaseSizeMB not found')
         return self._databaseSizeMB
     
     @databaseSizeMB.setter
     def databaseSizeMB(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._databaseSizeMB = new_val
     
     @property
     def walSizeMB(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._walSizeMB is _omit:
             raise AttributeError('walSizeMB not found')
         return self._walSizeMB
     
     @walSizeMB.setter
     def walSizeMB(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._walSizeMB = new_val
     
     @property
     def journalSizeMB(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._journalSizeMB is _omit:
             raise AttributeError('journalSizeMB not found')
         return self._journalSizeMB
     
     @journalSizeMB.setter
     def journalSizeMB(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._journalSizeMB = new_val
     
     @property
     def osdsPerDevice(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._osdsPerDevice is _omit:
             raise AttributeError('osdsPerDevice not found')
         return self._osdsPerDevice
     
     @osdsPerDevice.setter
     def osdsPerDevice(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._osdsPerDevice = new_val
     
     @property
     def encryptedDevice(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._encryptedDevice is _omit:
             raise AttributeError('encryptedDevice not found')
         return self._encryptedDevice
     
     @encryptedDevice.setter
     def encryptedDevice(self, new_val):
-        # type: (str) -> None
-        self._encryptedDevice = new_val
-
-    def to_json(self):
-        res = {
-            'metadataDevice': self._metadataDevice,
-            'storeType': self._storeType,
-            'databaseSizeMB': self._databaseSizeMB,
-            'walSizeMB': self._walSizeMB,
-            'journalSizeMB': self._journalSizeMB,
-            'osdsPerDevice': self._osdsPerDevice,
-            'encryptedDevice': self._encryptedDevice,
-        }
-        return {k: v for k, v in res.items() if v is not _omit}
-
-    @classmethod
-    def from_json(cls, data):
-        # type: (dict) -> Config
-        return cls(
-            metadataDevice=data.get('metadataDevice', _omit),
-            storeType=data.get('storeType', _omit),
-            databaseSizeMB=data.get('databaseSizeMB', _omit),
-            walSizeMB=data.get('walSizeMB', _omit),
-            journalSizeMB=data.get('journalSizeMB', _omit),
-            osdsPerDevice=data.get('osdsPerDevice', _omit),
-            encryptedDevice=data.get('encryptedDevice', _omit),
-        )
-
-
-class DirectoriesItem(object):
-    def __init__(self,
-                 path=_omit,  # type: str
-                 ):
-        self.path = path
-
-    @property
-    def path(self):
-        # type: () -> str
-        if self._path is _omit:
-            raise AttributeError('path not found')
-        return self._path
-    
-    @path.setter
-    def path(self, new_val):
-        # type: (str) -> None
-        self._path = new_val
-
-    def to_json(self):
-        res = {
-            'path': self._path,
-        }
-        return {k: v for k, v in res.items() if v is not _omit}
-
-    @classmethod
-    def from_json(cls, data):
-        # type: (dict) -> DirectoriesItem
-        return cls(
-            path=data.get('path', _omit),
-        )
-
-
-class DirectoriesList(list):
-    def to_json(self):
-        return [e.to_json() for e in self]
-
-    @classmethod
-    def from_json(cls, data):
-        # type: (list) -> DirectoriesList
-        return cls(DirectoriesItem.from_json(e) for e in data)
-
-
-class Config(object):
-    def __init__(self,
-                 metadataDevice=_omit,  # type: str
-                 storeType=_omit,  # type: str
-                 databaseSizeMB=_omit,  # type: str
-                 walSizeMB=_omit,  # type: str
-                 journalSizeMB=_omit,  # type: str
-                 osdsPerDevice=_omit,  # type: str
-                 encryptedDevice=_omit,  # type: str
-                 ):
-        self.metadataDevice = metadataDevice
-        self.storeType = storeType
-        self.databaseSizeMB = databaseSizeMB
-        self.walSizeMB = walSizeMB
-        self.journalSizeMB = journalSizeMB
-        self.osdsPerDevice = osdsPerDevice
-        self.encryptedDevice = encryptedDevice
-
-    @property
-    def metadataDevice(self):
-        # type: () -> str
-        if self._metadataDevice is _omit:
-            raise AttributeError('metadataDevice not found')
-        return self._metadataDevice
-    
-    @metadataDevice.setter
-    def metadataDevice(self, new_val):
-        # type: (str) -> None
-        self._metadataDevice = new_val
-    
-    @property
-    def storeType(self):
-        # type: () -> str
-        if self._storeType is _omit:
-            raise AttributeError('storeType not found')
-        return self._storeType
-    
-    @storeType.setter
-    def storeType(self, new_val):
-        # type: (str) -> None
-        self._storeType = new_val
-    
-    @property
-    def databaseSizeMB(self):
-        # type: () -> str
-        if self._databaseSizeMB is _omit:
-            raise AttributeError('databaseSizeMB not found')
-        return self._databaseSizeMB
-    
-    @databaseSizeMB.setter
-    def databaseSizeMB(self, new_val):
-        # type: (str) -> None
-        self._databaseSizeMB = new_val
-    
-    @property
-    def walSizeMB(self):
-        # type: () -> str
-        if self._walSizeMB is _omit:
-            raise AttributeError('walSizeMB not found')
-        return self._walSizeMB
-    
-    @walSizeMB.setter
-    def walSizeMB(self, new_val):
-        # type: (str) -> None
-        self._walSizeMB = new_val
-    
-    @property
-    def journalSizeMB(self):
-        # type: () -> str
-        if self._journalSizeMB is _omit:
-            raise AttributeError('journalSizeMB not found')
-        return self._journalSizeMB
-    
-    @journalSizeMB.setter
-    def journalSizeMB(self, new_val):
-        # type: (str) -> None
-        self._journalSizeMB = new_val
-    
-    @property
-    def osdsPerDevice(self):
-        # type: () -> str
-        if self._osdsPerDevice is _omit:
-            raise AttributeError('osdsPerDevice not found')
-        return self._osdsPerDevice
-    
-    @osdsPerDevice.setter
-    def osdsPerDevice(self, new_val):
-        # type: (str) -> None
-        self._osdsPerDevice = new_val
-    
-    @property
-    def encryptedDevice(self):
-        # type: () -> str
-        if self._encryptedDevice is _omit:
-            raise AttributeError('encryptedDevice not found')
-        return self._encryptedDevice
-    
-    @encryptedDevice.setter
-    def encryptedDevice(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._encryptedDevice = new_val
 
     def to_json(self):
@@ -545,36 +377,78 @@ class Config(object):
         )
 
 
+class DirectoriesItem(object):
+    def __init__(self,
+                 path=_omit,  # type: Optional[str]
+                 ):
+        self.path = path
+
+    @property
+    def path(self):
+        # type: () -> Optional[str]
+        if self._path is _omit:
+            raise AttributeError('path not found')
+        return self._path
+    
+    @path.setter
+    def path(self, new_val):
+        # type: (Optional[str]) -> None
+        self._path = new_val
+
+    def to_json(self):
+        res = {
+            'path': self._path,
+        }
+        return {k: v for k, v in res.items() if v is not _omit}
+
+    @classmethod
+    def from_json(cls, data):
+        # type: (dict) -> Optional[DirectoriesItem]
+        return cls(
+            path=data.get('path', _omit),
+        )
+
+
+class DirectoriesList(list):
+    def to_json(self):
+        return [e.to_json() for e in self]
+
+    @classmethod
+    def from_json(cls, data):
+        # type: (list) -> Optional[DirectoriesList]
+        return cls(DirectoriesItem.from_json(e) for e in data)
+
+
 class DevicesItem(object):
     def __init__(self,
-                 name=_omit,  # type: str
-                 config=_omit,  # type: Config
+                 name=_omit,  # type: Optional[str]
+                 config=_omit,  # type: Optional[Config]
                  ):
         self.name = name
         self.config = config
 
     @property
     def name(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._name is _omit:
             raise AttributeError('name not found')
         return self._name
     
     @name.setter
     def name(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._name = new_val
     
     @property
     def config(self):
-        # type: () -> Config
+        # type: () -> Optional[Config]
         if self._config is _omit:
             raise AttributeError('config not found')
         return self._config
     
     @config.setter
     def config(self, new_val):
-        # type: (Config) -> None
+        # type: (Optional[Config]) -> None
         self._config = new_val
 
     def to_json(self):
@@ -586,7 +460,7 @@ class DevicesItem(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> DevicesItem
+        # type: (dict) -> Optional[DevicesItem]
         return cls(
             name=data.get('name', _omit),
             config=(Config.from_json(data['config']) if data['config'] is not None else None) if 'config' in data else _omit,
@@ -599,19 +473,19 @@ class DevicesList(list):
 
     @classmethod
     def from_json(cls, data):
-        # type: (list) -> DevicesList
+        # type: (list) -> Optional[DevicesList]
         return cls(DevicesItem.from_json(e) for e in data)
 
 
 class NodesItem(object):
     def __init__(self,
-                 name=_omit,  # type: str
-                 config=_omit,  # type: Config
-                 useAllDevices=_omit,  # type: bool
-                 deviceFilter=_omit,  # type: str
-                 directories=_omit,  # type: DirectoriesList
-                 devices=_omit,  # type: DevicesList
-                 location=_omit,  # type: str
+                 name=_omit,  # type: Optional[str]
+                 config=_omit,  # type: Optional[Config]
+                 useAllDevices=_omit,  # type: Optional[bool]
+                 deviceFilter=_omit,  # type: Optional[str]
+                 directories=_omit,  # type: Optional[DirectoriesList]
+                 devices=_omit,  # type: Optional[DevicesList]
+                 location=_omit,  # type: Optional[str]
                  ):
         self.name = name
         self.config = config
@@ -623,86 +497,86 @@ class NodesItem(object):
 
     @property
     def name(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._name is _omit:
             raise AttributeError('name not found')
         return self._name
     
     @name.setter
     def name(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._name = new_val
     
     @property
     def config(self):
-        # type: () -> Config
+        # type: () -> Optional[Config]
         if self._config is _omit:
             raise AttributeError('config not found')
         return self._config
     
     @config.setter
     def config(self, new_val):
-        # type: (Config) -> None
+        # type: (Optional[Config]) -> None
         self._config = new_val
     
     @property
     def useAllDevices(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._useAllDevices is _omit:
             raise AttributeError('useAllDevices not found')
         return self._useAllDevices
     
     @useAllDevices.setter
     def useAllDevices(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._useAllDevices = new_val
     
     @property
     def deviceFilter(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._deviceFilter is _omit:
             raise AttributeError('deviceFilter not found')
         return self._deviceFilter
     
     @deviceFilter.setter
     def deviceFilter(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._deviceFilter = new_val
     
     @property
     def directories(self):
-        # type: () -> DirectoriesList
+        # type: () -> Optional[DirectoriesList]
         if self._directories is _omit:
             raise AttributeError('directories not found')
         return self._directories
     
     @directories.setter
     def directories(self, new_val):
-        # type: (DirectoriesList) -> None
+        # type: (Optional[DirectoriesList]) -> None
         self._directories = new_val
     
     @property
     def devices(self):
-        # type: () -> DevicesList
+        # type: () -> Optional[DevicesList]
         if self._devices is _omit:
             raise AttributeError('devices not found')
         return self._devices
     
     @devices.setter
     def devices(self, new_val):
-        # type: (DevicesList) -> None
+        # type: (Optional[DevicesList]) -> None
         self._devices = new_val
     
     @property
     def location(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._location is _omit:
             raise AttributeError('location not found')
         return self._location
     
     @location.setter
     def location(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._location = new_val
 
     def to_json(self):
@@ -719,7 +593,7 @@ class NodesItem(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> NodesItem
+        # type: (dict) -> Optional[NodesItem]
         return cls(
             name=data.get('name', _omit),
             config=Config.from_json(data['config']) if 'config' in data else _omit,
@@ -737,20 +611,20 @@ class NodesList(list):
 
     @classmethod
     def from_json(cls, data):
-        # type: (list) -> NodesList
+        # type: (list) -> Optional[NodesList]
         return cls(NodesItem.from_json(e) for e in data)
 
 
 class Storage(object):
     def __init__(self,
-                 useAllNodes=_omit,  # type: bool
-                 nodes=_omit,  # type: NodesList
-                 useAllDevices=_omit,  # type: bool
-                 deviceFilter=_omit,  # type: str
-                 location=_omit,  # type: Any
-                 directories=_omit,  # type: DirectoriesList
-                 config=_omit,  # type: Config
-                 topologyAware=_omit,  # type: bool
+                 useAllNodes=_omit,  # type: Optional[bool]
+                 nodes=_omit,  # type: Optional[NodesList]
+                 useAllDevices=_omit,  # type: Optional[bool]
+                 deviceFilter=_omit,  # type: Optional[str]
+                 location=_omit,  # type: Optional[Any]
+                 directories=_omit,  # type: Optional[DirectoriesList]
+                 config=_omit,  # type: Optional[Config]
+                 topologyAware=_omit,  # type: Optional[bool]
                  ):
         self.useAllNodes = useAllNodes
         self.nodes = nodes
@@ -763,98 +637,98 @@ class Storage(object):
 
     @property
     def useAllNodes(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._useAllNodes is _omit:
             raise AttributeError('useAllNodes not found')
         return self._useAllNodes
     
     @useAllNodes.setter
     def useAllNodes(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._useAllNodes = new_val
     
     @property
     def nodes(self):
-        # type: () -> NodesList
+        # type: () -> Optional[NodesList]
         if self._nodes is _omit:
             raise AttributeError('nodes not found')
         return self._nodes
     
     @nodes.setter
     def nodes(self, new_val):
-        # type: (NodesList) -> None
+        # type: (Optional[NodesList]) -> None
         self._nodes = new_val
     
     @property
     def useAllDevices(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._useAllDevices is _omit:
             raise AttributeError('useAllDevices not found')
         return self._useAllDevices
     
     @useAllDevices.setter
     def useAllDevices(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._useAllDevices = new_val
     
     @property
     def deviceFilter(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._deviceFilter is _omit:
             raise AttributeError('deviceFilter not found')
         return self._deviceFilter
     
     @deviceFilter.setter
     def deviceFilter(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._deviceFilter = new_val
     
     @property
     def location(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._location is _omit:
             raise AttributeError('location not found')
         return self._location
     
     @location.setter
     def location(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._location = new_val
     
     @property
     def directories(self):
-        # type: () -> DirectoriesList
+        # type: () -> Optional[DirectoriesList]
         if self._directories is _omit:
             raise AttributeError('directories not found')
         return self._directories
     
     @directories.setter
     def directories(self, new_val):
-        # type: (DirectoriesList) -> None
+        # type: (Optional[DirectoriesList]) -> None
         self._directories = new_val
     
     @property
     def config(self):
-        # type: () -> Config
+        # type: () -> Optional[Config]
         if self._config is _omit:
             raise AttributeError('config not found')
         return self._config
     
     @config.setter
     def config(self, new_val):
-        # type: (Config) -> None
+        # type: (Optional[Config]) -> None
         self._config = new_val
     
     @property
     def topologyAware(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._topologyAware is _omit:
             raise AttributeError('topologyAware not found')
         return self._topologyAware
     
     @topologyAware.setter
     def topologyAware(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._topologyAware = new_val
 
     def to_json(self):
@@ -872,7 +746,7 @@ class Storage(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Storage
+        # type: (dict) -> Optional[Storage]
         return cls(
             useAllNodes=data.get('useAllNodes', _omit),
             nodes=NodesList.from_json(data['nodes']) if 'nodes' in data else _omit,
@@ -887,34 +761,34 @@ class Storage(object):
 
 class Monitoring(object):
     def __init__(self,
-                 enabled=_omit,  # type: bool
-                 rulesNamespace=_omit,  # type: str
+                 enabled=_omit,  # type: Optional[bool]
+                 rulesNamespace=_omit,  # type: Optional[str]
                  ):
         self.enabled = enabled
         self.rulesNamespace = rulesNamespace
 
     @property
     def enabled(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._enabled is _omit:
             raise AttributeError('enabled not found')
         return self._enabled
     
     @enabled.setter
     def enabled(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._enabled = new_val
     
     @property
     def rulesNamespace(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._rulesNamespace is _omit:
             raise AttributeError('rulesNamespace not found')
         return self._rulesNamespace
     
     @rulesNamespace.setter
     def rulesNamespace(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._rulesNamespace = new_val
 
     def to_json(self):
@@ -926,7 +800,7 @@ class Monitoring(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Monitoring
+        # type: (dict) -> Optional[Monitoring]
         return cls(
             enabled=data.get('enabled', _omit),
             rulesNamespace=data.get('rulesNamespace', _omit),
@@ -935,20 +809,20 @@ class Monitoring(object):
 
 class RbdMirroring(object):
     def __init__(self,
-                 workers=_omit,  # type: int
+                 workers=_omit,  # type: Optional[int]
                  ):
         self.workers = workers
 
     @property
     def workers(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._workers is _omit:
             raise AttributeError('workers not found')
         return self._workers
     
     @workers.setter
     def workers(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._workers = new_val
 
     def to_json(self):
@@ -959,7 +833,7 @@ class RbdMirroring(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> RbdMirroring
+        # type: (dict) -> Optional[RbdMirroring]
         return cls(
             workers=data.get('workers', _omit),
         )
@@ -967,23 +841,23 @@ class RbdMirroring(object):
 
 class Spec(object):
     def __init__(self,
-                 annotations=_omit,  # type: Any
-                 cephVersion=_omit,  # type: CephVersion
-                 dashboard=_omit,  # type: Dashboard
-                 dataDirHostPath=_omit,  # type: str
-                 mon=_omit,  # type: Mon
-                 network=_omit,  # type: Network
-                 storage=_omit,  # type: Storage
-                 monitoring=_omit,  # type: Monitoring
-                 rbdMirroring=_omit,  # type: RbdMirroring
-                 placement=_omit,  # type: Any
-                 resources=_omit,  # type: Any
+                 mon,  # type: Mon
+                 annotations=_omit,  # type: Optional[Any]
+                 cephVersion=_omit,  # type: Optional[CephVersion]
+                 dashboard=_omit,  # type: Optional[Dashboard]
+                 dataDirHostPath=_omit,  # type: Optional[str]
+                 network=_omit,  # type: Optional[Network]
+                 storage=_omit,  # type: Optional[Storage]
+                 monitoring=_omit,  # type: Optional[Monitoring]
+                 rbdMirroring=_omit,  # type: Optional[RbdMirroring]
+                 placement=_omit,  # type: Optional[Any]
+                 resources=_omit,  # type: Optional[Any]
                  ):
+        self.mon = mon
         self.annotations = annotations
         self.cephVersion = cephVersion
         self.dashboard = dashboard
         self.dataDirHostPath = dataDirHostPath
-        self.mon = mon
         self.network = network
         self.storage = storage
         self.monitoring = monitoring
@@ -993,50 +867,50 @@ class Spec(object):
 
     @property
     def annotations(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
     
     @annotations.setter
     def annotations(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._annotations = new_val
     
     @property
     def cephVersion(self):
-        # type: () -> CephVersion
+        # type: () -> Optional[CephVersion]
         if self._cephVersion is _omit:
             raise AttributeError('cephVersion not found')
         return self._cephVersion
     
     @cephVersion.setter
     def cephVersion(self, new_val):
-        # type: (CephVersion) -> None
+        # type: (Optional[CephVersion]) -> None
         self._cephVersion = new_val
     
     @property
     def dashboard(self):
-        # type: () -> Dashboard
+        # type: () -> Optional[Dashboard]
         if self._dashboard is _omit:
             raise AttributeError('dashboard not found')
         return self._dashboard
     
     @dashboard.setter
     def dashboard(self, new_val):
-        # type: (Dashboard) -> None
+        # type: (Optional[Dashboard]) -> None
         self._dashboard = new_val
     
     @property
     def dataDirHostPath(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._dataDirHostPath is _omit:
             raise AttributeError('dataDirHostPath not found')
         return self._dataDirHostPath
     
     @dataDirHostPath.setter
     def dataDirHostPath(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._dataDirHostPath = new_val
     
     @property
@@ -1053,74 +927,74 @@ class Spec(object):
     
     @property
     def network(self):
-        # type: () -> Network
+        # type: () -> Optional[Network]
         if self._network is _omit:
             raise AttributeError('network not found')
         return self._network
     
     @network.setter
     def network(self, new_val):
-        # type: (Network) -> None
+        # type: (Optional[Network]) -> None
         self._network = new_val
     
     @property
     def storage(self):
-        # type: () -> Storage
+        # type: () -> Optional[Storage]
         if self._storage is _omit:
             raise AttributeError('storage not found')
         return self._storage
     
     @storage.setter
     def storage(self, new_val):
-        # type: (Storage) -> None
+        # type: (Optional[Storage]) -> None
         self._storage = new_val
     
     @property
     def monitoring(self):
-        # type: () -> Monitoring
+        # type: () -> Optional[Monitoring]
         if self._monitoring is _omit:
             raise AttributeError('monitoring not found')
         return self._monitoring
     
     @monitoring.setter
     def monitoring(self, new_val):
-        # type: (Monitoring) -> None
+        # type: (Optional[Monitoring]) -> None
         self._monitoring = new_val
     
     @property
     def rbdMirroring(self):
-        # type: () -> RbdMirroring
+        # type: () -> Optional[RbdMirroring]
         if self._rbdMirroring is _omit:
             raise AttributeError('rbdMirroring not found')
         return self._rbdMirroring
     
     @rbdMirroring.setter
     def rbdMirroring(self, new_val):
-        # type: (RbdMirroring) -> None
+        # type: (Optional[RbdMirroring]) -> None
         self._rbdMirroring = new_val
     
     @property
     def placement(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
     
     @placement.setter
     def placement(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._placement = new_val
     
     @property
     def resources(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
     
     @resources.setter
     def resources(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._resources = new_val
 
     def to_json(self):
@@ -1141,13 +1015,13 @@ class Spec(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Spec
+        # type: (dict) -> Optional[Spec]
         return cls(
             annotations=data.get('annotations', _omit),
             cephVersion=CephVersion.from_json(data['cephVersion']) if 'cephVersion' in data else _omit,
             dashboard=Dashboard.from_json(data['dashboard']) if 'dashboard' in data else _omit,
             dataDirHostPath=data.get('dataDirHostPath', _omit),
-            mon=Mon.from_json(data['mon']) if 'mon' in data else _omit,
+            mon=Mon.from_json(data['mon']),
             network=Network.from_json(data['network']) if 'network' in data else _omit,
             storage=Storage.from_json(data['storage']) if 'storage' in data else _omit,
             monitoring=Monitoring.from_json(data['monitoring']) if 'monitoring' in data else _omit,
@@ -1159,10 +1033,10 @@ class Spec(object):
 
 class CephCluster(object):
     def __init__(self,
-                 apiVersion=_omit,  # type: str
-                 kind="CephCluster",  # type: str
-                 metadata=_omit,  # type: Any
-                 spec=_omit,  # type: Spec
+                 apiVersion,  # type: str
+                 kind,  # type: str
+                 metadata,  # type: Any
+                 spec=_omit,  # type: Optional[Spec]
                  ):
         self.apiVersion = apiVersion
         self.kind = kind
@@ -1207,14 +1081,14 @@ class CephCluster(object):
     
     @property
     def spec(self):
-        # type: () -> Spec
+        # type: () -> Optional[Spec]
         if self._spec is _omit:
             raise AttributeError('spec not found')
         return self._spec
     
     @spec.setter
     def spec(self, new_val):
-        # type: (Spec) -> None
+        # type: (Optional[Spec]) -> None
         self._spec = new_val
 
     def to_json(self):
@@ -1230,8 +1104,8 @@ class CephCluster(object):
     def from_json(cls, data):
         # type: (dict) -> CephCluster
         return cls(
-            apiVersion=data.get('apiVersion', _omit),
-            kind=data.get('kind', _omit),
-            metadata=data.get('metadata', _omit),
+            apiVersion=data['apiVersion'],
+            kind=data['kind'],
+            metadata=data['metadata'],
             spec=Spec.from_json(data['spec']) if 'spec' in data else _omit,
         )

@@ -5,15 +5,17 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
-_omit = object()  # to distinguish None and omit
+NoneType = type(None)  
+_omit = None  # type: NoneType
+_omit = object()  # type: ignore
 
 class MetadataServer(object):
     def __init__(self,
-                 activeCount=_omit,  # type: int
-                 activeStandby=_omit,  # type: bool
-                 annotations=_omit,  # type: Any
-                 placement=_omit,  # type: Any
-                 resources=_omit,  # type: Any
+                 activeCount=_omit,  # type: Optional[int]
+                 activeStandby=_omit,  # type: Optional[bool]
+                 annotations=_omit,  # type: Optional[Any]
+                 placement=_omit,  # type: Optional[Any]
+                 resources=_omit,  # type: Optional[Any]
                  ):
         self.activeCount = activeCount
         self.activeStandby = activeStandby
@@ -23,62 +25,62 @@ class MetadataServer(object):
 
     @property
     def activeCount(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._activeCount is _omit:
             raise AttributeError('activeCount not found')
         return self._activeCount
     
     @activeCount.setter
     def activeCount(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._activeCount = new_val
     
     @property
     def activeStandby(self):
-        # type: () -> bool
+        # type: () -> Optional[bool]
         if self._activeStandby is _omit:
             raise AttributeError('activeStandby not found')
         return self._activeStandby
     
     @activeStandby.setter
     def activeStandby(self, new_val):
-        # type: (bool) -> None
+        # type: (Optional[bool]) -> None
         self._activeStandby = new_val
     
     @property
     def annotations(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
     
     @annotations.setter
     def annotations(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._annotations = new_val
     
     @property
     def placement(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
     
     @placement.setter
     def placement(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._placement = new_val
     
     @property
     def resources(self):
-        # type: () -> Any
+        # type: () -> Optional[Any]
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
     
     @resources.setter
     def resources(self, new_val):
-        # type: (Any) -> None
+        # type: (Optional[Any]) -> None
         self._resources = new_val
 
     def to_json(self):
@@ -93,7 +95,7 @@ class MetadataServer(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> MetadataServer
+        # type: (dict) -> Optional[MetadataServer]
         return cls(
             activeCount=data.get('activeCount', _omit),
             activeStandby=data.get('activeStandby', _omit),
@@ -105,20 +107,20 @@ class MetadataServer(object):
 
 class Replicated(object):
     def __init__(self,
-                 size=_omit,  # type: int
+                 size=_omit,  # type: Optional[int]
                  ):
         self.size = size
 
     @property
     def size(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._size is _omit:
             raise AttributeError('size not found')
         return self._size
     
     @size.setter
     def size(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._size = new_val
 
     def to_json(self):
@@ -129,7 +131,7 @@ class Replicated(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Replicated
+        # type: (dict) -> Optional[Replicated]
         return cls(
             size=data.get('size', _omit),
         )
@@ -137,34 +139,34 @@ class Replicated(object):
 
 class ErasureCoded(object):
     def __init__(self,
-                 dataChunks=_omit,  # type: int
-                 codingChunks=_omit,  # type: int
+                 dataChunks=_omit,  # type: Optional[int]
+                 codingChunks=_omit,  # type: Optional[int]
                  ):
         self.dataChunks = dataChunks
         self.codingChunks = codingChunks
 
     @property
     def dataChunks(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._dataChunks is _omit:
             raise AttributeError('dataChunks not found')
         return self._dataChunks
     
     @dataChunks.setter
     def dataChunks(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._dataChunks = new_val
     
     @property
     def codingChunks(self):
-        # type: () -> int
+        # type: () -> Optional[int]
         if self._codingChunks is _omit:
             raise AttributeError('codingChunks not found')
         return self._codingChunks
     
     @codingChunks.setter
     def codingChunks(self, new_val):
-        # type: (int) -> None
+        # type: (Optional[int]) -> None
         self._codingChunks = new_val
 
     def to_json(self):
@@ -176,7 +178,7 @@ class ErasureCoded(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> ErasureCoded
+        # type: (dict) -> Optional[ErasureCoded]
         return cls(
             dataChunks=data.get('dataChunks', _omit),
             codingChunks=data.get('codingChunks', _omit),
@@ -185,9 +187,9 @@ class ErasureCoded(object):
 
 class MetadataPool(object):
     def __init__(self,
-                 failureDomain=_omit,  # type: str
-                 replicated=_omit,  # type: Replicated
-                 erasureCoded=_omit,  # type: ErasureCoded
+                 failureDomain=_omit,  # type: Optional[str]
+                 replicated=_omit,  # type: Optional[Replicated]
+                 erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
         self.failureDomain = failureDomain
         self.replicated = replicated
@@ -195,38 +197,38 @@ class MetadataPool(object):
 
     @property
     def failureDomain(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._failureDomain is _omit:
             raise AttributeError('failureDomain not found')
         return self._failureDomain
     
     @failureDomain.setter
     def failureDomain(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._failureDomain = new_val
     
     @property
     def replicated(self):
-        # type: () -> Replicated
+        # type: () -> Optional[Replicated]
         if self._replicated is _omit:
             raise AttributeError('replicated not found')
         return self._replicated
     
     @replicated.setter
     def replicated(self, new_val):
-        # type: (Replicated) -> None
+        # type: (Optional[Replicated]) -> None
         self._replicated = new_val
     
     @property
     def erasureCoded(self):
-        # type: () -> ErasureCoded
+        # type: () -> Optional[ErasureCoded]
         if self._erasureCoded is _omit:
             raise AttributeError('erasureCoded not found')
         return self._erasureCoded
     
     @erasureCoded.setter
     def erasureCoded(self, new_val):
-        # type: (ErasureCoded) -> None
+        # type: (Optional[ErasureCoded]) -> None
         self._erasureCoded = new_val
 
     def to_json(self):
@@ -239,7 +241,7 @@ class MetadataPool(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> MetadataPool
+        # type: (dict) -> Optional[MetadataPool]
         return cls(
             failureDomain=data.get('failureDomain', _omit),
             replicated=Replicated.from_json(data['replicated']) if 'replicated' in data else _omit,
@@ -249,9 +251,9 @@ class MetadataPool(object):
 
 class DataPoolsItem(object):
     def __init__(self,
-                 failureDomain=_omit,  # type: str
-                 replicated=_omit,  # type: Replicated
-                 erasureCoded=_omit,  # type: ErasureCoded
+                 failureDomain=_omit,  # type: Optional[str]
+                 replicated=_omit,  # type: Optional[Replicated]
+                 erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
         self.failureDomain = failureDomain
         self.replicated = replicated
@@ -259,38 +261,38 @@ class DataPoolsItem(object):
 
     @property
     def failureDomain(self):
-        # type: () -> str
+        # type: () -> Optional[str]
         if self._failureDomain is _omit:
             raise AttributeError('failureDomain not found')
         return self._failureDomain
     
     @failureDomain.setter
     def failureDomain(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._failureDomain = new_val
     
     @property
     def replicated(self):
-        # type: () -> Replicated
+        # type: () -> Optional[Replicated]
         if self._replicated is _omit:
             raise AttributeError('replicated not found')
         return self._replicated
     
     @replicated.setter
     def replicated(self, new_val):
-        # type: (Replicated) -> None
+        # type: (Optional[Replicated]) -> None
         self._replicated = new_val
     
     @property
     def erasureCoded(self):
-        # type: () -> ErasureCoded
+        # type: () -> Optional[ErasureCoded]
         if self._erasureCoded is _omit:
             raise AttributeError('erasureCoded not found')
         return self._erasureCoded
     
     @erasureCoded.setter
     def erasureCoded(self, new_val):
-        # type: (ErasureCoded) -> None
+        # type: (Optional[ErasureCoded]) -> None
         self._erasureCoded = new_val
 
     def to_json(self):
@@ -303,7 +305,7 @@ class DataPoolsItem(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> DataPoolsItem
+        # type: (dict) -> Optional[DataPoolsItem]
         return cls(
             failureDomain=data.get('failureDomain', _omit),
             replicated=Replicated.from_json(data['replicated']) if 'replicated' in data else _omit,
@@ -317,15 +319,15 @@ class DataPoolsList(list):
 
     @classmethod
     def from_json(cls, data):
-        # type: (list) -> DataPoolsList
+        # type: (list) -> Optional[DataPoolsList]
         return cls(DataPoolsItem.from_json(e) for e in data)
 
 
 class Spec(object):
     def __init__(self,
-                 metadataServer=_omit,  # type: MetadataServer
-                 metadataPool=_omit,  # type: MetadataPool
-                 dataPools=_omit,  # type: DataPoolsList
+                 metadataServer=_omit,  # type: Optional[MetadataServer]
+                 metadataPool=_omit,  # type: Optional[MetadataPool]
+                 dataPools=_omit,  # type: Optional[DataPoolsList]
                  ):
         self.metadataServer = metadataServer
         self.metadataPool = metadataPool
@@ -333,38 +335,38 @@ class Spec(object):
 
     @property
     def metadataServer(self):
-        # type: () -> MetadataServer
+        # type: () -> Optional[MetadataServer]
         if self._metadataServer is _omit:
             raise AttributeError('metadataServer not found')
         return self._metadataServer
     
     @metadataServer.setter
     def metadataServer(self, new_val):
-        # type: (MetadataServer) -> None
+        # type: (Optional[MetadataServer]) -> None
         self._metadataServer = new_val
     
     @property
     def metadataPool(self):
-        # type: () -> MetadataPool
+        # type: () -> Optional[MetadataPool]
         if self._metadataPool is _omit:
             raise AttributeError('metadataPool not found')
         return self._metadataPool
     
     @metadataPool.setter
     def metadataPool(self, new_val):
-        # type: (MetadataPool) -> None
+        # type: (Optional[MetadataPool]) -> None
         self._metadataPool = new_val
     
     @property
     def dataPools(self):
-        # type: () -> DataPoolsList
+        # type: () -> Optional[DataPoolsList]
         if self._dataPools is _omit:
             raise AttributeError('dataPools not found')
         return self._dataPools
     
     @dataPools.setter
     def dataPools(self, new_val):
-        # type: (DataPoolsList) -> None
+        # type: (Optional[DataPoolsList]) -> None
         self._dataPools = new_val
 
     def to_json(self):
@@ -377,7 +379,7 @@ class Spec(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Spec
+        # type: (dict) -> Optional[Spec]
         return cls(
             metadataServer=MetadataServer.from_json(data['metadataServer']) if 'metadataServer' in data else _omit,
             metadataPool=MetadataPool.from_json(data['metadataPool']) if 'metadataPool' in data else _omit,
@@ -387,10 +389,10 @@ class Spec(object):
 
 class CephFilesystem(object):
     def __init__(self,
-                 apiVersion=_omit,  # type: str
-                 kind="CephFilesystem",  # type: str
-                 metadata=_omit,  # type: Any
-                 spec=_omit,  # type: Spec
+                 apiVersion,  # type: str
+                 kind,  # type: str
+                 metadata,  # type: Any
+                 spec=_omit,  # type: Optional[Spec]
                  ):
         self.apiVersion = apiVersion
         self.kind = kind
@@ -435,14 +437,14 @@ class CephFilesystem(object):
     
     @property
     def spec(self):
-        # type: () -> Spec
+        # type: () -> Optional[Spec]
         if self._spec is _omit:
             raise AttributeError('spec not found')
         return self._spec
     
     @spec.setter
     def spec(self, new_val):
-        # type: (Spec) -> None
+        # type: (Optional[Spec]) -> None
         self._spec = new_val
 
     def to_json(self):
@@ -458,8 +460,8 @@ class CephFilesystem(object):
     def from_json(cls, data):
         # type: (dict) -> CephFilesystem
         return cls(
-            apiVersion=data.get('apiVersion', _omit),
-            kind=data.get('kind', _omit),
-            metadata=data.get('metadata', _omit),
+            apiVersion=data['apiVersion'],
+            kind=data['kind'],
+            metadata=data['metadata'],
             spec=Spec.from_json(data['spec']) if 'spec' in data else _omit,
         )

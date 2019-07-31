@@ -1,6 +1,7 @@
 .coverage
 .eggs/
 .idea/
+.mypy_cache/
 rook_ceph_client.egg-info/
 rook_ceph_client_python.egg-info/
 venv/
