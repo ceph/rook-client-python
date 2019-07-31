@@ -1,3 +1,5 @@
+from os.path import expanduser
+
 import yaml
 
 from rook_ceph_client.cephcluster import CephCluster
@@ -7,7 +9,7 @@ from rook_ceph_client.cephobjectstore import CephObjectStore
 
 
 def load_example(what):
-    with open(f'/home/sebastian/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/{what}.yaml') as f:
+    with open(expanduser('~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/{what}.yaml').format(what=what)) as f:
         return yaml.safe_load(f.read())
 
 

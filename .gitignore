@@ -6,3 +6,4 @@ rook_ceph_client.egg-info/
 rook_ceph_client_python.egg-info/
 venv/
 __pycache__
+*.pyc
