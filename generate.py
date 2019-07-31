@@ -6,6 +6,7 @@ Run
 $ python ./generate.py
 
 """
+from abc import ABC, abstractmethod
 from collections import namedtuple, OrderedDict
 from os.path import expanduser
 from typing import List, Union, Iterator, Optional
@@ -26,7 +27,21 @@ _omit = object()  # type: ignore
 
 '''
 
-class CRDBase:
+@dataclass
+class CRDBase(ABC):
+    name: str
+    nullable: bool
+    required: bool
+
+    @property
+    def py_name(self):
+        return self.name
+
+    @property
+    @abstractmethod
+    def py_type(self):
+        ...
+
     def py_property(self):
         return f"""
 @property
@@ -64,10 +79,7 @@ def {self.py_name}(self, new_val):
 
 @dataclass
 class CRDAttribute(CRDBase):
-    name: str
     type: str
-    nullable: bool
-    required: bool
     default_value: str='_omit'
 
     @property
@@ -75,10 +87,6 @@ class CRDAttribute(CRDBase):
         if self.required:
             return f'{self.py_name},  # type: {self.py_param_type}'
         return f'{self.py_name}={self.default_value},  # type: {self.py_param_type}'
-
-    @property
-    def py_name(self):
-        return self.name
 
     @property
     def py_type(self):
@@ -102,10 +110,7 @@ class CRDAttribute(CRDBase):
 
 @dataclass
 class CRDList(CRDBase):
-    name: str
     items: 'CRDClass'
-    nullable: bool
-    required: bool
 
     @property
     def py_name(self):
@@ -154,10 +159,7 @@ def from_json(cls, data):
 
 @dataclass
 class CRDClass(CRDBase):
-    name: str
     attrs: List[Union[CRDAttribute, 'CRDClass']]
-    nullable: bool
-    required: bool
 
     def toplevel(self):
         ps = '\n\n'.join(a.py_property() for a in self.attrs)
@@ -178,10 +180,6 @@ class CRDClass(CRDBase):
     @property
     def py_type(self):
         return self.name[0].upper() + self.name[1:]
-
-    @property
-    def py_name(self):
-        return self.name
 
     def flatten(self) -> Iterator['CRDClass']:
         for sub_cls in self.attrs:
@@ -244,14 +242,14 @@ def handle_property(elem_name, elem: dict, required: bool):
         ps = elem['properties']
         required_elems = elem.get('required', [])
         sub_props = [handle_property(k, v, k in required_elems) for k, v in ps.items()]
-        return CRDClass(elem_name, sub_props, nullable, required)
+        return CRDClass(elem_name, nullable, required, sub_props)
     elif 'items' in elem:
         item = handle_property(elem_name + 'Item', elem['items'], False)
-        return CRDList(elem_name, item, nullable, required)
+        return CRDList(elem_name, nullable, required, item)
     elif 'type' in elem:
-        return CRDAttribute(elem_name, elem['type'], nullable, required)
+        return CRDAttribute(elem_name, nullable, required, elem['type'])
     elif elem == {}:
-        return CRDAttribute(elem_name, 'object', nullable, required)
+        return CRDAttribute(elem_name, nullable, required, 'object')
     assert False, str((elem_name, elem))
 
 
@@ -263,10 +261,10 @@ def handle_crd(c_dict) -> Optional[CRDClass]:
         return None
     s['required'] = ['spec']
     c = handle_property(name, s, True)
-    k8s_attrs = [CRDAttribute('apiVersion', 'string', False, True),
-                 CRDAttribute('kind', 'string', False, True, f'"{name}"'),
-                 CRDAttribute('metadata', 'object', False, True)]
-    return CRDClass(c.name, k8s_attrs + c.attrs, False, True)
+    k8s_attrs = [CRDAttribute('apiVersion', False, True, 'string'),
+                 CRDAttribute('kind', False, True, 'string', f'"{name}"'),
+                 CRDAttribute('metadata', False, True, 'object')]
+    return CRDClass(c.name, False, True, k8s_attrs + c.attrs)
 
 
 def download_yaml():
