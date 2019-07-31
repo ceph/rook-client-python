@@ -7,7 +7,7 @@ $ python ./generate.py
 
 """
 from abc import ABC, abstractmethod
-from collections import namedtuple, OrderedDict
+from collections import OrderedDict
 from os.path import expanduser
 from typing import List, Union, Iterator, Optional
 
@@ -21,6 +21,8 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
+# Tricking mypy to think `_omit`'s type is NoneType
+# To make us not add things like `Union[Optional[str], OmitType]`
 NoneType = type(None)  
 _omit = None  # type: NoneType
 _omit = object()  # type: ignore
@@ -46,7 +48,7 @@ class CRDBase(ABC):
         return f"""
 @property
 def {self.py_name}(self):
-    # type: () -> {self.py_param_type}
+    # type: () -> {self.py_property_return_type}
     if self._{self.py_name} is _omit:
         raise AttributeError('{self.py_name} not found')
     return self._{self.py_name}
@@ -59,17 +61,25 @@ def {self.py_name}(self, new_val):
 
     @property
     def py_param(self):
-        if self.required:
+        if not self.has_default:
             return f'{self.py_name},  # type: {self.py_param_type}'
         return f'{self.py_name}=_omit,  # type: {self.py_param_type}'
+
+    @property
+    def has_default(self):
+        return not self.required
 
     @property
     def py_param_type(self):
         return f'Optional[{self.py_type}]' if (self.nullable or not self.required) else self.py_type
 
     @property
+    def py_property_return_type(self):
+        return f'Optional[{self.py_type}]' if (self.nullable) else self.py_type
+
+    @property
     def py_init_set(self):
-        return f'self.{self.py_name} = {self.py_name}'
+        return f'self.{self.py_name} = {self.py_name}  # type: ignore'
 
     @property
     def py_from_json_val(self):
@@ -84,9 +94,13 @@ class CRDAttribute(CRDBase):
 
     @property
     def py_param(self):
-        if self.required:
+        if not self.has_default:
             return f'{self.py_name},  # type: {self.py_param_type}'
         return f'{self.py_name}={self.default_value},  # type: {self.py_param_type}'
+
+    @property
+    def has_default(self):
+        return not self.required or self.default_value != '_omit'
 
     @property
     def py_type(self):
@@ -187,7 +201,7 @@ class CRDClass(CRDBase):
         yield self
 
     def py_init(self):
-        sorted_attrs = sorted(self.attrs, key=lambda a: a.required, reverse=True)
+        sorted_attrs = sorted(self.attrs, key=lambda a: a.has_default)
         params = '\n'.join(a.py_param for a in sorted_attrs)
         init_set = '\n'.join(a.py_init_set for a in sorted_attrs)
         return f"""

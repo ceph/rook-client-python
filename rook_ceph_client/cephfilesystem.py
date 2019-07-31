@@ -5,6 +5,8 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
+# Tricking mypy to think `_omit`'s type is NoneType
+# To make us not add things like `Union[Optional[str], OmitType]`
 NoneType = type(None)  
 _omit = None  # type: NoneType
 _omit = object()  # type: ignore
@@ -17,15 +19,15 @@ class MetadataServer(object):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.activeCount = activeCount
-        self.activeStandby = activeStandby
-        self.annotations = annotations
-        self.placement = placement
-        self.resources = resources
+        self.activeCount = activeCount  # type: ignore
+        self.activeStandby = activeStandby  # type: ignore
+        self.annotations = annotations  # type: ignore
+        self.placement = placement  # type: ignore
+        self.resources = resources  # type: ignore
 
     @property
     def activeCount(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._activeCount is _omit:
             raise AttributeError('activeCount not found')
         return self._activeCount
@@ -37,7 +39,7 @@ class MetadataServer(object):
     
     @property
     def activeStandby(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._activeStandby is _omit:
             raise AttributeError('activeStandby not found')
         return self._activeStandby
@@ -49,7 +51,7 @@ class MetadataServer(object):
     
     @property
     def annotations(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
@@ -61,7 +63,7 @@ class MetadataServer(object):
     
     @property
     def placement(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
@@ -73,7 +75,7 @@ class MetadataServer(object):
     
     @property
     def resources(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
@@ -109,11 +111,11 @@ class Replicated(object):
     def __init__(self,
                  size=_omit,  # type: Optional[int]
                  ):
-        self.size = size
+        self.size = size  # type: ignore
 
     @property
     def size(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._size is _omit:
             raise AttributeError('size not found')
         return self._size
@@ -142,12 +144,12 @@ class ErasureCoded(object):
                  dataChunks=_omit,  # type: Optional[int]
                  codingChunks=_omit,  # type: Optional[int]
                  ):
-        self.dataChunks = dataChunks
-        self.codingChunks = codingChunks
+        self.dataChunks = dataChunks  # type: ignore
+        self.codingChunks = codingChunks  # type: ignore
 
     @property
     def dataChunks(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._dataChunks is _omit:
             raise AttributeError('dataChunks not found')
         return self._dataChunks
@@ -159,7 +161,7 @@ class ErasureCoded(object):
     
     @property
     def codingChunks(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._codingChunks is _omit:
             raise AttributeError('codingChunks not found')
         return self._codingChunks
@@ -191,13 +193,13 @@ class MetadataPool(object):
                  replicated=_omit,  # type: Optional[Replicated]
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
-        self.failureDomain = failureDomain
-        self.replicated = replicated
-        self.erasureCoded = erasureCoded
+        self.failureDomain = failureDomain  # type: ignore
+        self.replicated = replicated  # type: ignore
+        self.erasureCoded = erasureCoded  # type: ignore
 
     @property
     def failureDomain(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._failureDomain is _omit:
             raise AttributeError('failureDomain not found')
         return self._failureDomain
@@ -209,7 +211,7 @@ class MetadataPool(object):
     
     @property
     def replicated(self):
-        # type: () -> Optional[Replicated]
+        # type: () -> Replicated
         if self._replicated is _omit:
             raise AttributeError('replicated not found')
         return self._replicated
@@ -221,7 +223,7 @@ class MetadataPool(object):
     
     @property
     def erasureCoded(self):
-        # type: () -> Optional[ErasureCoded]
+        # type: () -> ErasureCoded
         if self._erasureCoded is _omit:
             raise AttributeError('erasureCoded not found')
         return self._erasureCoded
@@ -255,13 +257,13 @@ class DataPoolsItem(object):
                  replicated=_omit,  # type: Optional[Replicated]
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
-        self.failureDomain = failureDomain
-        self.replicated = replicated
-        self.erasureCoded = erasureCoded
+        self.failureDomain = failureDomain  # type: ignore
+        self.replicated = replicated  # type: ignore
+        self.erasureCoded = erasureCoded  # type: ignore
 
     @property
     def failureDomain(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._failureDomain is _omit:
             raise AttributeError('failureDomain not found')
         return self._failureDomain
@@ -273,7 +275,7 @@ class DataPoolsItem(object):
     
     @property
     def replicated(self):
-        # type: () -> Optional[Replicated]
+        # type: () -> Replicated
         if self._replicated is _omit:
             raise AttributeError('replicated not found')
         return self._replicated
@@ -285,7 +287,7 @@ class DataPoolsItem(object):
     
     @property
     def erasureCoded(self):
-        # type: () -> Optional[ErasureCoded]
+        # type: () -> ErasureCoded
         if self._erasureCoded is _omit:
             raise AttributeError('erasureCoded not found')
         return self._erasureCoded
@@ -329,13 +331,13 @@ class Spec(object):
                  metadataPool=_omit,  # type: Optional[MetadataPool]
                  dataPools=_omit,  # type: Optional[DataPoolsList]
                  ):
-        self.metadataServer = metadataServer
-        self.metadataPool = metadataPool
-        self.dataPools = dataPools
+        self.metadataServer = metadataServer  # type: ignore
+        self.metadataPool = metadataPool  # type: ignore
+        self.dataPools = dataPools  # type: ignore
 
     @property
     def metadataServer(self):
-        # type: () -> Optional[MetadataServer]
+        # type: () -> MetadataServer
         if self._metadataServer is _omit:
             raise AttributeError('metadataServer not found')
         return self._metadataServer
@@ -347,7 +349,7 @@ class Spec(object):
     
     @property
     def metadataPool(self):
-        # type: () -> Optional[MetadataPool]
+        # type: () -> MetadataPool
         if self._metadataPool is _omit:
             raise AttributeError('metadataPool not found')
         return self._metadataPool
@@ -359,7 +361,7 @@ class Spec(object):
     
     @property
     def dataPools(self):
-        # type: () -> Optional[DataPoolsList]
+        # type: () -> DataPoolsList
         if self._dataPools is _omit:
             raise AttributeError('dataPools not found')
         return self._dataPools
@@ -390,14 +392,14 @@ class Spec(object):
 class CephFilesystem(object):
     def __init__(self,
                  apiVersion,  # type: str
-                 kind,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
+                 kind="CephFilesystem",  # type: str
                  ):
-        self.apiVersion = apiVersion
-        self.kind = kind
-        self.metadata = metadata
-        self.spec = spec
+        self.apiVersion = apiVersion  # type: ignore
+        self.metadata = metadata  # type: ignore
+        self.spec = spec  # type: ignore
+        self.kind = kind  # type: ignore
 
     @property
     def apiVersion(self):

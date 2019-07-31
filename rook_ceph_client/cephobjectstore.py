@@ -5,6 +5,8 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
+# Tricking mypy to think `_omit`'s type is NoneType
+# To make us not add things like `Union[Optional[str], OmitType]`
 NoneType = type(None)  
 _omit = None  # type: NoneType
 _omit = object()  # type: ignore
@@ -20,18 +22,18 @@ class Gateway(object):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.type = type
-        self.sslCertificateRef = sslCertificateRef
-        self.port = port
-        self.securePort = securePort
-        self.instances = instances
-        self.annotations = annotations
-        self.placement = placement
-        self.resources = resources
+        self.type = type  # type: ignore
+        self.sslCertificateRef = sslCertificateRef  # type: ignore
+        self.port = port  # type: ignore
+        self.securePort = securePort  # type: ignore
+        self.instances = instances  # type: ignore
+        self.annotations = annotations  # type: ignore
+        self.placement = placement  # type: ignore
+        self.resources = resources  # type: ignore
 
     @property
     def type(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._type is _omit:
             raise AttributeError('type not found')
         return self._type
@@ -43,7 +45,7 @@ class Gateway(object):
     
     @property
     def sslCertificateRef(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._sslCertificateRef is _omit:
             raise AttributeError('sslCertificateRef not found')
         return self._sslCertificateRef
@@ -55,7 +57,7 @@ class Gateway(object):
     
     @property
     def port(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._port is _omit:
             raise AttributeError('port not found')
         return self._port
@@ -67,7 +69,7 @@ class Gateway(object):
     
     @property
     def securePort(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._securePort is _omit:
             raise AttributeError('securePort not found')
         return self._securePort
@@ -79,7 +81,7 @@ class Gateway(object):
     
     @property
     def instances(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._instances is _omit:
             raise AttributeError('instances not found')
         return self._instances
@@ -91,7 +93,7 @@ class Gateway(object):
     
     @property
     def annotations(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
@@ -103,7 +105,7 @@ class Gateway(object):
     
     @property
     def placement(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
@@ -115,7 +117,7 @@ class Gateway(object):
     
     @property
     def resources(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
@@ -157,11 +159,11 @@ class Replicated(object):
     def __init__(self,
                  size=_omit,  # type: Optional[int]
                  ):
-        self.size = size
+        self.size = size  # type: ignore
 
     @property
     def size(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._size is _omit:
             raise AttributeError('size not found')
         return self._size
@@ -190,12 +192,12 @@ class ErasureCoded(object):
                  dataChunks=_omit,  # type: Optional[int]
                  codingChunks=_omit,  # type: Optional[int]
                  ):
-        self.dataChunks = dataChunks
-        self.codingChunks = codingChunks
+        self.dataChunks = dataChunks  # type: ignore
+        self.codingChunks = codingChunks  # type: ignore
 
     @property
     def dataChunks(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._dataChunks is _omit:
             raise AttributeError('dataChunks not found')
         return self._dataChunks
@@ -207,7 +209,7 @@ class ErasureCoded(object):
     
     @property
     def codingChunks(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._codingChunks is _omit:
             raise AttributeError('codingChunks not found')
         return self._codingChunks
@@ -239,13 +241,13 @@ class MetadataPool(object):
                  replicated=_omit,  # type: Optional[Replicated]
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
-        self.failureDomain = failureDomain
-        self.replicated = replicated
-        self.erasureCoded = erasureCoded
+        self.failureDomain = failureDomain  # type: ignore
+        self.replicated = replicated  # type: ignore
+        self.erasureCoded = erasureCoded  # type: ignore
 
     @property
     def failureDomain(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._failureDomain is _omit:
             raise AttributeError('failureDomain not found')
         return self._failureDomain
@@ -257,7 +259,7 @@ class MetadataPool(object):
     
     @property
     def replicated(self):
-        # type: () -> Optional[Replicated]
+        # type: () -> Replicated
         if self._replicated is _omit:
             raise AttributeError('replicated not found')
         return self._replicated
@@ -269,7 +271,7 @@ class MetadataPool(object):
     
     @property
     def erasureCoded(self):
-        # type: () -> Optional[ErasureCoded]
+        # type: () -> ErasureCoded
         if self._erasureCoded is _omit:
             raise AttributeError('erasureCoded not found')
         return self._erasureCoded
@@ -303,13 +305,13 @@ class DataPool(object):
                  replicated=_omit,  # type: Optional[Replicated]
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
-        self.failureDomain = failureDomain
-        self.replicated = replicated
-        self.erasureCoded = erasureCoded
+        self.failureDomain = failureDomain  # type: ignore
+        self.replicated = replicated  # type: ignore
+        self.erasureCoded = erasureCoded  # type: ignore
 
     @property
     def failureDomain(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._failureDomain is _omit:
             raise AttributeError('failureDomain not found')
         return self._failureDomain
@@ -321,7 +323,7 @@ class DataPool(object):
     
     @property
     def replicated(self):
-        # type: () -> Optional[Replicated]
+        # type: () -> Replicated
         if self._replicated is _omit:
             raise AttributeError('replicated not found')
         return self._replicated
@@ -333,7 +335,7 @@ class DataPool(object):
     
     @property
     def erasureCoded(self):
-        # type: () -> Optional[ErasureCoded]
+        # type: () -> ErasureCoded
         if self._erasureCoded is _omit:
             raise AttributeError('erasureCoded not found')
         return self._erasureCoded
@@ -367,13 +369,13 @@ class Spec(object):
                  metadataPool=_omit,  # type: Optional[MetadataPool]
                  dataPool=_omit,  # type: Optional[DataPool]
                  ):
-        self.gateway = gateway
-        self.metadataPool = metadataPool
-        self.dataPool = dataPool
+        self.gateway = gateway  # type: ignore
+        self.metadataPool = metadataPool  # type: ignore
+        self.dataPool = dataPool  # type: ignore
 
     @property
     def gateway(self):
-        # type: () -> Optional[Gateway]
+        # type: () -> Gateway
         if self._gateway is _omit:
             raise AttributeError('gateway not found')
         return self._gateway
@@ -385,7 +387,7 @@ class Spec(object):
     
     @property
     def metadataPool(self):
-        # type: () -> Optional[MetadataPool]
+        # type: () -> MetadataPool
         if self._metadataPool is _omit:
             raise AttributeError('metadataPool not found')
         return self._metadataPool
@@ -397,7 +399,7 @@ class Spec(object):
     
     @property
     def dataPool(self):
-        # type: () -> Optional[DataPool]
+        # type: () -> DataPool
         if self._dataPool is _omit:
             raise AttributeError('dataPool not found')
         return self._dataPool
@@ -428,14 +430,14 @@ class Spec(object):
 class CephObjectStore(object):
     def __init__(self,
                  apiVersion,  # type: str
-                 kind,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
+                 kind="CephObjectStore",  # type: str
                  ):
-        self.apiVersion = apiVersion
-        self.kind = kind
-        self.metadata = metadata
-        self.spec = spec
+        self.apiVersion = apiVersion  # type: ignore
+        self.metadata = metadata  # type: ignore
+        self.spec = spec  # type: ignore
+        self.kind = kind  # type: ignore
 
     @property
     def apiVersion(self):

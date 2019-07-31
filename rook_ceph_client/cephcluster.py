@@ -5,6 +5,8 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
+# Tricking mypy to think `_omit`'s type is NoneType
+# To make us not add things like `Union[Optional[str], OmitType]`
 NoneType = type(None)  
 _omit = None  # type: NoneType
 _omit = object()  # type: ignore
@@ -15,13 +17,13 @@ class CephVersion(object):
                  image=_omit,  # type: Optional[str]
                  name=_omit,  # type: Optional[str]
                  ):
-        self.allowUnsupported = allowUnsupported
-        self.image = image
-        self.name = name
+        self.allowUnsupported = allowUnsupported  # type: ignore
+        self.image = image  # type: ignore
+        self.name = name  # type: ignore
 
     @property
     def allowUnsupported(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._allowUnsupported is _omit:
             raise AttributeError('allowUnsupported not found')
         return self._allowUnsupported
@@ -33,7 +35,7 @@ class CephVersion(object):
     
     @property
     def image(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._image is _omit:
             raise AttributeError('image not found')
         return self._image
@@ -45,7 +47,7 @@ class CephVersion(object):
     
     @property
     def name(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._name is _omit:
             raise AttributeError('name not found')
         return self._name
@@ -80,14 +82,14 @@ class Dashboard(object):
                  port=_omit,  # type: Optional[int]
                  ssl=_omit,  # type: Optional[bool]
                  ):
-        self.enabled = enabled
-        self.urlPrefix = urlPrefix
-        self.port = port
-        self.ssl = ssl
+        self.enabled = enabled  # type: ignore
+        self.urlPrefix = urlPrefix  # type: ignore
+        self.port = port  # type: ignore
+        self.ssl = ssl  # type: ignore
 
     @property
     def enabled(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._enabled is _omit:
             raise AttributeError('enabled not found')
         return self._enabled
@@ -99,7 +101,7 @@ class Dashboard(object):
     
     @property
     def urlPrefix(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._urlPrefix is _omit:
             raise AttributeError('urlPrefix not found')
         return self._urlPrefix
@@ -111,7 +113,7 @@ class Dashboard(object):
     
     @property
     def port(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._port is _omit:
             raise AttributeError('port not found')
         return self._port
@@ -123,7 +125,7 @@ class Dashboard(object):
     
     @property
     def ssl(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._ssl is _omit:
             raise AttributeError('ssl not found')
         return self._ssl
@@ -159,13 +161,13 @@ class Mon(object):
                  allowMultiplePerNode=_omit,  # type: Optional[bool]
                  preferredCount=_omit,  # type: Optional[int]
                  ):
-        self.count = count
-        self.allowMultiplePerNode = allowMultiplePerNode
-        self.preferredCount = preferredCount
+        self.count = count  # type: ignore
+        self.allowMultiplePerNode = allowMultiplePerNode  # type: ignore
+        self.preferredCount = preferredCount  # type: ignore
 
     @property
     def allowMultiplePerNode(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._allowMultiplePerNode is _omit:
             raise AttributeError('allowMultiplePerNode not found')
         return self._allowMultiplePerNode
@@ -189,7 +191,7 @@ class Mon(object):
     
     @property
     def preferredCount(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._preferredCount is _omit:
             raise AttributeError('preferredCount not found')
         return self._preferredCount
@@ -221,11 +223,11 @@ class Network(object):
     def __init__(self,
                  hostNetwork=_omit,  # type: Optional[bool]
                  ):
-        self.hostNetwork = hostNetwork
+        self.hostNetwork = hostNetwork  # type: ignore
 
     @property
     def hostNetwork(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._hostNetwork is _omit:
             raise AttributeError('hostNetwork not found')
         return self._hostNetwork
@@ -259,17 +261,17 @@ class Config(object):
                  osdsPerDevice=_omit,  # type: Optional[str]
                  encryptedDevice=_omit,  # type: Optional[str]
                  ):
-        self.metadataDevice = metadataDevice
-        self.storeType = storeType
-        self.databaseSizeMB = databaseSizeMB
-        self.walSizeMB = walSizeMB
-        self.journalSizeMB = journalSizeMB
-        self.osdsPerDevice = osdsPerDevice
-        self.encryptedDevice = encryptedDevice
+        self.metadataDevice = metadataDevice  # type: ignore
+        self.storeType = storeType  # type: ignore
+        self.databaseSizeMB = databaseSizeMB  # type: ignore
+        self.walSizeMB = walSizeMB  # type: ignore
+        self.journalSizeMB = journalSizeMB  # type: ignore
+        self.osdsPerDevice = osdsPerDevice  # type: ignore
+        self.encryptedDevice = encryptedDevice  # type: ignore
 
     @property
     def metadataDevice(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._metadataDevice is _omit:
             raise AttributeError('metadataDevice not found')
         return self._metadataDevice
@@ -281,7 +283,7 @@ class Config(object):
     
     @property
     def storeType(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._storeType is _omit:
             raise AttributeError('storeType not found')
         return self._storeType
@@ -293,7 +295,7 @@ class Config(object):
     
     @property
     def databaseSizeMB(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._databaseSizeMB is _omit:
             raise AttributeError('databaseSizeMB not found')
         return self._databaseSizeMB
@@ -305,7 +307,7 @@ class Config(object):
     
     @property
     def walSizeMB(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._walSizeMB is _omit:
             raise AttributeError('walSizeMB not found')
         return self._walSizeMB
@@ -317,7 +319,7 @@ class Config(object):
     
     @property
     def journalSizeMB(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._journalSizeMB is _omit:
             raise AttributeError('journalSizeMB not found')
         return self._journalSizeMB
@@ -329,7 +331,7 @@ class Config(object):
     
     @property
     def osdsPerDevice(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._osdsPerDevice is _omit:
             raise AttributeError('osdsPerDevice not found')
         return self._osdsPerDevice
@@ -341,7 +343,7 @@ class Config(object):
     
     @property
     def encryptedDevice(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._encryptedDevice is _omit:
             raise AttributeError('encryptedDevice not found')
         return self._encryptedDevice
@@ -381,11 +383,11 @@ class DirectoriesItem(object):
     def __init__(self,
                  path=_omit,  # type: Optional[str]
                  ):
-        self.path = path
+        self.path = path  # type: ignore
 
     @property
     def path(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._path is _omit:
             raise AttributeError('path not found')
         return self._path
@@ -424,12 +426,12 @@ class DevicesItem(object):
                  name=_omit,  # type: Optional[str]
                  config=_omit,  # type: Optional[Config]
                  ):
-        self.name = name
-        self.config = config
+        self.name = name  # type: ignore
+        self.config = config  # type: ignore
 
     @property
     def name(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._name is _omit:
             raise AttributeError('name not found')
         return self._name
@@ -487,17 +489,17 @@ class NodesItem(object):
                  devices=_omit,  # type: Optional[DevicesList]
                  location=_omit,  # type: Optional[str]
                  ):
-        self.name = name
-        self.config = config
-        self.useAllDevices = useAllDevices
-        self.deviceFilter = deviceFilter
-        self.directories = directories
-        self.devices = devices
-        self.location = location
+        self.name = name  # type: ignore
+        self.config = config  # type: ignore
+        self.useAllDevices = useAllDevices  # type: ignore
+        self.deviceFilter = deviceFilter  # type: ignore
+        self.directories = directories  # type: ignore
+        self.devices = devices  # type: ignore
+        self.location = location  # type: ignore
 
     @property
     def name(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._name is _omit:
             raise AttributeError('name not found')
         return self._name
@@ -509,7 +511,7 @@ class NodesItem(object):
     
     @property
     def config(self):
-        # type: () -> Optional[Config]
+        # type: () -> Config
         if self._config is _omit:
             raise AttributeError('config not found')
         return self._config
@@ -521,7 +523,7 @@ class NodesItem(object):
     
     @property
     def useAllDevices(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._useAllDevices is _omit:
             raise AttributeError('useAllDevices not found')
         return self._useAllDevices
@@ -545,7 +547,7 @@ class NodesItem(object):
     
     @property
     def directories(self):
-        # type: () -> Optional[DirectoriesList]
+        # type: () -> DirectoriesList
         if self._directories is _omit:
             raise AttributeError('directories not found')
         return self._directories
@@ -557,7 +559,7 @@ class NodesItem(object):
     
     @property
     def devices(self):
-        # type: () -> Optional[DevicesList]
+        # type: () -> DevicesList
         if self._devices is _omit:
             raise AttributeError('devices not found')
         return self._devices
@@ -626,18 +628,18 @@ class Storage(object):
                  config=_omit,  # type: Optional[Config]
                  topologyAware=_omit,  # type: Optional[bool]
                  ):
-        self.useAllNodes = useAllNodes
-        self.nodes = nodes
-        self.useAllDevices = useAllDevices
-        self.deviceFilter = deviceFilter
-        self.location = location
-        self.directories = directories
-        self.config = config
-        self.topologyAware = topologyAware
+        self.useAllNodes = useAllNodes  # type: ignore
+        self.nodes = nodes  # type: ignore
+        self.useAllDevices = useAllDevices  # type: ignore
+        self.deviceFilter = deviceFilter  # type: ignore
+        self.location = location  # type: ignore
+        self.directories = directories  # type: ignore
+        self.config = config  # type: ignore
+        self.topologyAware = topologyAware  # type: ignore
 
     @property
     def useAllNodes(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._useAllNodes is _omit:
             raise AttributeError('useAllNodes not found')
         return self._useAllNodes
@@ -649,7 +651,7 @@ class Storage(object):
     
     @property
     def nodes(self):
-        # type: () -> Optional[NodesList]
+        # type: () -> NodesList
         if self._nodes is _omit:
             raise AttributeError('nodes not found')
         return self._nodes
@@ -661,7 +663,7 @@ class Storage(object):
     
     @property
     def useAllDevices(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._useAllDevices is _omit:
             raise AttributeError('useAllDevices not found')
         return self._useAllDevices
@@ -685,7 +687,7 @@ class Storage(object):
     
     @property
     def location(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._location is _omit:
             raise AttributeError('location not found')
         return self._location
@@ -697,7 +699,7 @@ class Storage(object):
     
     @property
     def directories(self):
-        # type: () -> Optional[DirectoriesList]
+        # type: () -> DirectoriesList
         if self._directories is _omit:
             raise AttributeError('directories not found')
         return self._directories
@@ -721,7 +723,7 @@ class Storage(object):
     
     @property
     def topologyAware(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._topologyAware is _omit:
             raise AttributeError('topologyAware not found')
         return self._topologyAware
@@ -764,12 +766,12 @@ class Monitoring(object):
                  enabled=_omit,  # type: Optional[bool]
                  rulesNamespace=_omit,  # type: Optional[str]
                  ):
-        self.enabled = enabled
-        self.rulesNamespace = rulesNamespace
+        self.enabled = enabled  # type: ignore
+        self.rulesNamespace = rulesNamespace  # type: ignore
 
     @property
     def enabled(self):
-        # type: () -> Optional[bool]
+        # type: () -> bool
         if self._enabled is _omit:
             raise AttributeError('enabled not found')
         return self._enabled
@@ -781,7 +783,7 @@ class Monitoring(object):
     
     @property
     def rulesNamespace(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._rulesNamespace is _omit:
             raise AttributeError('rulesNamespace not found')
         return self._rulesNamespace
@@ -811,11 +813,11 @@ class RbdMirroring(object):
     def __init__(self,
                  workers=_omit,  # type: Optional[int]
                  ):
-        self.workers = workers
+        self.workers = workers  # type: ignore
 
     @property
     def workers(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._workers is _omit:
             raise AttributeError('workers not found')
         return self._workers
@@ -853,21 +855,21 @@ class Spec(object):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.mon = mon
-        self.annotations = annotations
-        self.cephVersion = cephVersion
-        self.dashboard = dashboard
-        self.dataDirHostPath = dataDirHostPath
-        self.network = network
-        self.storage = storage
-        self.monitoring = monitoring
-        self.rbdMirroring = rbdMirroring
-        self.placement = placement
-        self.resources = resources
+        self.mon = mon  # type: ignore
+        self.annotations = annotations  # type: ignore
+        self.cephVersion = cephVersion  # type: ignore
+        self.dashboard = dashboard  # type: ignore
+        self.dataDirHostPath = dataDirHostPath  # type: ignore
+        self.network = network  # type: ignore
+        self.storage = storage  # type: ignore
+        self.monitoring = monitoring  # type: ignore
+        self.rbdMirroring = rbdMirroring  # type: ignore
+        self.placement = placement  # type: ignore
+        self.resources = resources  # type: ignore
 
     @property
     def annotations(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
@@ -879,7 +881,7 @@ class Spec(object):
     
     @property
     def cephVersion(self):
-        # type: () -> Optional[CephVersion]
+        # type: () -> CephVersion
         if self._cephVersion is _omit:
             raise AttributeError('cephVersion not found')
         return self._cephVersion
@@ -891,7 +893,7 @@ class Spec(object):
     
     @property
     def dashboard(self):
-        # type: () -> Optional[Dashboard]
+        # type: () -> Dashboard
         if self._dashboard is _omit:
             raise AttributeError('dashboard not found')
         return self._dashboard
@@ -903,7 +905,7 @@ class Spec(object):
     
     @property
     def dataDirHostPath(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._dataDirHostPath is _omit:
             raise AttributeError('dataDirHostPath not found')
         return self._dataDirHostPath
@@ -927,7 +929,7 @@ class Spec(object):
     
     @property
     def network(self):
-        # type: () -> Optional[Network]
+        # type: () -> Network
         if self._network is _omit:
             raise AttributeError('network not found')
         return self._network
@@ -939,7 +941,7 @@ class Spec(object):
     
     @property
     def storage(self):
-        # type: () -> Optional[Storage]
+        # type: () -> Storage
         if self._storage is _omit:
             raise AttributeError('storage not found')
         return self._storage
@@ -951,7 +953,7 @@ class Spec(object):
     
     @property
     def monitoring(self):
-        # type: () -> Optional[Monitoring]
+        # type: () -> Monitoring
         if self._monitoring is _omit:
             raise AttributeError('monitoring not found')
         return self._monitoring
@@ -963,7 +965,7 @@ class Spec(object):
     
     @property
     def rbdMirroring(self):
-        # type: () -> Optional[RbdMirroring]
+        # type: () -> RbdMirroring
         if self._rbdMirroring is _omit:
             raise AttributeError('rbdMirroring not found')
         return self._rbdMirroring
@@ -975,7 +977,7 @@ class Spec(object):
     
     @property
     def placement(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
@@ -987,7 +989,7 @@ class Spec(object):
     
     @property
     def resources(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
@@ -1034,14 +1036,14 @@ class Spec(object):
 class CephCluster(object):
     def __init__(self,
                  apiVersion,  # type: str
-                 kind,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
+                 kind="CephCluster",  # type: str
                  ):
-        self.apiVersion = apiVersion
-        self.kind = kind
-        self.metadata = metadata
-        self.spec = spec
+        self.apiVersion = apiVersion  # type: ignore
+        self.metadata = metadata  # type: ignore
+        self.spec = spec  # type: ignore
+        self.kind = kind  # type: ignore
 
     @property
     def apiVersion(self):

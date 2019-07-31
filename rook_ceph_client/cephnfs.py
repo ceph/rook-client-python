@@ -5,6 +5,8 @@ Do not modify.
 
 from typing import List, Dict, Any, Optional
 
+# Tricking mypy to think `_omit`'s type is NoneType
+# To make us not add things like `Union[Optional[str], OmitType]`
 NoneType = type(None)  
 _omit = None  # type: NoneType
 _omit = object()  # type: ignore
@@ -14,12 +16,12 @@ class Rados(object):
                  pool=_omit,  # type: Optional[str]
                  namespace=_omit,  # type: Optional[str]
                  ):
-        self.pool = pool
-        self.namespace = namespace
+        self.pool = pool  # type: ignore
+        self.namespace = namespace  # type: ignore
 
     @property
     def pool(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._pool is _omit:
             raise AttributeError('pool not found')
         return self._pool
@@ -31,7 +33,7 @@ class Rados(object):
     
     @property
     def namespace(self):
-        # type: () -> Optional[str]
+        # type: () -> str
         if self._namespace is _omit:
             raise AttributeError('namespace not found')
         return self._namespace
@@ -64,14 +66,14 @@ class Server(object):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.active = active
-        self.annotations = annotations
-        self.placement = placement
-        self.resources = resources
+        self.active = active  # type: ignore
+        self.annotations = annotations  # type: ignore
+        self.placement = placement  # type: ignore
+        self.resources = resources  # type: ignore
 
     @property
     def active(self):
-        # type: () -> Optional[int]
+        # type: () -> int
         if self._active is _omit:
             raise AttributeError('active not found')
         return self._active
@@ -83,7 +85,7 @@ class Server(object):
     
     @property
     def annotations(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._annotations is _omit:
             raise AttributeError('annotations not found')
         return self._annotations
@@ -95,7 +97,7 @@ class Server(object):
     
     @property
     def placement(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._placement is _omit:
             raise AttributeError('placement not found')
         return self._placement
@@ -107,7 +109,7 @@ class Server(object):
     
     @property
     def resources(self):
-        # type: () -> Optional[Any]
+        # type: () -> Any
         if self._resources is _omit:
             raise AttributeError('resources not found')
         return self._resources
@@ -142,12 +144,12 @@ class Spec(object):
                  rados=_omit,  # type: Optional[Rados]
                  server=_omit,  # type: Optional[Server]
                  ):
-        self.rados = rados
-        self.server = server
+        self.rados = rados  # type: ignore
+        self.server = server  # type: ignore
 
     @property
     def rados(self):
-        # type: () -> Optional[Rados]
+        # type: () -> Rados
         if self._rados is _omit:
             raise AttributeError('rados not found')
         return self._rados
@@ -159,7 +161,7 @@ class Spec(object):
     
     @property
     def server(self):
-        # type: () -> Optional[Server]
+        # type: () -> Server
         if self._server is _omit:
             raise AttributeError('server not found')
         return self._server
@@ -188,14 +190,14 @@ class Spec(object):
 class CephNFS(object):
     def __init__(self,
                  apiVersion,  # type: str
-                 kind,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
+                 kind="CephNFS",  # type: str
                  ):
-        self.apiVersion = apiVersion
-        self.kind = kind
-        self.metadata = metadata
-        self.spec = spec
+        self.apiVersion = apiVersion  # type: ignore
+        self.metadata = metadata  # type: ignore
+        self.spec = spec  # type: ignore
+        self.kind = kind  # type: ignore
 
     @property
     def apiVersion(self):
