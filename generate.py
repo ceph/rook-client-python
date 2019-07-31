@@ -261,6 +261,7 @@ def handle_crd(c_dict) -> Optional[CRDClass]:
         s = c_dict['spec']['validation']['openAPIV3Schema']
     except (KeyError, TypeError):
         return None
+    s['required'] = ['spec']
     c = handle_property(name, s, True)
     k8s_attrs = [CRDAttribute('apiVersion', 'string', False, True),
                  CRDAttribute('kind', 'string', False, True, f'"{name}"'),

@@ -1015,7 +1015,7 @@ class Spec(object):
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Optional[Spec]
+        # type: (dict) -> Spec
         return cls(
             annotations=data.get('annotations', _omit),
             cephVersion=CephVersion.from_json(data['cephVersion']) if 'cephVersion' in data else _omit,
@@ -1036,7 +1036,7 @@ class CephCluster(object):
                  apiVersion,  # type: str
                  kind,  # type: str
                  metadata,  # type: Any
-                 spec=_omit,  # type: Optional[Spec]
+                 spec,  # type: Spec
                  ):
         self.apiVersion = apiVersion
         self.kind = kind
@@ -1081,14 +1081,14 @@ class CephCluster(object):
     
     @property
     def spec(self):
-        # type: () -> Optional[Spec]
+        # type: () -> Spec
         if self._spec is _omit:
             raise AttributeError('spec not found')
         return self._spec
     
     @spec.setter
     def spec(self, new_val):
-        # type: (Optional[Spec]) -> None
+        # type: (Spec) -> None
         self._spec = new_val
 
     def to_json(self):
@@ -1107,5 +1107,5 @@ class CephCluster(object):
             apiVersion=data['apiVersion'],
             kind=data['kind'],
             metadata=data['metadata'],
-            spec=Spec.from_json(data['spec']) if 'spec' in data else _omit,
+            spec=Spec.from_json(data['spec']),
         )
