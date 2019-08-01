@@ -489,6 +489,7 @@ class NodesItem(object):
                  directories=_omit,  # type: Optional[DirectoriesList]
                  devices=_omit,  # type: Optional[DevicesList]
                  location=_omit,  # type: Optional[str]
+                 resources=_omit,  # type: Optional[Any]
                  ):
         self.name = name  # type: ignore
         self.config = config  # type: ignore
@@ -497,6 +498,7 @@ class NodesItem(object):
         self.directories = directories  # type: ignore
         self.devices = devices  # type: ignore
         self.location = location  # type: ignore
+        self.resources = resources  # type: ignore
 
     @property
     def name(self):
@@ -581,6 +583,18 @@ class NodesItem(object):
     def location(self, new_val):
         # type: (Optional[str]) -> None
         self._location = new_val
+    
+    @property
+    def resources(self):
+        # type: () -> Any
+        if self._resources is _omit:
+            raise AttributeError('resources not found')
+        return self._resources
+    
+    @resources.setter
+    def resources(self, new_val):
+        # type: (Optional[Any]) -> None
+        self._resources = new_val
 
     def to_json(self):
         res = {
@@ -591,6 +605,7 @@ class NodesItem(object):
             'directories': self.directories.to_json() if self._directories is not _omit else self._directories,
             'devices': self.devices.to_json() if self._devices is not _omit else self._devices,
             'location': self._location,
+            'resources': self._resources,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -605,6 +620,7 @@ class NodesItem(object):
             directories=DirectoriesList.from_json(data['directories']) if 'directories' in data else _omit,
             devices=DevicesList.from_json(data['devices']) if 'devices' in data else _omit,
             location=data.get('location', _omit),
+            resources=data.get('resources', _omit),
         )
 
 
@@ -1040,11 +1056,13 @@ class CephCluster(object):
                  metadata,  # type: Any
                  spec,  # type: Spec
                  kind="CephCluster",  # type: str
+                 status=_omit,  # type: Optional[Any]
                  ):
         self.apiVersion = apiVersion  # type: ignore
         self.metadata = metadata  # type: ignore
         self.spec = spec  # type: ignore
         self.kind = kind  # type: ignore
+        self.status = status  # type: ignore
 
     @property
     def apiVersion(self):
@@ -1083,6 +1101,18 @@ class CephCluster(object):
         self._metadata = new_val
     
     @property
+    def status(self):
+        # type: () -> Any
+        if self._status is _omit:
+            raise AttributeError('status not found')
+        return self._status
+    
+    @status.setter
+    def status(self, new_val):
+        # type: (Optional[Any]) -> None
+        self._status = new_val
+    
+    @property
     def spec(self):
         # type: () -> Spec
         if self._spec is _omit:
@@ -1099,6 +1129,7 @@ class CephCluster(object):
             'apiVersion': self._apiVersion,
             'kind': self._kind,
             'metadata': self._metadata,
+            'status': self._status,
             'spec': self.spec.to_json(),
         }
         return {k: v for k, v in res.items() if v is not _omit}
@@ -1110,5 +1141,6 @@ class CephCluster(object):
             apiVersion=data['apiVersion'],
             kind=data['kind'],
             metadata=data['metadata'],
+            status=data.get('status', _omit),
             spec=Spec.from_json(data['spec']),
         )

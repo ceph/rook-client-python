@@ -194,11 +194,13 @@ class CephNFS(object):
                  metadata,  # type: Any
                  spec,  # type: Spec
                  kind="CephNFS",  # type: str
+                 status=_omit,  # type: Optional[Any]
                  ):
         self.apiVersion = apiVersion  # type: ignore
         self.metadata = metadata  # type: ignore
         self.spec = spec  # type: ignore
         self.kind = kind  # type: ignore
+        self.status = status  # type: ignore
 
     @property
     def apiVersion(self):
@@ -237,6 +239,18 @@ class CephNFS(object):
         self._metadata = new_val
     
     @property
+    def status(self):
+        # type: () -> Any
+        if self._status is _omit:
+            raise AttributeError('status not found')
+        return self._status
+    
+    @status.setter
+    def status(self, new_val):
+        # type: (Optional[Any]) -> None
+        self._status = new_val
+    
+    @property
     def spec(self):
         # type: () -> Spec
         if self._spec is _omit:
@@ -253,6 +267,7 @@ class CephNFS(object):
             'apiVersion': self._apiVersion,
             'kind': self._kind,
             'metadata': self._metadata,
+            'status': self._status,
             'spec': self.spec.to_json(),
         }
         return {k: v for k, v in res.items() if v is not _omit}
@@ -264,5 +279,6 @@ class CephNFS(object):
             apiVersion=data['apiVersion'],
             kind=data['kind'],
             metadata=data['metadata'],
+            status=data.get('status', _omit),
             spec=Spec.from_json(data['spec']),
         )

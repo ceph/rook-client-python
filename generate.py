@@ -292,7 +292,8 @@ def handle_crd(c_dict) -> Optional[CRDClass]:
     c = handle_property(name, s, True)
     k8s_attrs = [CRDAttribute('apiVersion', False, True, 'string'),
                  CRDAttribute('kind', False, True, 'string', f'"{name}"'),
-                 CRDAttribute('metadata', False, True, 'object')]
+                 CRDAttribute('metadata', False, True, 'object'),
+                 CRDAttribute('status', False, False, 'object')]
     return CRDClass(c.name, False, True, k8s_attrs + c.attrs)
 
 
