@@ -285,8 +285,8 @@ class MetadataPool(object):
     def to_json(self):
         res = {
             'failureDomain': self._failureDomain,
-            'replicated': self.replicated.to_json() if self._replicated not in [None, _omit] else self._replicated,
-            'erasureCoded': self.erasureCoded.to_json() if self._erasureCoded not in [None, _omit] else self._erasureCoded,
+            'replicated': self.replicated.to_json() if self._replicated is not _omit else self._replicated,
+            'erasureCoded': self.erasureCoded.to_json() if self._erasureCoded is not _omit else self._erasureCoded,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -349,8 +349,8 @@ class DataPool(object):
     def to_json(self):
         res = {
             'failureDomain': self._failureDomain,
-            'replicated': self.replicated.to_json() if self._replicated not in [None, _omit] else self._replicated,
-            'erasureCoded': self.erasureCoded.to_json() if self._erasureCoded not in [None, _omit] else self._erasureCoded,
+            'replicated': self.replicated.to_json() if self._replicated is not _omit else self._replicated,
+            'erasureCoded': self.erasureCoded.to_json() if self._erasureCoded is not _omit else self._erasureCoded,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -412,9 +412,9 @@ class Spec(object):
 
     def to_json(self):
         res = {
-            'gateway': self.gateway.to_json() if self._gateway not in [None, _omit] else self._gateway,
-            'metadataPool': self.metadataPool.to_json() if self._metadataPool not in [None, _omit] else self._metadataPool,
-            'dataPool': self.dataPool.to_json() if self._dataPool not in [None, _omit] else self._dataPool,
+            'gateway': self.gateway.to_json() if self._gateway is not _omit else self._gateway,
+            'metadataPool': self.metadataPool.to_json() if self._metadataPool is not _omit else self._metadataPool,
+            'dataPool': self.dataPool.to_json() if self._dataPool is not _omit else self._dataPool,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -493,7 +493,7 @@ class CephObjectStore(object):
             'apiVersion': self._apiVersion,
             'kind': self._kind,
             'metadata': self._metadata,
-            'spec': self.spec.to_json() if self._spec not in [None, _omit] else self._spec,
+            'spec': self.spec.to_json(),
         }
         return {k: v for k, v in res.items() if v is not _omit}
 

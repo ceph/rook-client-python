@@ -88,6 +88,16 @@ def {self.py_name}(self, new_val):
             return f"data['{self.name}']"
         return f"data.get('{self.name}', _omit)"
 
+    @property
+    def py_not_in(self):
+        ret = []
+        if self.nullable:
+            ret.append(f"self._{self.py_name} is not None")
+        if not self.required:
+            ret.append(f"self._{self.py_name} is not _omit")
+        assert ret, self.name
+        return ' and '.join(ret)
+
 @dataclass
 class CRDAttribute(CRDBase):
     type: str
@@ -155,7 +165,9 @@ def to_json(self):
 
     @property
     def py_to_json_val(self):
-        return f'self.{self.py_name}.to_json() if self._{self.py_name} not in [None, _omit] else self._{self.py_name}'
+        if not self.nullable and self.required:
+            return f'self.{self.py_name}.to_json()'
+        return f'self.{self.py_name}.to_json() if {self.py_not_in} else self._{self.py_name}'
 
     def py_from_json(self):
         return f"""
@@ -224,7 +236,9 @@ def to_json(self):
 
     @property
     def py_to_json_val(self):
-        return f'self.{self.py_name}.to_json() if self._{self.py_name} not in [None, _omit] else self._{self.py_name}'
+        if not self.nullable and self.required:
+            return f'self.{self.py_name}.to_json()'
+        return f'self.{self.py_name}.to_json() if {self.py_not_in} else self._{self.py_name}'
 
     def py_from_json(self):
         elems = '\n'.join(f"{a.py_name}={a.py_from_json_val}," for a in self.attrs)

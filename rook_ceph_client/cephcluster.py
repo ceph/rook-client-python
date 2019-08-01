@@ -457,7 +457,7 @@ class DevicesItem(object):
     def to_json(self):
         res = {
             'name': self._name,
-            'config': self.config.to_json() if self._config not in [None, _omit] else self._config,
+            'config': self.config.to_json() if self._config is not None and self._config is not _omit else self._config,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -585,11 +585,11 @@ class NodesItem(object):
     def to_json(self):
         res = {
             'name': self._name,
-            'config': self.config.to_json() if self._config not in [None, _omit] else self._config,
+            'config': self.config.to_json() if self._config is not _omit else self._config,
             'useAllDevices': self._useAllDevices,
             'deviceFilter': self._deviceFilter,
-            'directories': self.directories.to_json() if self._directories not in [None, _omit] else self._directories,
-            'devices': self.devices.to_json() if self._devices not in [None, _omit] else self._devices,
+            'directories': self.directories.to_json() if self._directories is not _omit else self._directories,
+            'devices': self.devices.to_json() if self._devices is not _omit else self._devices,
             'location': self._location,
         }
         return {k: v for k, v in res.items() if v is not _omit}
@@ -737,12 +737,12 @@ class Storage(object):
     def to_json(self):
         res = {
             'useAllNodes': self._useAllNodes,
-            'nodes': self.nodes.to_json() if self._nodes not in [None, _omit] else self._nodes,
+            'nodes': self.nodes.to_json() if self._nodes is not _omit else self._nodes,
             'useAllDevices': self._useAllDevices,
             'deviceFilter': self._deviceFilter,
             'location': self._location,
-            'directories': self.directories.to_json() if self._directories not in [None, _omit] else self._directories,
-            'config': self.config.to_json() if self._config not in [None, _omit] else self._config,
+            'directories': self.directories.to_json() if self._directories is not _omit else self._directories,
+            'config': self.config.to_json() if self._config is not None and self._config is not _omit else self._config,
             'topologyAware': self._topologyAware,
         }
         return {k: v for k, v in res.items() if v is not _omit}
@@ -1003,14 +1003,14 @@ class Spec(object):
     def to_json(self):
         res = {
             'annotations': self._annotations,
-            'cephVersion': self.cephVersion.to_json() if self._cephVersion not in [None, _omit] else self._cephVersion,
-            'dashboard': self.dashboard.to_json() if self._dashboard not in [None, _omit] else self._dashboard,
+            'cephVersion': self.cephVersion.to_json() if self._cephVersion is not _omit else self._cephVersion,
+            'dashboard': self.dashboard.to_json() if self._dashboard is not _omit else self._dashboard,
             'dataDirHostPath': self._dataDirHostPath,
-            'mon': self.mon.to_json() if self._mon not in [None, _omit] else self._mon,
-            'network': self.network.to_json() if self._network not in [None, _omit] else self._network,
-            'storage': self.storage.to_json() if self._storage not in [None, _omit] else self._storage,
-            'monitoring': self.monitoring.to_json() if self._monitoring not in [None, _omit] else self._monitoring,
-            'rbdMirroring': self.rbdMirroring.to_json() if self._rbdMirroring not in [None, _omit] else self._rbdMirroring,
+            'mon': self.mon.to_json(),
+            'network': self.network.to_json() if self._network is not _omit else self._network,
+            'storage': self.storage.to_json() if self._storage is not _omit else self._storage,
+            'monitoring': self.monitoring.to_json() if self._monitoring is not _omit else self._monitoring,
+            'rbdMirroring': self.rbdMirroring.to_json() if self._rbdMirroring is not _omit else self._rbdMirroring,
             'placement': self._placement,
             'resources': self._resources,
         }
@@ -1099,7 +1099,7 @@ class CephCluster(object):
             'apiVersion': self._apiVersion,
             'kind': self._kind,
             'metadata': self._metadata,
-            'spec': self.spec.to_json() if self._spec not in [None, _omit] else self._spec,
+            'spec': self.spec.to_json(),
         }
         return {k: v for k, v in res.items() if v is not _omit}
 

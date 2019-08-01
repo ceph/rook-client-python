@@ -174,8 +174,8 @@ class Spec(object):
 
     def to_json(self):
         res = {
-            'rados': self.rados.to_json() if self._rados not in [None, _omit] else self._rados,
-            'server': self.server.to_json() if self._server not in [None, _omit] else self._server,
+            'rados': self.rados.to_json() if self._rados is not _omit else self._rados,
+            'server': self.server.to_json() if self._server is not _omit else self._server,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -253,7 +253,7 @@ class CephNFS(object):
             'apiVersion': self._apiVersion,
             'kind': self._kind,
             'metadata': self._metadata,
-            'spec': self.spec.to_json() if self._spec not in [None, _omit] else self._spec,
+            'spec': self.spec.to_json(),
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
