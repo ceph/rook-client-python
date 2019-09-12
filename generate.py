@@ -323,14 +323,28 @@ def remove_duplicates(items):
     return OrderedDict.fromkeys(items).keys()
 
 
+def get_toplevels(crd):
+    elems = list(crd.flatten())
+
+    def dup_elems(l):
+        ds = set([x for x in l if l.count(x) > 1])
+        return ds
+
+    names = [t.name for t in elems]
+    for dup_name in dup_elems(names):
+        assert len(set(e.toplevel() for e in elems if e.name == dup_name)) == 1
+        
+    return remove_duplicates(cls.toplevel() for cls in elems)
+
+
 def main():
-    #for crd in download_yaml():
-    for crd in local():
+    for crd in download_yaml():
+    # for crd in local():
         valid_crd = handle_crd(crd)
         if valid_crd is not None:
             with open(f'rook_ceph_client/{valid_crd.name.lower()}.py', 'w') as f:
                 f.write(header)
-                classes = remove_duplicates(cls.toplevel() for cls in valid_crd.flatten())
+                classes = get_toplevels(valid_crd)
                 f.write('\n\n\n'.join(classes))
                 f.write('\n')
 

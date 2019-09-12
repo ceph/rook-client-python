@@ -15,9 +15,9 @@ _omit = object()  # type: ignore
 class Gateway(object):
     def __init__(self,
                  type=_omit,  # type: Optional[str]
-                 sslCertificateRef=_omit,  # type: Optional[str]
+                 sslCertificateRef=_omit,  # type: Optional[Any]
                  port=_omit,  # type: Optional[int]
-                 securePort=_omit,  # type: Optional[int]
+                 securePort=_omit,  # type: Optional[Any]
                  instances=_omit,  # type: Optional[int]
                  annotations=_omit,  # type: Optional[Any]
                  placement=_omit,  # type: Optional[Any]
@@ -46,14 +46,14 @@ class Gateway(object):
     
     @property
     def sslCertificateRef(self):
-        # type: () -> str
+        # type: () -> Any
         if self._sslCertificateRef is _omit:
             raise AttributeError('sslCertificateRef not found')
         return self._sslCertificateRef
     
     @sslCertificateRef.setter
     def sslCertificateRef(self, new_val):
-        # type: (Optional[str]) -> None
+        # type: (Optional[Any]) -> None
         self._sslCertificateRef = new_val
     
     @property
@@ -70,14 +70,14 @@ class Gateway(object):
     
     @property
     def securePort(self):
-        # type: () -> int
+        # type: () -> Any
         if self._securePort is _omit:
             raise AttributeError('securePort not found')
         return self._securePort
     
     @securePort.setter
     def securePort(self, new_val):
-        # type: (Optional[int]) -> None
+        # type: (Optional[Any]) -> None
         self._securePort = new_val
     
     @property

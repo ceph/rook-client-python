@@ -16,11 +16,9 @@ class CephVersion(object):
     def __init__(self,
                  allowUnsupported=_omit,  # type: Optional[bool]
                  image=_omit,  # type: Optional[str]
-                 name=_omit,  # type: Optional[str]
                  ):
         self.allowUnsupported = allowUnsupported  # type: ignore
         self.image = image  # type: ignore
-        self.name = name  # type: ignore
 
     @property
     def allowUnsupported(self):
@@ -45,24 +43,11 @@ class CephVersion(object):
     def image(self, new_val):
         # type: (Optional[str]) -> None
         self._image = new_val
-    
-    @property
-    def name(self):
-        # type: () -> str
-        if self._name is _omit:
-            raise AttributeError('name not found')
-        return self._name
-    
-    @name.setter
-    def name(self, new_val):
-        # type: (Optional[str]) -> None
-        self._name = new_val
 
     def to_json(self):
         res = {
             'allowUnsupported': self._allowUnsupported,
             'image': self._image,
-            'name': self._name,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -72,7 +57,6 @@ class CephVersion(object):
         return cls(
             allowUnsupported=data.get('allowUnsupported', _omit),
             image=data.get('image', _omit),
-            name=data.get('name', _omit),
         )
 
 
@@ -158,13 +142,11 @@ class Dashboard(object):
 
 class Mon(object):
     def __init__(self,
-                 count,  # type: int
                  allowMultiplePerNode=_omit,  # type: Optional[bool]
-                 preferredCount=_omit,  # type: Optional[int]
+                 count=_omit,  # type: Optional[int]
                  ):
-        self.count = count  # type: ignore
         self.allowMultiplePerNode = allowMultiplePerNode  # type: ignore
-        self.preferredCount = preferredCount  # type: ignore
+        self.count = count  # type: ignore
 
     @property
     def allowMultiplePerNode(self):
@@ -187,36 +169,112 @@ class Mon(object):
     
     @count.setter
     def count(self, new_val):
-        # type: (int) -> None
-        self._count = new_val
-    
-    @property
-    def preferredCount(self):
-        # type: () -> int
-        if self._preferredCount is _omit:
-            raise AttributeError('preferredCount not found')
-        return self._preferredCount
-    
-    @preferredCount.setter
-    def preferredCount(self, new_val):
         # type: (Optional[int]) -> None
-        self._preferredCount = new_val
+        self._count = new_val
 
     def to_json(self):
         res = {
             'allowMultiplePerNode': self._allowMultiplePerNode,
             'count': self._count,
-            'preferredCount': self._preferredCount,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
     @classmethod
     def from_json(cls, data):
-        # type: (dict) -> Mon
+        # type: (dict) -> Optional[Mon]
         return cls(
             allowMultiplePerNode=data.get('allowMultiplePerNode', _omit),
-            count=data['count'],
-            preferredCount=data.get('preferredCount', _omit),
+            count=data.get('count', _omit),
+        )
+
+
+class ModulesItem(object):
+    def __init__(self,
+                 name=_omit,  # type: Optional[str]
+                 enabled=_omit,  # type: Optional[bool]
+                 ):
+        self.name = name  # type: ignore
+        self.enabled = enabled  # type: ignore
+
+    @property
+    def name(self):
+        # type: () -> str
+        if self._name is _omit:
+            raise AttributeError('name not found')
+        return self._name
+    
+    @name.setter
+    def name(self, new_val):
+        # type: (Optional[str]) -> None
+        self._name = new_val
+    
+    @property
+    def enabled(self):
+        # type: () -> bool
+        if self._enabled is _omit:
+            raise AttributeError('enabled not found')
+        return self._enabled
+    
+    @enabled.setter
+    def enabled(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._enabled = new_val
+
+    def to_json(self):
+        res = {
+            'name': self._name,
+            'enabled': self._enabled,
+        }
+        return {k: v for k, v in res.items() if v is not _omit}
+
+    @classmethod
+    def from_json(cls, data):
+        # type: (dict) -> Optional[ModulesItem]
+        return cls(
+            name=data.get('name', _omit),
+            enabled=data.get('enabled', _omit),
+        )
+
+
+class ModulesList(list):
+    def to_json(self):
+        return [e.to_json() for e in self]
+
+    @classmethod
+    def from_json(cls, data):
+        # type: (list) -> Optional[ModulesList]
+        return cls(ModulesItem.from_json(e) for e in data)
+
+
+class Mgr(object):
+    def __init__(self,
+                 modules=_omit,  # type: Optional[ModulesList]
+                 ):
+        self.modules = modules  # type: ignore
+
+    @property
+    def modules(self):
+        # type: () -> ModulesList
+        if self._modules is _omit:
+            raise AttributeError('modules not found')
+        return self._modules
+    
+    @modules.setter
+    def modules(self, new_val):
+        # type: (Optional[ModulesList]) -> None
+        self._modules = new_val
+
+    def to_json(self):
+        res = {
+            'modules': self.modules.to_json() if self._modules is not _omit else self._modules,
+        }
+        return {k: v for k, v in res.items() if v is not _omit}
+
+    @classmethod
+    def from_json(cls, data):
+        # type: (dict) -> Optional[Mgr]
+        return cls(
+            modules=ModulesList.from_json(data['modules']) if 'modules' in data else _omit,
         )
 
 
@@ -249,6 +307,70 @@ class Network(object):
         # type: (dict) -> Optional[Network]
         return cls(
             hostNetwork=data.get('hostNetwork', _omit),
+        )
+
+
+class DisruptionManagement(object):
+    def __init__(self,
+                 managePodBudgets=_omit,  # type: Optional[bool]
+                 osdMaintenanceTimeout=_omit,  # type: Optional[int]
+                 manageMachineDisruptionBudgets=_omit,  # type: Optional[bool]
+                 ):
+        self.managePodBudgets = managePodBudgets  # type: ignore
+        self.osdMaintenanceTimeout = osdMaintenanceTimeout  # type: ignore
+        self.manageMachineDisruptionBudgets = manageMachineDisruptionBudgets  # type: ignore
+
+    @property
+    def managePodBudgets(self):
+        # type: () -> bool
+        if self._managePodBudgets is _omit:
+            raise AttributeError('managePodBudgets not found')
+        return self._managePodBudgets
+    
+    @managePodBudgets.setter
+    def managePodBudgets(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._managePodBudgets = new_val
+    
+    @property
+    def osdMaintenanceTimeout(self):
+        # type: () -> int
+        if self._osdMaintenanceTimeout is _omit:
+            raise AttributeError('osdMaintenanceTimeout not found')
+        return self._osdMaintenanceTimeout
+    
+    @osdMaintenanceTimeout.setter
+    def osdMaintenanceTimeout(self, new_val):
+        # type: (Optional[int]) -> None
+        self._osdMaintenanceTimeout = new_val
+    
+    @property
+    def manageMachineDisruptionBudgets(self):
+        # type: () -> bool
+        if self._manageMachineDisruptionBudgets is _omit:
+            raise AttributeError('manageMachineDisruptionBudgets not found')
+        return self._manageMachineDisruptionBudgets
+    
+    @manageMachineDisruptionBudgets.setter
+    def manageMachineDisruptionBudgets(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._manageMachineDisruptionBudgets = new_val
+
+    def to_json(self):
+        res = {
+            'managePodBudgets': self._managePodBudgets,
+            'osdMaintenanceTimeout': self._osdMaintenanceTimeout,
+            'manageMachineDisruptionBudgets': self._manageMachineDisruptionBudgets,
+        }
+        return {k: v for k, v in res.items() if v is not _omit}
+
+    @classmethod
+    def from_json(cls, data):
+        # type: (dict) -> Optional[DisruptionManagement]
+        return cls(
+            managePodBudgets=data.get('managePodBudgets', _omit),
+            osdMaintenanceTimeout=data.get('osdMaintenanceTimeout', _omit),
+            manageMachineDisruptionBudgets=data.get('manageMachineDisruptionBudgets', _omit),
         )
 
 
@@ -425,7 +547,7 @@ class DirectoriesList(list):
 class DevicesItem(object):
     def __init__(self,
                  name=_omit,  # type: Optional[str]
-                 config=_omit,  # type: Optional[Config]
+                 config=_omit,  # type: Optional[Any]
                  ):
         self.name = name  # type: ignore
         self.config = config  # type: ignore
@@ -444,20 +566,20 @@ class DevicesItem(object):
     
     @property
     def config(self):
-        # type: () -> Optional[Config]
+        # type: () -> Any
         if self._config is _omit:
             raise AttributeError('config not found')
         return self._config
     
     @config.setter
     def config(self, new_val):
-        # type: (Optional[Config]) -> None
+        # type: (Optional[Any]) -> None
         self._config = new_val
 
     def to_json(self):
         res = {
             'name': self._name,
-            'config': self.config.to_json() if self._config is not None and self._config is not _omit else self._config,
+            'config': self._config,
         }
         return {k: v for k, v in res.items() if v is not _omit}
 
@@ -466,7 +588,7 @@ class DevicesItem(object):
         # type: (dict) -> Optional[DevicesItem]
         return cls(
             name=data.get('name', _omit),
-            config=(Config.from_json(data['config']) if data['config'] is not None else None) if 'config' in data else _omit,
+            config=data.get('config', _omit),
         )
 
 
@@ -485,10 +607,10 @@ class NodesItem(object):
                  name=_omit,  # type: Optional[str]
                  config=_omit,  # type: Optional[Config]
                  useAllDevices=_omit,  # type: Optional[bool]
-                 deviceFilter=_omit,  # type: Optional[str]
+                 deviceFilter=_omit,  # type: Optional[Any]
                  directories=_omit,  # type: Optional[DirectoriesList]
                  devices=_omit,  # type: Optional[DevicesList]
-                 location=_omit,  # type: Optional[str]
+                 location=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
         self.name = name  # type: ignore
@@ -538,14 +660,14 @@ class NodesItem(object):
     
     @property
     def deviceFilter(self):
-        # type: () -> Optional[str]
+        # type: () -> Any
         if self._deviceFilter is _omit:
             raise AttributeError('deviceFilter not found')
         return self._deviceFilter
     
     @deviceFilter.setter
     def deviceFilter(self, new_val):
-        # type: (Optional[str]) -> None
+        # type: (Optional[Any]) -> None
         self._deviceFilter = new_val
     
     @property
@@ -574,14 +696,14 @@ class NodesItem(object):
     
     @property
     def location(self):
-        # type: () -> Optional[str]
+        # type: () -> Any
         if self._location is _omit:
             raise AttributeError('location not found')
         return self._location
     
     @location.setter
     def location(self, new_val):
-        # type: (Optional[str]) -> None
+        # type: (Optional[Any]) -> None
         self._location = new_val
     
     @property
@@ -636,15 +758,17 @@ class NodesList(list):
 
 class Storage(object):
     def __init__(self,
+                 disruptionManagement=_omit,  # type: Optional[DisruptionManagement]
                  useAllNodes=_omit,  # type: Optional[bool]
                  nodes=_omit,  # type: Optional[NodesList]
                  useAllDevices=_omit,  # type: Optional[bool]
-                 deviceFilter=_omit,  # type: Optional[str]
+                 deviceFilter=_omit,  # type: Optional[Any]
                  location=_omit,  # type: Optional[Any]
                  directories=_omit,  # type: Optional[DirectoriesList]
-                 config=_omit,  # type: Optional[Config]
+                 config=_omit,  # type: Optional[Any]
                  topologyAware=_omit,  # type: Optional[bool]
                  ):
+        self.disruptionManagement = disruptionManagement  # type: ignore
         self.useAllNodes = useAllNodes  # type: ignore
         self.nodes = nodes  # type: ignore
         self.useAllDevices = useAllDevices  # type: ignore
@@ -654,6 +778,18 @@ class Storage(object):
         self.config = config  # type: ignore
         self.topologyAware = topologyAware  # type: ignore
 
+    @property
+    def disruptionManagement(self):
+        # type: () -> DisruptionManagement
+        if self._disruptionManagement is _omit:
+            raise AttributeError('disruptionManagement not found')
+        return self._disruptionManagement
+    
+    @disruptionManagement.setter
+    def disruptionManagement(self, new_val):
+        # type: (Optional[DisruptionManagement]) -> None
+        self._disruptionManagement = new_val
+    
     @property
     def useAllNodes(self):
         # type: () -> bool
@@ -692,14 +828,14 @@ class Storage(object):
     
     @property
     def deviceFilter(self):
-        # type: () -> Optional[str]
+        # type: () -> Any
         if self._deviceFilter is _omit:
             raise AttributeError('deviceFilter not found')
         return self._deviceFilter
     
     @deviceFilter.setter
     def deviceFilter(self, new_val):
-        # type: (Optional[str]) -> None
+        # type: (Optional[Any]) -> None
         self._deviceFilter = new_val
     
     @property
@@ -728,14 +864,14 @@ class Storage(object):
     
     @property
     def config(self):
-        # type: () -> Optional[Config]
+        # type: () -> Any
         if self._config is _omit:
             raise AttributeError('config not found')
         return self._config
     
     @config.setter
     def config(self, new_val):
-        # type: (Optional[Config]) -> None
+        # type: (Optional[Any]) -> None
         self._config = new_val
     
     @property
@@ -752,13 +888,14 @@ class Storage(object):
 
     def to_json(self):
         res = {
+            'disruptionManagement': self.disruptionManagement.to_json() if self._disruptionManagement is not _omit else self._disruptionManagement,
             'useAllNodes': self._useAllNodes,
             'nodes': self.nodes.to_json() if self._nodes is not _omit else self._nodes,
             'useAllDevices': self._useAllDevices,
             'deviceFilter': self._deviceFilter,
             'location': self._location,
             'directories': self.directories.to_json() if self._directories is not _omit else self._directories,
-            'config': self.config.to_json() if self._config is not None and self._config is not _omit else self._config,
+            'config': self._config,
             'topologyAware': self._topologyAware,
         }
         return {k: v for k, v in res.items() if v is not _omit}
@@ -767,13 +904,14 @@ class Storage(object):
     def from_json(cls, data):
         # type: (dict) -> Optional[Storage]
         return cls(
+            disruptionManagement=DisruptionManagement.from_json(data['disruptionManagement']) if 'disruptionManagement' in data else _omit,
             useAllNodes=data.get('useAllNodes', _omit),
             nodes=NodesList.from_json(data['nodes']) if 'nodes' in data else _omit,
             useAllDevices=data.get('useAllDevices', _omit),
             deviceFilter=data.get('deviceFilter', _omit),
             location=data.get('location', _omit),
             directories=DirectoriesList.from_json(data['directories']) if 'directories' in data else _omit,
-            config=(Config.from_json(data['config']) if data['config'] is not None else None) if 'config' in data else _omit,
+            config=data.get('config', _omit),
             topologyAware=data.get('topologyAware', _omit),
         )
 
@@ -860,11 +998,12 @@ class RbdMirroring(object):
 
 class Spec(object):
     def __init__(self,
-                 mon,  # type: Mon
                  annotations=_omit,  # type: Optional[Any]
                  cephVersion=_omit,  # type: Optional[CephVersion]
                  dashboard=_omit,  # type: Optional[Dashboard]
                  dataDirHostPath=_omit,  # type: Optional[str]
+                 mon=_omit,  # type: Optional[Mon]
+                 mgr=_omit,  # type: Optional[Mgr]
                  network=_omit,  # type: Optional[Network]
                  storage=_omit,  # type: Optional[Storage]
                  monitoring=_omit,  # type: Optional[Monitoring]
@@ -872,11 +1011,12 @@ class Spec(object):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.mon = mon  # type: ignore
         self.annotations = annotations  # type: ignore
         self.cephVersion = cephVersion  # type: ignore
         self.dashboard = dashboard  # type: ignore
         self.dataDirHostPath = dataDirHostPath  # type: ignore
+        self.mon = mon  # type: ignore
+        self.mgr = mgr  # type: ignore
         self.network = network  # type: ignore
         self.storage = storage  # type: ignore
         self.monitoring = monitoring  # type: ignore
@@ -941,8 +1081,20 @@ class Spec(object):
     
     @mon.setter
     def mon(self, new_val):
-        # type: (Mon) -> None
+        # type: (Optional[Mon]) -> None
         self._mon = new_val
+    
+    @property
+    def mgr(self):
+        # type: () -> Mgr
+        if self._mgr is _omit:
+            raise AttributeError('mgr not found')
+        return self._mgr
+    
+    @mgr.setter
+    def mgr(self, new_val):
+        # type: (Optional[Mgr]) -> None
+        self._mgr = new_val
     
     @property
     def network(self):
@@ -1022,7 +1174,8 @@ class Spec(object):
             'cephVersion': self.cephVersion.to_json() if self._cephVersion is not _omit else self._cephVersion,
             'dashboard': self.dashboard.to_json() if self._dashboard is not _omit else self._dashboard,
             'dataDirHostPath': self._dataDirHostPath,
-            'mon': self.mon.to_json(),
+            'mon': self.mon.to_json() if self._mon is not _omit else self._mon,
+            'mgr': self.mgr.to_json() if self._mgr is not _omit else self._mgr,
             'network': self.network.to_json() if self._network is not _omit else self._network,
             'storage': self.storage.to_json() if self._storage is not _omit else self._storage,
             'monitoring': self.monitoring.to_json() if self._monitoring is not _omit else self._monitoring,
@@ -1040,7 +1193,8 @@ class Spec(object):
             cephVersion=CephVersion.from_json(data['cephVersion']) if 'cephVersion' in data else _omit,
             dashboard=Dashboard.from_json(data['dashboard']) if 'dashboard' in data else _omit,
             dataDirHostPath=data.get('dataDirHostPath', _omit),
-            mon=Mon.from_json(data['mon']),
+            mon=Mon.from_json(data['mon']) if 'mon' in data else _omit,
+            mgr=Mgr.from_json(data['mgr']) if 'mgr' in data else _omit,
             network=Network.from_json(data['network']) if 'network' in data else _omit,
             storage=Storage.from_json(data['storage']) if 'storage' in data else _omit,
             monitoring=Monitoring.from_json(data['monitoring']) if 'monitoring' in data else _omit,
