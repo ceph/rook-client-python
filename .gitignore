@@ -7,3 +7,5 @@ rook_ceph_client_python.egg-info/
 venv/
 __pycache__
 *.pyc
+rook_ceph_client/tests/test_README.py
+

@@ -50,5 +50,5 @@ def objectstore(api_name, name, namespace, instances):
 Re-generate the python files using 
 
 ```bash
-python generate.py && python setup.py test
+python generate.py && python setup.py mkcodes && python setup.py test
 ```
