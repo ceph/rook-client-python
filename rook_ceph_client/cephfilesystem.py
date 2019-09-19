@@ -4,7 +4,7 @@ Do not modify.
 """
 
 try:
-    from typing import Any, Optional
+    from typing import Any, Optional, Union, List
 except ImportError:
     pass
 
@@ -246,7 +246,7 @@ class Spec(CrdObject):
     def __init__(self,
                  metadataServer=_omit,  # type: Optional[MetadataServer]
                  metadataPool=_omit,  # type: Optional[MetadataPool]
-                 dataPools=_omit,  # type: Optional[DataPoolsList]
+                 dataPools=_omit,  # type: Optional[Union[List[DataPoolsItem], CrdObjectList]]
                  ):
         self.metadataServer = metadataServer  # type: ignore
         self.metadataPool = metadataPool  # type: ignore
@@ -274,12 +274,12 @@ class Spec(CrdObject):
     
     @property
     def dataPools(self):
-        # type: () -> DataPoolsList
+        # type: () -> Union[List[DataPoolsItem], CrdObjectList]
         return self._property_impl('dataPools')
     
     @dataPools.setter
     def dataPools(self, new_val):
-        # type: (Optional[DataPoolsList]) -> None
+        # type: (Optional[Union[List[DataPoolsItem], CrdObjectList]]) -> None
         self._dataPools = new_val
 
 

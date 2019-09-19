@@ -4,7 +4,7 @@ Do not modify.
 """
 
 try:
-    from typing import Any, Optional
+    from typing import Any, Optional, Union, List
 except ImportError:
     pass
 

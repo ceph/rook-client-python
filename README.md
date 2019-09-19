@@ -41,6 +41,10 @@ def objectstore(api_name, name, namespace, instances):
     return rook_os.to_json()
 ```
 
+## Demo
+
+![](rook-python-client-demo.gif)
+
 ## Regenerate
 
 Re-generate the python files using 

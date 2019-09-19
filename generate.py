@@ -20,7 +20,7 @@ Do not modify.
 """
 
 try:
-    from typing import Any, Optional
+    from typing import Any, Optional, Union, List
 except ImportError:
     pass
 
@@ -116,6 +116,16 @@ class CRDList(CRDBase):
     @property
     def py_type(self):
         return self.name[0].upper() + self.name[1:] + 'List'
+
+    @property
+    def py_param_type(self):
+        inner = f'Union[List[{self.items.py_type}], CrdObjectList]'
+        return f'Optional[{inner}]' if (self.nullable or not self.required) else inner
+
+    @property
+    def py_property_return_type(self):
+        inner = f'Union[List[{self.items.py_type}], CrdObjectList]'
+        return f'Optional[{inner}]' if (self.nullable) else inner
 
     def flatten(self):
         yield from self.items.flatten()
