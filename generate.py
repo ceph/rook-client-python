@@ -266,8 +266,8 @@ def get_toplevels(crd):
 
 
 def main():
-    #for crd in download_yaml():
-    for crd in local():
+    for crd in download_yaml():
+    # for crd in local():
         valid_crd = handle_crd(crd)
         if valid_crd is not None:
             with open(f'rook_ceph_client/{valid_crd.name.lower()}.py', 'w') as f:

@@ -12,12 +12,12 @@ from rook_ceph_client.cephobjectstore import CephObjectStore
 def load_example(what):
     import requests
 
-    #url = f'https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/{what}.yaml'
-    #r = requests.get(url, allow_redirects=True)
-    #return yaml.safe_load(r.content.decode('utf-8'))
+    url = f'https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/{what}.yaml'
+    r = requests.get(url, allow_redirects=True)
+    return yaml.safe_load(r.content.decode('utf-8'))
 
-    with open(expanduser('~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/{what}.yaml').format(what=what)) as f:
-        return yaml.safe_load(f.read())
+    #with open(expanduser('~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/{what}.yaml').format(what=what)) as f:
+    #    return yaml.safe_load(f.read())
 
 @pytest.mark.parametrize(
     "filename",

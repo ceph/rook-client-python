@@ -272,13 +272,19 @@ class Mgr(CrdObject):
 
 class Network(CrdObject):
     _properties = [
-        ('hostNetwork', 'hostNetwork', bool, False, False)
+        ('hostNetwork', 'hostNetwork', bool, False, False),
+        ('provider', 'provider', str, False, False),
+        ('selectors', 'selectors', object, False, False)
     ]        
 
     def __init__(self,
                  hostNetwork=_omit,  # type: Optional[bool]
+                 provider=_omit,  # type: Optional[str]
+                 selectors=_omit,  # type: Optional[Any]
                  ):
         self.hostNetwork = hostNetwork  # type: ignore
+        self.provider = provider  # type: ignore
+        self.selectors = selectors  # type: ignore
 
     @property
     def hostNetwork(self):
@@ -289,6 +295,26 @@ class Network(CrdObject):
     def hostNetwork(self, new_val):
         # type: (Optional[bool]) -> None
         self._hostNetwork = new_val
+    
+    @property
+    def provider(self):
+        # type: () -> str
+        return self._property_impl('provider')
+    
+    @provider.setter
+    def provider(self, new_val):
+        # type: (Optional[str]) -> None
+        self._provider = new_val
+    
+    @property
+    def selectors(self):
+        # type: () -> Any
+        return self._property_impl('selectors')
+    
+    @selectors.setter
+    def selectors(self, new_val):
+        # type: (Optional[Any]) -> None
+        self._selectors = new_val
 
 
 class Config(CrdObject):
@@ -790,6 +816,7 @@ class Spec(CrdObject):
         ('dashboard', 'dashboard', Dashboard, False, False),
         ('dataDirHostPath', 'dataDirHostPath', str, False, False),
         ('disruptionManagement', 'disruptionManagement', DisruptionManagement, False, False),
+        ('skipUpgradeChecks', 'skipUpgradeChecks', bool, False, False),
         ('mon', 'mon', Mon, False, False),
         ('mgr', 'mgr', Mgr, False, False),
         ('network', 'network', Network, False, False),
@@ -807,6 +834,7 @@ class Spec(CrdObject):
                  dashboard=_omit,  # type: Optional[Dashboard]
                  dataDirHostPath=_omit,  # type: Optional[str]
                  disruptionManagement=_omit,  # type: Optional[DisruptionManagement]
+                 skipUpgradeChecks=_omit,  # type: Optional[bool]
                  mon=_omit,  # type: Optional[Mon]
                  mgr=_omit,  # type: Optional[Mgr]
                  network=_omit,  # type: Optional[Network]
@@ -822,6 +850,7 @@ class Spec(CrdObject):
         self.dashboard = dashboard  # type: ignore
         self.dataDirHostPath = dataDirHostPath  # type: ignore
         self.disruptionManagement = disruptionManagement  # type: ignore
+        self.skipUpgradeChecks = skipUpgradeChecks  # type: ignore
         self.mon = mon  # type: ignore
         self.mgr = mgr  # type: ignore
         self.network = network  # type: ignore
@@ -881,6 +910,16 @@ class Spec(CrdObject):
     def disruptionManagement(self, new_val):
         # type: (Optional[DisruptionManagement]) -> None
         self._disruptionManagement = new_val
+    
+    @property
+    def skipUpgradeChecks(self):
+        # type: () -> bool
+        return self._property_impl('skipUpgradeChecks')
+    
+    @skipUpgradeChecks.setter
+    def skipUpgradeChecks(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._skipUpgradeChecks = new_val
     
     @property
     def mon(self):
