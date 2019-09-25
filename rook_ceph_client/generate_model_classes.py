@@ -10,7 +10,7 @@ For example:
   generate-model-classes ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/common.yaml rook-ceph-client
 
 Usage:
-  generate-model-classes <crds.yaml> <output-folder>
+  generate-model-classes [--create-package] <crds.yaml> <output-folder>
 """
 
 from abc import ABC, abstractmethod
@@ -22,7 +22,7 @@ import yaml
 try:
     from dataclasses import dataclass
 except ImportError:
-    from attr import dataclass
+    from attr import dataclass  # type: ignore
 from docopt import docopt
 
 header = '''"""
@@ -39,7 +39,7 @@ from ._helper import _omit, CrdObject, CrdObjectList
 
 '''
 
-@dataclass
+@dataclass  # type: ignore
 class CRDBase(ABC):
     name: str
     nullable: bool
@@ -263,6 +263,14 @@ def get_toplevels(crd):
     return remove_duplicates(cls.toplevel() for cls in elems)
 
 
+def create_package(outfolder):
+    from shutil import copy
+    from . import _helper
+    
+    copy(_helper.__file__, outfolder)
+    open(f'{outfolder}/__init__.py', 'w').close()
+
+    
 def main():
     args = docopt(__doc__)
     yaml_filename = '/dev/stdin' if args["<crds.yaml>"] == '-' else args["<crds.yaml>"]
@@ -270,11 +278,13 @@ def main():
     for crd in local(yaml_filename):
         valid_crd = handle_crd(crd)
         if valid_crd is not None:
-            with open(f'rook_ceph_client/{valid_crd.name.lower()}.py', 'w') as f:
+            with open(f'{outfolder}/{valid_crd.name.lower()}.py', 'w') as f:
                 f.write(header)
                 classes = get_toplevels(valid_crd)
                 f.write('\n\n\n'.join(classes))
                 f.write('\n')
+    if args['--create-package']:
+        create_package(outfolder)
 
 if __name__ == '__main__':
     main()

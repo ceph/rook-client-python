@@ -16,5 +16,5 @@ curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kuberne
 
 python setup.py mkcodes
 python setup.py develop
-generate-model-classes common.yaml rook-ceph-client
+generate-model-classes common.yaml rook_ceph_client
 python setup.py test
