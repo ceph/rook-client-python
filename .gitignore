@@ -9,3 +9,4 @@ __pycache__
 *.pyc
 rook_ceph_client/tests/test_README.py
 
+common.yaml

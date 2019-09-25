@@ -30,9 +30,19 @@ setup(
     author='Sebastian Wagner',
     author_email='swagner@suse.com',
     description='Client model classes for the CRDs exposes by Rook',
+    install_requires=[
+        'pyyaml',
+        'docopt',
+        'attrs;python_version<"3.7"'
+    ],
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'mypy', 'pytest-mypy'],
     cmdclass={
         'mkcodes': MkCodesCommand,
+    },
+    entry_points = {
+            'console_scripts': [
+                'generate-model-classes = rook_ceph_client.generate_model_classes:main',
+        ],
     },
 )
