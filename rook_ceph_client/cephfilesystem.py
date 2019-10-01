@@ -240,17 +240,20 @@ class Spec(CrdObject):
     _properties = [
         ('metadataServer', 'metadataServer', MetadataServer, False, False),
         ('metadataPool', 'metadataPool', MetadataPool, False, False),
-        ('dataPools', 'dataPools', DataPoolsList, False, False)
+        ('dataPools', 'dataPools', DataPoolsList, False, False),
+        ('preservePoolsOnDelete', 'preservePoolsOnDelete', bool, False, False)
     ]        
 
     def __init__(self,
                  metadataServer=_omit,  # type: Optional[MetadataServer]
                  metadataPool=_omit,  # type: Optional[MetadataPool]
                  dataPools=_omit,  # type: Optional[Union[List[DataPoolsItem], CrdObjectList]]
+                 preservePoolsOnDelete=_omit,  # type: Optional[bool]
                  ):
         self.metadataServer = metadataServer  # type: ignore
         self.metadataPool = metadataPool  # type: ignore
         self.dataPools = dataPools  # type: ignore
+        self.preservePoolsOnDelete = preservePoolsOnDelete  # type: ignore
 
     @property
     def metadataServer(self):
@@ -281,6 +284,16 @@ class Spec(CrdObject):
     def dataPools(self, new_val):
         # type: (Optional[Union[List[DataPoolsItem], CrdObjectList]]) -> None
         self._dataPools = new_val
+    
+    @property
+    def preservePoolsOnDelete(self):
+        # type: () -> bool
+        return self._property_impl('preservePoolsOnDelete')
+    
+    @preservePoolsOnDelete.setter
+    def preservePoolsOnDelete(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._preservePoolsOnDelete = new_val
 
 
 class CephFilesystem(CrdObject):

@@ -275,17 +275,20 @@ class Spec(CrdObject):
     _properties = [
         ('gateway', 'gateway', Gateway, False, False),
         ('metadataPool', 'metadataPool', MetadataPool, False, False),
-        ('dataPool', 'dataPool', DataPool, False, False)
+        ('dataPool', 'dataPool', DataPool, False, False),
+        ('preservePoolsOnDelete', 'preservePoolsOnDelete', bool, False, False)
     ]        
 
     def __init__(self,
                  gateway=_omit,  # type: Optional[Gateway]
                  metadataPool=_omit,  # type: Optional[MetadataPool]
                  dataPool=_omit,  # type: Optional[DataPool]
+                 preservePoolsOnDelete=_omit,  # type: Optional[bool]
                  ):
         self.gateway = gateway  # type: ignore
         self.metadataPool = metadataPool  # type: ignore
         self.dataPool = dataPool  # type: ignore
+        self.preservePoolsOnDelete = preservePoolsOnDelete  # type: ignore
 
     @property
     def gateway(self):
@@ -316,6 +319,16 @@ class Spec(CrdObject):
     def dataPool(self, new_val):
         # type: (Optional[DataPool]) -> None
         self._dataPool = new_val
+    
+    @property
+    def preservePoolsOnDelete(self):
+        # type: () -> bool
+        return self._property_impl('preservePoolsOnDelete')
+    
+    @preservePoolsOnDelete.setter
+    def preservePoolsOnDelete(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._preservePoolsOnDelete = new_val
 
 
 class CephObjectStore(CrdObject):
