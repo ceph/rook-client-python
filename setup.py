@@ -18,18 +18,18 @@ class MkCodesCommand(distutils.cmd.Command):
 
   def run(self):
     """Run command."""
-    subprocess.check_call('mkcodes --github --output rook_ceph_client/tests/test_{name}.py README.md'.split())
+    subprocess.check_call('mkcodes --github --output rook_client/tests/test_{name}.py README.md'.split())
 
 
 setup(
-    name='rook-ceph-client',
+    name='rook-client',
     version='1.0.0',
-    packages=['rook_ceph_client'],
+    packages=['rook_client'],
     url='',
     license='MIT',
     author='Sebastian Wagner',
     author_email='swagner@suse.com',
-    description='Client model classes for the CRDs exposes by Rook',
+    description='Client model classes for the CRDs exposed by Rook',
     install_requires=[
         'pyyaml',
         'docopt',
@@ -39,10 +39,5 @@ setup(
     tests_require=['pytest', 'mypy', 'pytest-mypy'],
     cmdclass={
         'mkcodes': MkCodesCommand,
-    },
-    entry_points = {
-            'console_scripts': [
-                'generate-model-classes = rook_ceph_client.generate_model_classes:main',
-        ],
     },
 )

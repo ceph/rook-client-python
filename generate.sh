@@ -11,10 +11,26 @@ else
   . venv/bin/activate 
 fi
 
-curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/common.yaml > common.yaml
-# cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/common.yaml common.yaml
+
 
 python setup.py mkcodes
 python setup.py develop
-generate-model-classes common.yaml rook_ceph_client
+
+# curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/common.yaml > ceph_common.yaml
+cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/common.yaml ceph_common.yaml
+
+python generate_model_classes.py ceph_common.yaml rook_client/ceph
+
+# curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/cassandra/operator.yaml > cassandra_operator.yaml
+cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/cassandra/operator.yaml cassandra_operator.yaml
+
+python generate_model_classes.py cassandra_operator.yaml rook_client/cassandra
+
+# curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/edgefs/operator.yaml > edgefs_operator.yaml
+cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/edgefs/operator.yaml edgefs_operator.yaml
+
+python generate_model_classes.py edgefs_operator.yaml rook_client/edgefs
+
+
+
 python setup.py test

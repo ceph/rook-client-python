@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import pytest
 
-from rook_ceph_client import cephfilesystem as cfs
+from rook_client.ceph import cephfilesystem as cfs
 
 
 def test_omit():

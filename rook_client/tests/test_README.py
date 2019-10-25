@@ -1,15 +1,3 @@
-# rook-ceph-client-python
-
-Automatically generated models for Rook-Ceph's custom resource definitions.
-
-Can be uased to type check client code against the Rook API
-
-Inspired by https://github.com/kubernetes-client/python/tree/master/kubernetes/client/models
-
-
-## Example
-
-```python
 def objectstore(api_name, name, namespace, instances):
     from rook_client.ceph import cephobjectstore as cos
     rook_os = cos.CephObjectStore(
@@ -39,16 +27,3 @@ def objectstore(api_name, name, namespace, instances):
         )
     )
     return rook_os.to_json()
-```
-
-## Demo
-
-![](rook-python-client-demo.gif)
-
-## Regenerate
-
-Re-generate the python files using 
-
-```bash
-./generate.sh
-```

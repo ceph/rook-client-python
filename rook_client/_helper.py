@@ -13,6 +13,10 @@ _omit = None  # type: NoneType
 _omit = object()  # type: ignore
 
 
+# Don't add any additionalProperties to objects. Useful for completeness testing
+STRICT = False
+
+
 def _property_from_json(data, breadcrumb, name, py_name, typ, required, nullable):
     if not required and name not in data:
         return _omit
@@ -26,6 +30,14 @@ def _property_from_json(data, breadcrumb, name, py_name, typ, required, nullable
 
 class CrdObject(object):
     _properties = []  # type: List
+
+    def __init__(self, **kwargs):
+        for prop in self._properties:
+            setattr(self, prop[1], kwargs.pop(prop[1]))
+        if kwargs:
+            raise TypeError(
+                '{} got unexpected arguments {}'.format(self.__class__.__name__, kwargs.keys()))
+        self._additionalProperties = {}  # type: Dict[str, Any]
 
     def _property_impl(self, name):
         obj = getattr(self, '_' + name)
@@ -45,8 +57,9 @@ class CrdObject(object):
             return obj
 
     def to_json(self):
-        # type: () -> Dict
+        # type: () -> Dict[str, Any]
         res = {p[0]: self._property_to_json(*p) for p in self._properties}
+        res.update(self._additionalProperties)
         return {k: v for k, v in res.items() if v is not _omit}
 
     @classmethod
@@ -55,10 +68,26 @@ class CrdObject(object):
             sanitized = {
                 p[1]: _property_from_json(data, breadcrumb, *p) for p in cls._properties
             }
-            return cls(**sanitized)
-        except (TypeError, AttributeError):
+            extra = {k:v for k,v in data.items() if k not in sanitized}
+            ret = cls(**sanitized)
+            ret._additionalProperties = {} if STRICT else extra
+            return ret
+        except (TypeError, AttributeError, KeyError):
             logger.exception(breadcrumb)
+            raise
 
+class CrdClass(CrdObject):
+    @classmethod
+    def from_json(cls, data, breadcrumb=''):
+        kind = data['kind']
+        if kind != cls.__name__:
+            raise ValueError("kind mismatch: {} != {}".format(kind, cls.__name__))
+        return super(CrdClass, cls).from_json(data, breadcrumb)
+
+    def to_json(self):
+        ret = super(CrdClass, self).to_json()
+        ret['kind'] = self.__class__.__name__
+        return ret
 
 class CrdObjectList(list):
     _items_type = None  # type: Any

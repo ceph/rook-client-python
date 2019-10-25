@@ -8,7 +8,7 @@ try:
 except ImportError:
     pass
 
-from ._helper import _omit, CrdObject, CrdObjectList
+from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 class Gateway(CrdObject):
     _properties = [
@@ -32,14 +32,16 @@ class Gateway(CrdObject):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.type = type  # type: ignore
-        self.sslCertificateRef = sslCertificateRef  # type: ignore
-        self.port = port  # type: ignore
-        self.securePort = securePort  # type: ignore
-        self.instances = instances  # type: ignore
-        self.annotations = annotations  # type: ignore
-        self.placement = placement  # type: ignore
-        self.resources = resources  # type: ignore
+        super(Gateway, self).__init__(
+        type=type,
+        sslCertificateRef=sslCertificateRef,
+        port=port,
+        securePort=securePort,
+        instances=instances,
+        annotations=annotations,
+        placement=placement,
+        resources=resources,
+        )
 
     @property
     def type(self):
@@ -130,7 +132,9 @@ class Replicated(CrdObject):
     def __init__(self,
                  size=_omit,  # type: Optional[int]
                  ):
-        self.size = size  # type: ignore
+        super(Replicated, self).__init__(
+        size=size,
+        )
 
     @property
     def size(self):
@@ -153,8 +157,10 @@ class ErasureCoded(CrdObject):
                  dataChunks=_omit,  # type: Optional[int]
                  codingChunks=_omit,  # type: Optional[int]
                  ):
-        self.dataChunks = dataChunks  # type: ignore
-        self.codingChunks = codingChunks  # type: ignore
+        super(ErasureCoded, self).__init__(
+        dataChunks=dataChunks,
+        codingChunks=codingChunks,
+        )
 
     @property
     def dataChunks(self):
@@ -189,9 +195,11 @@ class MetadataPool(CrdObject):
                  replicated=_omit,  # type: Optional[Replicated]
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
-        self.failureDomain = failureDomain  # type: ignore
-        self.replicated = replicated  # type: ignore
-        self.erasureCoded = erasureCoded  # type: ignore
+        super(MetadataPool, self).__init__(
+        failureDomain=failureDomain,
+        replicated=replicated,
+        erasureCoded=erasureCoded,
+        )
 
     @property
     def failureDomain(self):
@@ -236,9 +244,11 @@ class DataPool(CrdObject):
                  replicated=_omit,  # type: Optional[Replicated]
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
-        self.failureDomain = failureDomain  # type: ignore
-        self.replicated = replicated  # type: ignore
-        self.erasureCoded = erasureCoded  # type: ignore
+        super(DataPool, self).__init__(
+        failureDomain=failureDomain,
+        replicated=replicated,
+        erasureCoded=erasureCoded,
+        )
 
     @property
     def failureDomain(self):
@@ -285,10 +295,12 @@ class Spec(CrdObject):
                  dataPool=_omit,  # type: Optional[DataPool]
                  preservePoolsOnDelete=_omit,  # type: Optional[bool]
                  ):
-        self.gateway = gateway  # type: ignore
-        self.metadataPool = metadataPool  # type: ignore
-        self.dataPool = dataPool  # type: ignore
-        self.preservePoolsOnDelete = preservePoolsOnDelete  # type: ignore
+        super(Spec, self).__init__(
+        gateway=gateway,
+        metadataPool=metadataPool,
+        dataPool=dataPool,
+        preservePoolsOnDelete=preservePoolsOnDelete,
+        )
 
     @property
     def gateway(self):
@@ -331,10 +343,9 @@ class Spec(CrdObject):
         self._preservePoolsOnDelete = new_val
 
 
-class CephObjectStore(CrdObject):
+class CephObjectStore(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, True, False),
-        ('kind', 'kind', str, True, False),
         ('metadata', 'metadata', object, True, False),
         ('status', 'status', object, False, False),
         ('spec', 'spec', Spec, True, False)
@@ -344,14 +355,14 @@ class CephObjectStore(CrdObject):
                  apiVersion,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
-                 kind="CephObjectStore",  # type: str
                  status=_omit,  # type: Optional[Any]
                  ):
-        self.apiVersion = apiVersion  # type: ignore
-        self.metadata = metadata  # type: ignore
-        self.spec = spec  # type: ignore
-        self.kind = kind  # type: ignore
-        self.status = status  # type: ignore
+        super(CephObjectStore, self).__init__(
+        apiVersion=apiVersion,
+        metadata=metadata,
+        spec=spec,
+        status=status,
+        )
 
     @property
     def apiVersion(self):
@@ -362,16 +373,6 @@ class CephObjectStore(CrdObject):
     def apiVersion(self, new_val):
         # type: (str) -> None
         self._apiVersion = new_val
-    
-    @property
-    def kind(self):
-        # type: () -> str
-        return self._property_impl('kind')
-    
-    @kind.setter
-    def kind(self, new_val):
-        # type: (str) -> None
-        self._kind = new_val
     
     @property
     def metadata(self):

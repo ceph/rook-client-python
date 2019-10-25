@@ -7,15 +7,14 @@ For example:
   pip install -r requirements.txt
   python setup.py develop
   curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/common.yaml | generate-model-classes - rook-ceph-client
-  generate-model-classes ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/common.yaml rook-ceph-client
+  generate-model-classes ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/common.yaml rook-ceph/client
 
 Usage:
-  generate-model-classes [--create-package] <crds.yaml> <output-folder>
+  generate-model-classes <crds.yaml> <output-folder>
 """
-
+import os
 from abc import ABC, abstractmethod
 from collections import OrderedDict
-from os.path import expanduser
 from typing import List, Union, Iterator, Optional
 
 import yaml
@@ -35,7 +34,7 @@ try:
 except ImportError:
     pass
 
-from ._helper import _omit, CrdObject, CrdObjectList
+from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 '''
 
@@ -52,6 +51,10 @@ class CRDBase(ABC):
     @property
     @abstractmethod
     def py_type(self):
+        ...
+
+    @abstractmethod
+    def flatten(self):
         ...
 
     def py_property(self):
@@ -152,10 +155,11 @@ class {self.py_type}(CrdObjectList):
 @dataclass
 class CRDClass(CRDBase):
     attrs: List[Union[CRDAttribute, 'CRDClass']]
+    base_class: str = 'CrdObject'
 
     def toplevel(self):
         ps = '\n\n'.join(a.py_property() for a in self.attrs)
-        return f"""class {self.py_type}(CrdObject):
+        return f"""class {self.py_type}({self.base_class}):
 {indent(self.py_properties())}        
 
 {indent(self.py_init())}
@@ -190,12 +194,14 @@ class CRDClass(CRDBase):
     def py_init(self):
         sorted_attrs = sorted(self.attrs, key=lambda a: a.has_default)
         params = '\n'.join(a.py_param for a in sorted_attrs)
-        init_set = '\n'.join(f'self.{a.py_name} = {a.py_name}  # type: ignore' for a in sorted_attrs)
+        params_set = '\n'.join(f'{a.py_name}={a.py_name},' for a in sorted_attrs)
         return f"""
 def __init__(self,
 {indent(params, indent=4+9)}
              ):
-{indent(init_set)}
+    super({self.py_type}, self).__init__(
+{indent(params_set, indent=4)}
+    )
 """.strip()
 
 def indent(s, indent=4):
@@ -228,10 +234,9 @@ def handle_crd(c_dict) -> Optional[CRDClass]:
     s['required'] = ['spec']
     c = handle_property(name, s, True)
     k8s_attrs = [CRDAttribute('apiVersion', False, True, 'string'),
-                 CRDAttribute('kind', False, True, 'string', f'"{name}"'),
                  CRDAttribute('metadata', False, True, 'object'),
                  CRDAttribute('status', False, False, 'object')]
-    return CRDClass(c.name, False, True, k8s_attrs + c.attrs)
+    return CRDClass(c.name, False, True, k8s_attrs + c.attrs, base_class='CrdClass')
 
 
 def local(yaml_filename):
@@ -263,14 +268,6 @@ def get_toplevels(crd):
     return remove_duplicates(cls.toplevel() for cls in elems)
 
 
-def create_package(outfolder):
-    from shutil import copy
-    from . import _helper
-    
-    copy(_helper.__file__, outfolder)
-    open(f'{outfolder}/__init__.py', 'w').close()
-
-    
 def main():
     args = docopt(__doc__)
     yaml_filename = '/dev/stdin' if args["<crds.yaml>"] == '-' else args["<crds.yaml>"]
@@ -278,13 +275,16 @@ def main():
     for crd in local(yaml_filename):
         valid_crd = handle_crd(crd)
         if valid_crd is not None:
+            try:
+                os.mkdir(outfolder)
+            except FileExistsError:
+                pass
+            open(f'{outfolder}/__init__.py', 'w').close()
+
             with open(f'{outfolder}/{valid_crd.name.lower()}.py', 'w') as f:
                 f.write(header)
                 classes = get_toplevels(valid_crd)
                 f.write('\n\n\n'.join(classes))
                 f.write('\n')
-    if args['--create-package']:
-        create_package(outfolder)
-
 if __name__ == '__main__':
     main()

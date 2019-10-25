@@ -8,7 +8,7 @@ try:
 except ImportError:
     pass
 
-from ._helper import _omit, CrdObject, CrdObjectList
+from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 class CephVersion(CrdObject):
     _properties = [
@@ -20,8 +20,10 @@ class CephVersion(CrdObject):
                  allowUnsupported=_omit,  # type: Optional[bool]
                  image=_omit,  # type: Optional[str]
                  ):
-        self.allowUnsupported = allowUnsupported  # type: ignore
-        self.image = image  # type: ignore
+        super(CephVersion, self).__init__(
+        allowUnsupported=allowUnsupported,
+        image=image,
+        )
 
     @property
     def allowUnsupported(self):
@@ -58,10 +60,12 @@ class Dashboard(CrdObject):
                  port=_omit,  # type: Optional[int]
                  ssl=_omit,  # type: Optional[bool]
                  ):
-        self.enabled = enabled  # type: ignore
-        self.urlPrefix = urlPrefix  # type: ignore
-        self.port = port  # type: ignore
-        self.ssl = ssl  # type: ignore
+        super(Dashboard, self).__init__(
+        enabled=enabled,
+        urlPrefix=urlPrefix,
+        port=port,
+        ssl=ssl,
+        )
 
     @property
     def enabled(self):
@@ -118,10 +122,12 @@ class DisruptionManagement(CrdObject):
                  osdMaintenanceTimeout=_omit,  # type: Optional[int]
                  manageMachineDisruptionBudgets=_omit,  # type: Optional[bool]
                  ):
-        self.machineDisruptionBudgetNamespace = machineDisruptionBudgetNamespace  # type: ignore
-        self.managePodBudgets = managePodBudgets  # type: ignore
-        self.osdMaintenanceTimeout = osdMaintenanceTimeout  # type: ignore
-        self.manageMachineDisruptionBudgets = manageMachineDisruptionBudgets  # type: ignore
+        super(DisruptionManagement, self).__init__(
+        machineDisruptionBudgetNamespace=machineDisruptionBudgetNamespace,
+        managePodBudgets=managePodBudgets,
+        osdMaintenanceTimeout=osdMaintenanceTimeout,
+        manageMachineDisruptionBudgets=manageMachineDisruptionBudgets,
+        )
 
     @property
     def machineDisruptionBudgetNamespace(self):
@@ -176,9 +182,11 @@ class Mon(CrdObject):
                  count=_omit,  # type: Optional[int]
                  volumeClaimTemplate=_omit,  # type: Optional[Any]
                  ):
-        self.allowMultiplePerNode = allowMultiplePerNode  # type: ignore
-        self.count = count  # type: ignore
-        self.volumeClaimTemplate = volumeClaimTemplate  # type: ignore
+        super(Mon, self).__init__(
+        allowMultiplePerNode=allowMultiplePerNode,
+        count=count,
+        volumeClaimTemplate=volumeClaimTemplate,
+        )
 
     @property
     def allowMultiplePerNode(self):
@@ -221,8 +229,10 @@ class ModulesItem(CrdObject):
                  name=_omit,  # type: Optional[str]
                  enabled=_omit,  # type: Optional[bool]
                  ):
-        self.name = name  # type: ignore
-        self.enabled = enabled  # type: ignore
+        super(ModulesItem, self).__init__(
+        name=name,
+        enabled=enabled,
+        )
 
     @property
     def name(self):
@@ -257,7 +267,9 @@ class Mgr(CrdObject):
     def __init__(self,
                  modules=_omit,  # type: Optional[Union[List[ModulesItem], CrdObjectList]]
                  ):
-        self.modules = modules  # type: ignore
+        super(Mgr, self).__init__(
+        modules=modules,
+        )
 
     @property
     def modules(self):
@@ -282,9 +294,11 @@ class Network(CrdObject):
                  provider=_omit,  # type: Optional[str]
                  selectors=_omit,  # type: Optional[Any]
                  ):
-        self.hostNetwork = hostNetwork  # type: ignore
-        self.provider = provider  # type: ignore
-        self.selectors = selectors  # type: ignore
+        super(Network, self).__init__(
+        hostNetwork=hostNetwork,
+        provider=provider,
+        selectors=selectors,
+        )
 
     @property
     def hostNetwork(self):
@@ -337,13 +351,15 @@ class Config(CrdObject):
                  osdsPerDevice=_omit,  # type: Optional[str]
                  encryptedDevice=_omit,  # type: Optional[str]
                  ):
-        self.metadataDevice = metadataDevice  # type: ignore
-        self.storeType = storeType  # type: ignore
-        self.databaseSizeMB = databaseSizeMB  # type: ignore
-        self.walSizeMB = walSizeMB  # type: ignore
-        self.journalSizeMB = journalSizeMB  # type: ignore
-        self.osdsPerDevice = osdsPerDevice  # type: ignore
-        self.encryptedDevice = encryptedDevice  # type: ignore
+        super(Config, self).__init__(
+        metadataDevice=metadataDevice,
+        storeType=storeType,
+        databaseSizeMB=databaseSizeMB,
+        walSizeMB=walSizeMB,
+        journalSizeMB=journalSizeMB,
+        osdsPerDevice=osdsPerDevice,
+        encryptedDevice=encryptedDevice,
+        )
 
     @property
     def metadataDevice(self):
@@ -424,7 +440,9 @@ class DirectoriesItem(CrdObject):
     def __init__(self,
                  path=_omit,  # type: Optional[str]
                  ):
-        self.path = path  # type: ignore
+        super(DirectoriesItem, self).__init__(
+        path=path,
+        )
 
     @property
     def path(self):
@@ -451,8 +469,10 @@ class DevicesItem(CrdObject):
                  name=_omit,  # type: Optional[str]
                  config=_omit,  # type: Optional[Any]
                  ):
-        self.name = name  # type: ignore
-        self.config = config  # type: ignore
+        super(DevicesItem, self).__init__(
+        name=name,
+        config=config,
+        )
 
     @property
     def name(self):
@@ -501,14 +521,16 @@ class NodesItem(CrdObject):
                  location=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.name = name  # type: ignore
-        self.config = config  # type: ignore
-        self.useAllDevices = useAllDevices  # type: ignore
-        self.deviceFilter = deviceFilter  # type: ignore
-        self.directories = directories  # type: ignore
-        self.devices = devices  # type: ignore
-        self.location = location  # type: ignore
-        self.resources = resources  # type: ignore
+        super(NodesItem, self).__init__(
+        name=name,
+        config=config,
+        useAllDevices=useAllDevices,
+        deviceFilter=deviceFilter,
+        directories=directories,
+        devices=devices,
+        location=location,
+        resources=resources,
+        )
 
     @property
     def name(self):
@@ -621,16 +643,18 @@ class Storage(CrdObject):
                  topologyAware=_omit,  # type: Optional[bool]
                  storageClassDeviceSets=_omit,  # type: Optional[Any]
                  ):
-        self.disruptionManagement = disruptionManagement  # type: ignore
-        self.useAllNodes = useAllNodes  # type: ignore
-        self.nodes = nodes  # type: ignore
-        self.useAllDevices = useAllDevices  # type: ignore
-        self.deviceFilter = deviceFilter  # type: ignore
-        self.location = location  # type: ignore
-        self.directories = directories  # type: ignore
-        self.config = config  # type: ignore
-        self.topologyAware = topologyAware  # type: ignore
-        self.storageClassDeviceSets = storageClassDeviceSets  # type: ignore
+        super(Storage, self).__init__(
+        disruptionManagement=disruptionManagement,
+        useAllNodes=useAllNodes,
+        nodes=nodes,
+        useAllDevices=useAllDevices,
+        deviceFilter=deviceFilter,
+        location=location,
+        directories=directories,
+        config=config,
+        topologyAware=topologyAware,
+        storageClassDeviceSets=storageClassDeviceSets,
+        )
 
     @property
     def disruptionManagement(self):
@@ -743,8 +767,10 @@ class Monitoring(CrdObject):
                  enabled=_omit,  # type: Optional[bool]
                  rulesNamespace=_omit,  # type: Optional[str]
                  ):
-        self.enabled = enabled  # type: ignore
-        self.rulesNamespace = rulesNamespace  # type: ignore
+        super(Monitoring, self).__init__(
+        enabled=enabled,
+        rulesNamespace=rulesNamespace,
+        )
 
     @property
     def enabled(self):
@@ -775,7 +801,9 @@ class RbdMirroring(CrdObject):
     def __init__(self,
                  workers=_omit,  # type: Optional[int]
                  ):
-        self.workers = workers  # type: ignore
+        super(RbdMirroring, self).__init__(
+        workers=workers,
+        )
 
     @property
     def workers(self):
@@ -796,7 +824,9 @@ class External(CrdObject):
     def __init__(self,
                  enable=_omit,  # type: Optional[bool]
                  ):
-        self.enable = enable  # type: ignore
+        super(External, self).__init__(
+        enable=enable,
+        )
 
     @property
     def enable(self):
@@ -847,22 +877,24 @@ class Spec(CrdObject):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.annotations = annotations  # type: ignore
-        self.cephVersion = cephVersion  # type: ignore
-        self.dashboard = dashboard  # type: ignore
-        self.dataDirHostPath = dataDirHostPath  # type: ignore
-        self.disruptionManagement = disruptionManagement  # type: ignore
-        self.skipUpgradeChecks = skipUpgradeChecks  # type: ignore
-        self.mon = mon  # type: ignore
-        self.mgr = mgr  # type: ignore
-        self.network = network  # type: ignore
-        self.storage = storage  # type: ignore
-        self.monitoring = monitoring  # type: ignore
-        self.rbdMirroring = rbdMirroring  # type: ignore
-        self.removeOSDsIfOutAndSafeToRemove = removeOSDsIfOutAndSafeToRemove  # type: ignore
-        self.external = external  # type: ignore
-        self.placement = placement  # type: ignore
-        self.resources = resources  # type: ignore
+        super(Spec, self).__init__(
+        annotations=annotations,
+        cephVersion=cephVersion,
+        dashboard=dashboard,
+        dataDirHostPath=dataDirHostPath,
+        disruptionManagement=disruptionManagement,
+        skipUpgradeChecks=skipUpgradeChecks,
+        mon=mon,
+        mgr=mgr,
+        network=network,
+        storage=storage,
+        monitoring=monitoring,
+        rbdMirroring=rbdMirroring,
+        removeOSDsIfOutAndSafeToRemove=removeOSDsIfOutAndSafeToRemove,
+        external=external,
+        placement=placement,
+        resources=resources,
+        )
 
     @property
     def annotations(self):
@@ -1025,10 +1057,9 @@ class Spec(CrdObject):
         self._resources = new_val
 
 
-class CephCluster(CrdObject):
+class CephCluster(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, True, False),
-        ('kind', 'kind', str, True, False),
         ('metadata', 'metadata', object, True, False),
         ('status', 'status', object, False, False),
         ('spec', 'spec', Spec, True, False)
@@ -1038,14 +1069,14 @@ class CephCluster(CrdObject):
                  apiVersion,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
-                 kind="CephCluster",  # type: str
                  status=_omit,  # type: Optional[Any]
                  ):
-        self.apiVersion = apiVersion  # type: ignore
-        self.metadata = metadata  # type: ignore
-        self.spec = spec  # type: ignore
-        self.kind = kind  # type: ignore
-        self.status = status  # type: ignore
+        super(CephCluster, self).__init__(
+        apiVersion=apiVersion,
+        metadata=metadata,
+        spec=spec,
+        status=status,
+        )
 
     @property
     def apiVersion(self):
@@ -1056,16 +1087,6 @@ class CephCluster(CrdObject):
     def apiVersion(self, new_val):
         # type: (str) -> None
         self._apiVersion = new_val
-    
-    @property
-    def kind(self):
-        # type: () -> str
-        return self._property_impl('kind')
-    
-    @kind.setter
-    def kind(self, new_val):
-        # type: (str) -> None
-        self._kind = new_val
     
     @property
     def metadata(self):

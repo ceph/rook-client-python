@@ -8,7 +8,7 @@ try:
 except ImportError:
     pass
 
-from ._helper import _omit, CrdObject, CrdObjectList
+from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 class Rados(CrdObject):
     _properties = [
@@ -20,8 +20,10 @@ class Rados(CrdObject):
                  pool=_omit,  # type: Optional[str]
                  namespace=_omit,  # type: Optional[str]
                  ):
-        self.pool = pool  # type: ignore
-        self.namespace = namespace  # type: ignore
+        super(Rados, self).__init__(
+        pool=pool,
+        namespace=namespace,
+        )
 
     @property
     def pool(self):
@@ -58,10 +60,12 @@ class Server(CrdObject):
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
-        self.active = active  # type: ignore
-        self.annotations = annotations  # type: ignore
-        self.placement = placement  # type: ignore
-        self.resources = resources  # type: ignore
+        super(Server, self).__init__(
+        active=active,
+        annotations=annotations,
+        placement=placement,
+        resources=resources,
+        )
 
     @property
     def active(self):
@@ -114,8 +118,10 @@ class Spec(CrdObject):
                  rados=_omit,  # type: Optional[Rados]
                  server=_omit,  # type: Optional[Server]
                  ):
-        self.rados = rados  # type: ignore
-        self.server = server  # type: ignore
+        super(Spec, self).__init__(
+        rados=rados,
+        server=server,
+        )
 
     @property
     def rados(self):
@@ -138,10 +144,9 @@ class Spec(CrdObject):
         self._server = new_val
 
 
-class CephNFS(CrdObject):
+class CephNFS(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, True, False),
-        ('kind', 'kind', str, True, False),
         ('metadata', 'metadata', object, True, False),
         ('status', 'status', object, False, False),
         ('spec', 'spec', Spec, True, False)
@@ -151,14 +156,14 @@ class CephNFS(CrdObject):
                  apiVersion,  # type: str
                  metadata,  # type: Any
                  spec,  # type: Spec
-                 kind="CephNFS",  # type: str
                  status=_omit,  # type: Optional[Any]
                  ):
-        self.apiVersion = apiVersion  # type: ignore
-        self.metadata = metadata  # type: ignore
-        self.spec = spec  # type: ignore
-        self.kind = kind  # type: ignore
-        self.status = status  # type: ignore
+        super(CephNFS, self).__init__(
+        apiVersion=apiVersion,
+        metadata=metadata,
+        spec=spec,
+        status=status,
+        )
 
     @property
     def apiVersion(self):
@@ -169,16 +174,6 @@ class CephNFS(CrdObject):
     def apiVersion(self, new_val):
         # type: (str) -> None
         self._apiVersion = new_val
-    
-    @property
-    def kind(self):
-        # type: () -> str
-        return self._property_impl('kind')
-    
-    @kind.setter
-    def kind(self, new_val):
-        # type: (str) -> None
-        self._kind = new_val
     
     @property
     def metadata(self):
