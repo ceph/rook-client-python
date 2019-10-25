@@ -823,6 +823,7 @@ class Spec(CrdObject):
         ('storage', 'storage', Storage, False, False),
         ('monitoring', 'monitoring', Monitoring, False, False),
         ('rbdMirroring', 'rbdMirroring', RbdMirroring, False, False),
+        ('removeOSDsIfOutAndSafeToRemove', 'removeOSDsIfOutAndSafeToRemove', bool, False, False),
         ('external', 'external', External, False, False),
         ('placement', 'placement', object, False, False),
         ('resources', 'resources', object, False, False)
@@ -841,6 +842,7 @@ class Spec(CrdObject):
                  storage=_omit,  # type: Optional[Storage]
                  monitoring=_omit,  # type: Optional[Monitoring]
                  rbdMirroring=_omit,  # type: Optional[RbdMirroring]
+                 removeOSDsIfOutAndSafeToRemove=_omit,  # type: Optional[bool]
                  external=_omit,  # type: Optional[External]
                  placement=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
@@ -857,6 +859,7 @@ class Spec(CrdObject):
         self.storage = storage  # type: ignore
         self.monitoring = monitoring  # type: ignore
         self.rbdMirroring = rbdMirroring  # type: ignore
+        self.removeOSDsIfOutAndSafeToRemove = removeOSDsIfOutAndSafeToRemove  # type: ignore
         self.external = external  # type: ignore
         self.placement = placement  # type: ignore
         self.resources = resources  # type: ignore
@@ -980,6 +983,16 @@ class Spec(CrdObject):
     def rbdMirroring(self, new_val):
         # type: (Optional[RbdMirroring]) -> None
         self._rbdMirroring = new_val
+    
+    @property
+    def removeOSDsIfOutAndSafeToRemove(self):
+        # type: () -> bool
+        return self._property_impl('removeOSDsIfOutAndSafeToRemove')
+    
+    @removeOSDsIfOutAndSafeToRemove.setter
+    def removeOSDsIfOutAndSafeToRemove(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._removeOSDsIfOutAndSafeToRemove = new_val
     
     @property
     def external(self):
