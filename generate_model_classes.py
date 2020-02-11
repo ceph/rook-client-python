@@ -111,6 +111,7 @@ class CRDAttribute(CRDBase):
             'boolean': 'bool',
             'string': 'str',
             'object': 'Any',
+            'number': 'float',
         }[self.type]
 
     def flatten(self):

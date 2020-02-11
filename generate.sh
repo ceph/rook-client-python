@@ -2,7 +2,11 @@
 
 set -ex
 
-rook_base="${GOPATH:-$HOME/go}/src/github.com/rook/rook"
+if [ -z "$1" ] ; then
+    rook_base="${GOPATH:-$HOME/go}/src/github.com/rook/rook"
+else
+    rook_base="$1"
+fi
 crd_base="$rook_base/cluster/examples/kubernetes"
 
 cd "$(dirname "$0")"

@@ -23,7 +23,6 @@ def _load_example(crd_base, what):
         (True, CephCluster, "ceph/cluster-external.yaml"),
         (True, CephCluster, "ceph/cluster-minimal.yaml"),
         (True, CephCluster, "ceph/cluster-on-pvc.yaml"),
-        (True, CephCluster, "ceph/cluster-test.yaml"),
         (True, CephCluster, "ceph/cluster.yaml"),
         (True, CephFilesystem, "ceph/filesystem-ec.yaml"),
         (True, CephFilesystem, "ceph/filesystem-test.yaml"),
@@ -34,7 +33,8 @@ def _load_example(crd_base, what):
         (True, CephObjectStore, "ceph/object.yaml"),
         (True, CephNFS, "ceph/nfs.yaml"),
 
-        (False, CassandraCluster, "cassandra/cluster.yaml"),
+        # schema invalid:
+        # (False, CassandraCluster, "cassandra/cluster.yaml"),
         (False, EdgefsCluster, "edgefs/cluster.yaml"),
     ],
 )
