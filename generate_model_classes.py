@@ -147,9 +147,13 @@ class CRDList(CRDBase):
         yield self
 
     def toplevel(self):
+        py_type = self.items.py_type
+        if py_type == 'Any':
+            py_type = 'None'
+
         return f"""
 class {self.py_type}(CrdObjectList):
-{indent('_items_type = ' + self.items.py_type)}
+{indent('_items_type = ' + py_type)}
 """.strip()
 
 

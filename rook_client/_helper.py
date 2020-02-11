@@ -76,6 +76,7 @@ class CrdObject(object):
             logger.exception(breadcrumb)
             raise
 
+
 class CrdClass(CrdObject):
     @classmethod
     def from_json(cls, data, breadcrumb=''):
@@ -89,13 +90,19 @@ class CrdClass(CrdObject):
         ret['kind'] = self.__class__.__name__
         return ret
 
+
 class CrdObjectList(list):
-    _items_type = None  # type: Any
+    # Py3: Replace `Any` with `TypeVar('T_CrdObject', bound='CrdObject')`
+    _items_type = None  # type: Optional[Any]
 
     def to_json(self):
         # type: () -> List
+        if self._items_type is None:
+            return self
         return [e.to_json() for e in self]
 
     @classmethod
     def from_json(cls, data, breadcrumb=''):
+        if cls._items_type is None:
+            return cls(data)
         return cls(cls._items_type.from_json(e, breadcrumb + '[]') for e in data)
