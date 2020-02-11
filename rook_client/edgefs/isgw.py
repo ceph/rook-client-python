@@ -10,19 +10,62 @@ except ImportError:
 
 from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
+class ClientsList(CrdObjectList):
+    _items_type = str
+
+
+class Config(CrdObject):
+    _properties = [
+        ('server', 'server', str, False, False),
+        ('clients', 'clients', ClientsList, False, False)
+    ]        
+
+    def __init__(self,
+                 server=_omit,  # type: Optional[str]
+                 clients=_omit,  # type: Optional[Union[List[str], CrdObjectList]]
+                 ):
+        super(Config, self).__init__(
+            server=server,
+            clients=clients,
+        )
+
+    @property
+    def server(self):
+        # type: () -> str
+        return self._property_impl('server')
+    
+    @server.setter
+    def server(self, new_val):
+        # type: (Optional[str]) -> None
+        self._server = new_val
+    
+    @property
+    def clients(self):
+        # type: () -> Union[List[str], CrdObjectList]
+        return self._property_impl('clients')
+    
+    @clients.setter
+    def clients(self, new_val):
+        # type: (Optional[Union[List[str], CrdObjectList]]) -> None
+        self._clients = new_val
+
+
 class Spec(CrdObject):
     _properties = [
         ('direction', 'direction', str, True, False),
-        ('remoteURL', 'remoteURL', str, True, False)
+        ('remoteURL', 'remoteURL', str, False, False),
+        ('config', 'config', Config, False, False)
     ]        
 
     def __init__(self,
                  direction,  # type: str
-                 remoteURL,  # type: str
+                 remoteURL=_omit,  # type: Optional[str]
+                 config=_omit,  # type: Optional[Config]
                  ):
         super(Spec, self).__init__(
             direction=direction,
             remoteURL=remoteURL,
+            config=config,
         )
 
     @property
@@ -42,8 +85,18 @@ class Spec(CrdObject):
     
     @remoteURL.setter
     def remoteURL(self, new_val):
-        # type: (str) -> None
+        # type: (Optional[str]) -> None
         self._remoteURL = new_val
+    
+    @property
+    def config(self):
+        # type: () -> Config
+        return self._property_impl('config')
+    
+    @config.setter
+    def config(self, new_val):
+        # type: (Optional[Config]) -> None
+        self._config = new_val
 
 
 class ISGW(CrdClass):

@@ -70,7 +70,7 @@ class Network(CrdObject):
 
 
 class NodesList(CrdObjectList):
-    _items_type = Any
+    _items_type = None
 
 
 class Storage(CrdObject):

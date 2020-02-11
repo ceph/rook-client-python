@@ -504,10 +504,10 @@ class NodesItem(CrdObject):
         ('name', 'name', str, False, False),
         ('config', 'config', Config, False, False),
         ('useAllDevices', 'useAllDevices', bool, False, False),
-        ('deviceFilter', 'deviceFilter', object, False, False),
+        ('deviceFilter', 'deviceFilter', str, False, False),
+        ('devicePathFilter', 'devicePathFilter', str, False, False),
         ('directories', 'directories', DirectoriesList, False, False),
         ('devices', 'devices', DevicesList, False, False),
-        ('location', 'location', object, False, False),
         ('resources', 'resources', object, False, False)
     ]        
 
@@ -515,10 +515,10 @@ class NodesItem(CrdObject):
                  name=_omit,  # type: Optional[str]
                  config=_omit,  # type: Optional[Config]
                  useAllDevices=_omit,  # type: Optional[bool]
-                 deviceFilter=_omit,  # type: Optional[Any]
+                 deviceFilter=_omit,  # type: Optional[str]
+                 devicePathFilter=_omit,  # type: Optional[str]
                  directories=_omit,  # type: Optional[Union[List[DirectoriesItem], CrdObjectList]]
                  devices=_omit,  # type: Optional[Union[List[DevicesItem], CrdObjectList]]
-                 location=_omit,  # type: Optional[Any]
                  resources=_omit,  # type: Optional[Any]
                  ):
         super(NodesItem, self).__init__(
@@ -526,9 +526,9 @@ class NodesItem(CrdObject):
             config=config,
             useAllDevices=useAllDevices,
             deviceFilter=deviceFilter,
+            devicePathFilter=devicePathFilter,
             directories=directories,
             devices=devices,
-            location=location,
             resources=resources,
         )
 
@@ -564,13 +564,23 @@ class NodesItem(CrdObject):
     
     @property
     def deviceFilter(self):
-        # type: () -> Any
+        # type: () -> str
         return self._property_impl('deviceFilter')
     
     @deviceFilter.setter
     def deviceFilter(self, new_val):
-        # type: (Optional[Any]) -> None
+        # type: (Optional[str]) -> None
         self._deviceFilter = new_val
+    
+    @property
+    def devicePathFilter(self):
+        # type: () -> str
+        return self._property_impl('devicePathFilter')
+    
+    @devicePathFilter.setter
+    def devicePathFilter(self, new_val):
+        # type: (Optional[str]) -> None
+        self._devicePathFilter = new_val
     
     @property
     def directories(self):
@@ -593,16 +603,6 @@ class NodesItem(CrdObject):
         self._devices = new_val
     
     @property
-    def location(self):
-        # type: () -> Any
-        return self._property_impl('location')
-    
-    @location.setter
-    def location(self, new_val):
-        # type: (Optional[Any]) -> None
-        self._location = new_val
-    
-    @property
     def resources(self):
         # type: () -> Any
         return self._property_impl('resources')
@@ -623,11 +623,10 @@ class Storage(CrdObject):
         ('useAllNodes', 'useAllNodes', bool, False, False),
         ('nodes', 'nodes', NodesList, False, False),
         ('useAllDevices', 'useAllDevices', bool, False, False),
-        ('deviceFilter', 'deviceFilter', object, False, False),
-        ('location', 'location', object, False, False),
+        ('deviceFilter', 'deviceFilter', str, False, False),
+        ('devicePathFilter', 'devicePathFilter', str, False, False),
         ('directories', 'directories', DirectoriesList, False, False),
         ('config', 'config', object, False, False),
-        ('topologyAware', 'topologyAware', bool, False, False),
         ('storageClassDeviceSets', 'storageClassDeviceSets', object, False, False)
     ]        
 
@@ -636,11 +635,10 @@ class Storage(CrdObject):
                  useAllNodes=_omit,  # type: Optional[bool]
                  nodes=_omit,  # type: Optional[Union[List[NodesItem], CrdObjectList]]
                  useAllDevices=_omit,  # type: Optional[bool]
-                 deviceFilter=_omit,  # type: Optional[Any]
-                 location=_omit,  # type: Optional[Any]
+                 deviceFilter=_omit,  # type: Optional[str]
+                 devicePathFilter=_omit,  # type: Optional[str]
                  directories=_omit,  # type: Optional[Union[List[DirectoriesItem], CrdObjectList]]
                  config=_omit,  # type: Optional[Any]
-                 topologyAware=_omit,  # type: Optional[bool]
                  storageClassDeviceSets=_omit,  # type: Optional[Any]
                  ):
         super(Storage, self).__init__(
@@ -649,10 +647,9 @@ class Storage(CrdObject):
             nodes=nodes,
             useAllDevices=useAllDevices,
             deviceFilter=deviceFilter,
-            location=location,
+            devicePathFilter=devicePathFilter,
             directories=directories,
             config=config,
-            topologyAware=topologyAware,
             storageClassDeviceSets=storageClassDeviceSets,
         )
 
@@ -698,23 +695,23 @@ class Storage(CrdObject):
     
     @property
     def deviceFilter(self):
-        # type: () -> Any
+        # type: () -> str
         return self._property_impl('deviceFilter')
     
     @deviceFilter.setter
     def deviceFilter(self, new_val):
-        # type: (Optional[Any]) -> None
+        # type: (Optional[str]) -> None
         self._deviceFilter = new_val
     
     @property
-    def location(self):
-        # type: () -> Any
-        return self._property_impl('location')
+    def devicePathFilter(self):
+        # type: () -> str
+        return self._property_impl('devicePathFilter')
     
-    @location.setter
-    def location(self, new_val):
-        # type: (Optional[Any]) -> None
-        self._location = new_val
+    @devicePathFilter.setter
+    def devicePathFilter(self, new_val):
+        # type: (Optional[str]) -> None
+        self._devicePathFilter = new_val
     
     @property
     def directories(self):
@@ -735,16 +732,6 @@ class Storage(CrdObject):
     def config(self, new_val):
         # type: (Optional[Any]) -> None
         self._config = new_val
-    
-    @property
-    def topologyAware(self):
-        # type: () -> bool
-        return self._property_impl('topologyAware')
-    
-    @topologyAware.setter
-    def topologyAware(self, new_val):
-        # type: (Optional[bool]) -> None
-        self._topologyAware = new_val
     
     @property
     def storageClassDeviceSets(self):
@@ -847,6 +834,7 @@ class Spec(CrdObject):
         ('dataDirHostPath', 'dataDirHostPath', str, False, False),
         ('disruptionManagement', 'disruptionManagement', DisruptionManagement, False, False),
         ('skipUpgradeChecks', 'skipUpgradeChecks', bool, False, False),
+        ('continueUpgradeAfterChecksEvenIfNotHealthy', 'continueUpgradeAfterChecksEvenIfNotHealthy', bool, False, False),
         ('mon', 'mon', Mon, False, False),
         ('mgr', 'mgr', Mgr, False, False),
         ('network', 'network', Network, False, False),
@@ -866,6 +854,7 @@ class Spec(CrdObject):
                  dataDirHostPath=_omit,  # type: Optional[str]
                  disruptionManagement=_omit,  # type: Optional[DisruptionManagement]
                  skipUpgradeChecks=_omit,  # type: Optional[bool]
+                 continueUpgradeAfterChecksEvenIfNotHealthy=_omit,  # type: Optional[bool]
                  mon=_omit,  # type: Optional[Mon]
                  mgr=_omit,  # type: Optional[Mgr]
                  network=_omit,  # type: Optional[Network]
@@ -884,6 +873,7 @@ class Spec(CrdObject):
             dataDirHostPath=dataDirHostPath,
             disruptionManagement=disruptionManagement,
             skipUpgradeChecks=skipUpgradeChecks,
+            continueUpgradeAfterChecksEvenIfNotHealthy=continueUpgradeAfterChecksEvenIfNotHealthy,
             mon=mon,
             mgr=mgr,
             network=network,
@@ -955,6 +945,16 @@ class Spec(CrdObject):
     def skipUpgradeChecks(self, new_val):
         # type: (Optional[bool]) -> None
         self._skipUpgradeChecks = new_val
+    
+    @property
+    def continueUpgradeAfterChecksEvenIfNotHealthy(self):
+        # type: () -> bool
+        return self._property_impl('continueUpgradeAfterChecksEvenIfNotHealthy')
+    
+    @continueUpgradeAfterChecksEvenIfNotHealthy.setter
+    def continueUpgradeAfterChecksEvenIfNotHealthy(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._continueUpgradeAfterChecksEvenIfNotHealthy = new_val
     
     @property
     def mon(self):
