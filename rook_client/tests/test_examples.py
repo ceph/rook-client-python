@@ -1,4 +1,4 @@
-from os.path import expanduser
+from os.path import expanduser, dirname, realpath
 
 import yaml
 import pytest
@@ -12,14 +12,10 @@ from rook_client.ceph.cephobjectstore import CephObjectStore
 from rook_client.edgefs.cluster import Cluster as EdgefsCluster
 
 
-def load_example(what):
-    #import requests
-    #url = f'https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/{what}'
-    #r = requests.get(url, allow_redirects=True)
-    #return r.content.decode('utf-8')
-
-    with open(expanduser('~/go/src/github.com/rook/rook/cluster/examples/kubernetes/{what}').format(what=what)) as f:
+def _load_example(crd_base, what):
+    with open(expanduser('{crd_base}/{what}').format(crd_base=crd_base, what=what)) as f:
         return f.read()
+
 
 @pytest.mark.parametrize(
     "strict,cls,filename",
@@ -42,8 +38,8 @@ def load_example(what):
         (False, EdgefsCluster, "edgefs/cluster.yaml"),
     ],
 )
-def test_exact_match(strict, cls, filename):
-    crds = yaml.safe_load_all(load_example(filename))
+def test_exact_match(strict, cls, filename, crd_base):
+    crds = yaml.safe_load_all(_load_example(crd_base, filename))
     rook_client.STRICT = strict
     [crd] = [e for e in crds if e.get('kind', '') == cls.__name__]
 
