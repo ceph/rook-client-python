@@ -21,8 +21,8 @@ class Spec(CrdObject):
                  remoteURL,  # type: str
                  ):
         super(Spec, self).__init__(
-        direction=direction,
-        remoteURL=remoteURL,
+            direction=direction,
+            remoteURL=remoteURL,
         )
 
     @property
@@ -61,10 +61,10 @@ class ISGW(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(ISGW, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property

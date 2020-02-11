@@ -19,7 +19,7 @@ class Spec(CrdObject):
                  instances,  # type: int
                  ):
         super(Spec, self).__init__(
-        instances=instances,
+            instances=instances,
         )
 
     @property
@@ -48,10 +48,10 @@ class NFS(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(NFS, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property

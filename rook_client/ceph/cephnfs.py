@@ -21,8 +21,8 @@ class Rados(CrdObject):
                  namespace=_omit,  # type: Optional[str]
                  ):
         super(Rados, self).__init__(
-        pool=pool,
-        namespace=namespace,
+            pool=pool,
+            namespace=namespace,
         )
 
     @property
@@ -61,10 +61,10 @@ class Server(CrdObject):
                  resources=_omit,  # type: Optional[Any]
                  ):
         super(Server, self).__init__(
-        active=active,
-        annotations=annotations,
-        placement=placement,
-        resources=resources,
+            active=active,
+            annotations=annotations,
+            placement=placement,
+            resources=resources,
         )
 
     @property
@@ -119,8 +119,8 @@ class Spec(CrdObject):
                  server=_omit,  # type: Optional[Server]
                  ):
         super(Spec, self).__init__(
-        rados=rados,
-        server=server,
+            rados=rados,
+            server=server,
         )
 
     @property
@@ -159,10 +159,10 @@ class CephNFS(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(CephNFS, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property

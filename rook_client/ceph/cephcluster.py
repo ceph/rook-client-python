@@ -21,8 +21,8 @@ class CephVersion(CrdObject):
                  image=_omit,  # type: Optional[str]
                  ):
         super(CephVersion, self).__init__(
-        allowUnsupported=allowUnsupported,
-        image=image,
+            allowUnsupported=allowUnsupported,
+            image=image,
         )
 
     @property
@@ -61,10 +61,10 @@ class Dashboard(CrdObject):
                  ssl=_omit,  # type: Optional[bool]
                  ):
         super(Dashboard, self).__init__(
-        enabled=enabled,
-        urlPrefix=urlPrefix,
-        port=port,
-        ssl=ssl,
+            enabled=enabled,
+            urlPrefix=urlPrefix,
+            port=port,
+            ssl=ssl,
         )
 
     @property
@@ -123,10 +123,10 @@ class DisruptionManagement(CrdObject):
                  manageMachineDisruptionBudgets=_omit,  # type: Optional[bool]
                  ):
         super(DisruptionManagement, self).__init__(
-        machineDisruptionBudgetNamespace=machineDisruptionBudgetNamespace,
-        managePodBudgets=managePodBudgets,
-        osdMaintenanceTimeout=osdMaintenanceTimeout,
-        manageMachineDisruptionBudgets=manageMachineDisruptionBudgets,
+            machineDisruptionBudgetNamespace=machineDisruptionBudgetNamespace,
+            managePodBudgets=managePodBudgets,
+            osdMaintenanceTimeout=osdMaintenanceTimeout,
+            manageMachineDisruptionBudgets=manageMachineDisruptionBudgets,
         )
 
     @property
@@ -183,9 +183,9 @@ class Mon(CrdObject):
                  volumeClaimTemplate=_omit,  # type: Optional[Any]
                  ):
         super(Mon, self).__init__(
-        allowMultiplePerNode=allowMultiplePerNode,
-        count=count,
-        volumeClaimTemplate=volumeClaimTemplate,
+            allowMultiplePerNode=allowMultiplePerNode,
+            count=count,
+            volumeClaimTemplate=volumeClaimTemplate,
         )
 
     @property
@@ -230,8 +230,8 @@ class ModulesItem(CrdObject):
                  enabled=_omit,  # type: Optional[bool]
                  ):
         super(ModulesItem, self).__init__(
-        name=name,
-        enabled=enabled,
+            name=name,
+            enabled=enabled,
         )
 
     @property
@@ -268,7 +268,7 @@ class Mgr(CrdObject):
                  modules=_omit,  # type: Optional[Union[List[ModulesItem], CrdObjectList]]
                  ):
         super(Mgr, self).__init__(
-        modules=modules,
+            modules=modules,
         )
 
     @property
@@ -295,9 +295,9 @@ class Network(CrdObject):
                  selectors=_omit,  # type: Optional[Any]
                  ):
         super(Network, self).__init__(
-        hostNetwork=hostNetwork,
-        provider=provider,
-        selectors=selectors,
+            hostNetwork=hostNetwork,
+            provider=provider,
+            selectors=selectors,
         )
 
     @property
@@ -352,13 +352,13 @@ class Config(CrdObject):
                  encryptedDevice=_omit,  # type: Optional[str]
                  ):
         super(Config, self).__init__(
-        metadataDevice=metadataDevice,
-        storeType=storeType,
-        databaseSizeMB=databaseSizeMB,
-        walSizeMB=walSizeMB,
-        journalSizeMB=journalSizeMB,
-        osdsPerDevice=osdsPerDevice,
-        encryptedDevice=encryptedDevice,
+            metadataDevice=metadataDevice,
+            storeType=storeType,
+            databaseSizeMB=databaseSizeMB,
+            walSizeMB=walSizeMB,
+            journalSizeMB=journalSizeMB,
+            osdsPerDevice=osdsPerDevice,
+            encryptedDevice=encryptedDevice,
         )
 
     @property
@@ -441,7 +441,7 @@ class DirectoriesItem(CrdObject):
                  path=_omit,  # type: Optional[str]
                  ):
         super(DirectoriesItem, self).__init__(
-        path=path,
+            path=path,
         )
 
     @property
@@ -470,8 +470,8 @@ class DevicesItem(CrdObject):
                  config=_omit,  # type: Optional[Any]
                  ):
         super(DevicesItem, self).__init__(
-        name=name,
-        config=config,
+            name=name,
+            config=config,
         )
 
     @property
@@ -522,14 +522,14 @@ class NodesItem(CrdObject):
                  resources=_omit,  # type: Optional[Any]
                  ):
         super(NodesItem, self).__init__(
-        name=name,
-        config=config,
-        useAllDevices=useAllDevices,
-        deviceFilter=deviceFilter,
-        directories=directories,
-        devices=devices,
-        location=location,
-        resources=resources,
+            name=name,
+            config=config,
+            useAllDevices=useAllDevices,
+            deviceFilter=deviceFilter,
+            directories=directories,
+            devices=devices,
+            location=location,
+            resources=resources,
         )
 
     @property
@@ -644,16 +644,16 @@ class Storage(CrdObject):
                  storageClassDeviceSets=_omit,  # type: Optional[Any]
                  ):
         super(Storage, self).__init__(
-        disruptionManagement=disruptionManagement,
-        useAllNodes=useAllNodes,
-        nodes=nodes,
-        useAllDevices=useAllDevices,
-        deviceFilter=deviceFilter,
-        location=location,
-        directories=directories,
-        config=config,
-        topologyAware=topologyAware,
-        storageClassDeviceSets=storageClassDeviceSets,
+            disruptionManagement=disruptionManagement,
+            useAllNodes=useAllNodes,
+            nodes=nodes,
+            useAllDevices=useAllDevices,
+            deviceFilter=deviceFilter,
+            location=location,
+            directories=directories,
+            config=config,
+            topologyAware=topologyAware,
+            storageClassDeviceSets=storageClassDeviceSets,
         )
 
     @property
@@ -768,8 +768,8 @@ class Monitoring(CrdObject):
                  rulesNamespace=_omit,  # type: Optional[str]
                  ):
         super(Monitoring, self).__init__(
-        enabled=enabled,
-        rulesNamespace=rulesNamespace,
+            enabled=enabled,
+            rulesNamespace=rulesNamespace,
         )
 
     @property
@@ -802,7 +802,7 @@ class RbdMirroring(CrdObject):
                  workers=_omit,  # type: Optional[int]
                  ):
         super(RbdMirroring, self).__init__(
-        workers=workers,
+            workers=workers,
         )
 
     @property
@@ -825,7 +825,7 @@ class External(CrdObject):
                  enable=_omit,  # type: Optional[bool]
                  ):
         super(External, self).__init__(
-        enable=enable,
+            enable=enable,
         )
 
     @property
@@ -878,22 +878,22 @@ class Spec(CrdObject):
                  resources=_omit,  # type: Optional[Any]
                  ):
         super(Spec, self).__init__(
-        annotations=annotations,
-        cephVersion=cephVersion,
-        dashboard=dashboard,
-        dataDirHostPath=dataDirHostPath,
-        disruptionManagement=disruptionManagement,
-        skipUpgradeChecks=skipUpgradeChecks,
-        mon=mon,
-        mgr=mgr,
-        network=network,
-        storage=storage,
-        monitoring=monitoring,
-        rbdMirroring=rbdMirroring,
-        removeOSDsIfOutAndSafeToRemove=removeOSDsIfOutAndSafeToRemove,
-        external=external,
-        placement=placement,
-        resources=resources,
+            annotations=annotations,
+            cephVersion=cephVersion,
+            dashboard=dashboard,
+            dataDirHostPath=dataDirHostPath,
+            disruptionManagement=disruptionManagement,
+            skipUpgradeChecks=skipUpgradeChecks,
+            mon=mon,
+            mgr=mgr,
+            network=network,
+            storage=storage,
+            monitoring=monitoring,
+            rbdMirroring=rbdMirroring,
+            removeOSDsIfOutAndSafeToRemove=removeOSDsIfOutAndSafeToRemove,
+            external=external,
+            placement=placement,
+            resources=resources,
         )
 
     @property
@@ -1072,10 +1072,10 @@ class CephCluster(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(CephCluster, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property

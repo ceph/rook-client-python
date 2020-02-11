@@ -33,14 +33,14 @@ class Gateway(CrdObject):
                  resources=_omit,  # type: Optional[Any]
                  ):
         super(Gateway, self).__init__(
-        type=type,
-        sslCertificateRef=sslCertificateRef,
-        port=port,
-        securePort=securePort,
-        instances=instances,
-        annotations=annotations,
-        placement=placement,
-        resources=resources,
+            type=type,
+            sslCertificateRef=sslCertificateRef,
+            port=port,
+            securePort=securePort,
+            instances=instances,
+            annotations=annotations,
+            placement=placement,
+            resources=resources,
         )
 
     @property
@@ -133,7 +133,7 @@ class Replicated(CrdObject):
                  size=_omit,  # type: Optional[int]
                  ):
         super(Replicated, self).__init__(
-        size=size,
+            size=size,
         )
 
     @property
@@ -158,8 +158,8 @@ class ErasureCoded(CrdObject):
                  codingChunks=_omit,  # type: Optional[int]
                  ):
         super(ErasureCoded, self).__init__(
-        dataChunks=dataChunks,
-        codingChunks=codingChunks,
+            dataChunks=dataChunks,
+            codingChunks=codingChunks,
         )
 
     @property
@@ -196,9 +196,9 @@ class MetadataPool(CrdObject):
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
         super(MetadataPool, self).__init__(
-        failureDomain=failureDomain,
-        replicated=replicated,
-        erasureCoded=erasureCoded,
+            failureDomain=failureDomain,
+            replicated=replicated,
+            erasureCoded=erasureCoded,
         )
 
     @property
@@ -245,9 +245,9 @@ class DataPool(CrdObject):
                  erasureCoded=_omit,  # type: Optional[ErasureCoded]
                  ):
         super(DataPool, self).__init__(
-        failureDomain=failureDomain,
-        replicated=replicated,
-        erasureCoded=erasureCoded,
+            failureDomain=failureDomain,
+            replicated=replicated,
+            erasureCoded=erasureCoded,
         )
 
     @property
@@ -296,10 +296,10 @@ class Spec(CrdObject):
                  preservePoolsOnDelete=_omit,  # type: Optional[bool]
                  ):
         super(Spec, self).__init__(
-        gateway=gateway,
-        metadataPool=metadataPool,
-        dataPool=dataPool,
-        preservePoolsOnDelete=preservePoolsOnDelete,
+            gateway=gateway,
+            metadataPool=metadataPool,
+            dataPool=dataPool,
+            preservePoolsOnDelete=preservePoolsOnDelete,
         )
 
     @property
@@ -358,10 +358,10 @@ class CephObjectStore(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(CephObjectStore, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property

@@ -200,7 +200,7 @@ def __init__(self,
 {indent(params, indent=4+9)}
              ):
     super({self.py_type}, self).__init__(
-{indent(params_set, indent=4)}
+{indent(params_set, indent=8)}
     )
 """.strip()
 

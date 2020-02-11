@@ -19,7 +19,7 @@ class Dashboard(CrdObject):
                  localAddr=_omit,  # type: Optional[str]
                  ):
         super(Dashboard, self).__init__(
-        localAddr=localAddr,
+            localAddr=localAddr,
         )
 
     @property
@@ -44,8 +44,8 @@ class Network(CrdObject):
                  brokerIfName=_omit,  # type: Optional[str]
                  ):
         super(Network, self).__init__(
-        serverIfName=serverIfName,
-        brokerIfName=brokerIfName,
+            serverIfName=serverIfName,
+            brokerIfName=brokerIfName,
         )
 
     @property
@@ -86,9 +86,9 @@ class Storage(CrdObject):
                  useAllNodes=_omit,  # type: Optional[bool]
                  ):
         super(Storage, self).__init__(
-        nodes=nodes,
-        useAllDevices=useAllDevices,
-        useAllNodes=useAllNodes,
+            nodes=nodes,
+            useAllDevices=useAllDevices,
+            useAllNodes=useAllNodes,
         )
 
     @property
@@ -143,13 +143,13 @@ class Spec(CrdObject):
                  storage=_omit,  # type: Optional[Storage]
                  ):
         super(Spec, self).__init__(
-        edgefsImageName=edgefsImageName,
-        dataDirHostPath=dataDirHostPath,
-        devicesResurrectMode=devicesResurrectMode,
-        dashboard=dashboard,
-        network=network,
-        skipHostPrepare=skipHostPrepare,
-        storage=storage,
+            edgefsImageName=edgefsImageName,
+            dataDirHostPath=dataDirHostPath,
+            devicesResurrectMode=devicesResurrectMode,
+            dashboard=dashboard,
+            network=network,
+            skipHostPrepare=skipHostPrepare,
+            storage=storage,
         )
 
     @property
@@ -238,10 +238,10 @@ class Cluster(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(Cluster, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property

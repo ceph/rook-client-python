@@ -19,7 +19,7 @@ class Storage(CrdObject):
                  volumeClaimTemplates,  # type: Any
                  ):
         super(Storage, self).__init__(
-        volumeClaimTemplates=volumeClaimTemplates,
+            volumeClaimTemplates=volumeClaimTemplates,
         )
 
     @property
@@ -44,8 +44,8 @@ class Resources(CrdObject):
                  sidecar=_omit,  # type: Optional[Any]
                  ):
         super(Resources, self).__init__(
-        cassandra=cassandra,
-        sidecar=sidecar,
+            cassandra=cassandra,
+            sidecar=sidecar,
         )
 
     @property
@@ -90,13 +90,13 @@ class RacksItem(CrdObject):
                  sidecarImage=_omit,  # type: Optional[Any]
                  ):
         super(RacksItem, self).__init__(
-        name=name,
-        members=members,
-        storage=storage,
-        resources=resources,
-        configMapName=configMapName,
-        placement=placement,
-        sidecarImage=sidecarImage,
+            name=name,
+            members=members,
+            storage=storage,
+            resources=resources,
+            configMapName=configMapName,
+            placement=placement,
+            sidecarImage=sidecarImage,
         )
 
     @property
@@ -185,8 +185,8 @@ class Datacenter(CrdObject):
                  racks=_omit,  # type: Optional[Union[List[RacksItem], CrdObjectList]]
                  ):
         super(Datacenter, self).__init__(
-        name=name,
-        racks=racks,
+            name=name,
+            racks=racks,
         )
 
     @property
@@ -221,8 +221,8 @@ class Spec(CrdObject):
                  datacenter,  # type: Datacenter
                  ):
         super(Spec, self).__init__(
-        version=version,
-        datacenter=datacenter,
+            version=version,
+            datacenter=datacenter,
         )
 
     @property
@@ -261,10 +261,10 @@ class Cluster(CrdClass):
                  status=_omit,  # type: Optional[Any]
                  ):
         super(Cluster, self).__init__(
-        apiVersion=apiVersion,
-        metadata=metadata,
-        spec=spec,
-        status=status,
+            apiVersion=apiVersion,
+            metadata=metadata,
+            spec=spec,
+            status=status,
         )
 
     @property
