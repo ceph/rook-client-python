@@ -1,6 +1,6 @@
 name: Python application
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -18,4 +18,4 @@ jobs:
         git clone --depth 1 https://github.com/rook/rook.git
     - name: Run generate.sh
       run: |
-        $ROOK_BASE=$PWD/rook ./generate.sh
+        ./generate.sh $PWD/rook
