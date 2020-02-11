@@ -1,4 +1,4 @@
-# rook-client-python
+# `rook-client` Python API Classes  
 
 Automatically generated models for Rook's custom resource definitions.
 
@@ -8,9 +8,19 @@ Right now, it supports three operators:
 * Edgefs
 * Cassandra
 
-Can be uased to type check client code against the Rook API
+It is used to type check client code against the Rook API
 
 Inspired by https://github.com/kubernetes-client/python/tree/master/kubernetes/client/models
+
+Main uses case is the mgr/rook orchestrator module of the Ceph MGR
+
+## Installing `rook-client`
+
+To install the package, run:
+
+```bash
+pip install -e 'git+https://github.com/rook/rook#egg=rook-client&subdirectory=build/codegen/python'
+```
 
 
 ## Example
@@ -53,8 +63,13 @@ def objectstore(api_name, name, namespace, instances):
 
 ## Regenerate
 
-Re-generate the python files using 
+To re-generate the python files, run 
 
 ```bash
 ./generate.sh
 ```
+
+## Rational
+
+The Rook CRDs are evolving over time and to verify that clients make use of the correct definitions, 
+this project provides generated API classes to let users write correct clients easily.
