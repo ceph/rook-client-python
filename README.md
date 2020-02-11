@@ -1,6 +1,12 @@
-# rook-ceph-client-python
+# rook-client-python
 
-Automatically generated models for Rook-Ceph's custom resource definitions.
+Automatically generated models for Rook's custom resource definitions.
+
+Right now, it supports three operators:
+
+* Ceph
+* Edgefs
+* Cassandra
 
 Can be uased to type check client code against the Rook API
 
