@@ -2,11 +2,10 @@
 .eggs/
 .idea/
 .mypy_cache/
-rook_ceph_client.egg-info/
-rook_ceph_client_python.egg-info/
+rook_client.egg-info/
 venv/
+downloads/
 __pycache__
 *.pyc
-rook_ceph_client/tests/test_README.py
-
-common.yaml
+rook_client/tests/test_README.py
+.tox

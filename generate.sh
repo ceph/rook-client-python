@@ -1,6 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+set -ex
+
+rook_base="${GOPATH:-$HOME/go}/src/github.com/rook/rook"
+crd_base="$rook_base/cluster/examples/kubernetes"
+
+cd "$(dirname "$0")"
+
+if ! [ -x "$(command -v python3)" ]; then
+  echo 'Error: python3 is not installed.' >&2
+  exit 1
+fi
 
 if [ ! -d venv ]
 then
@@ -11,26 +21,13 @@ else
   . venv/bin/activate 
 fi
 
+python generate_model_classes.py "$crd_base/ceph/common.yaml" "rook_client/ceph"
+python generate_model_classes.py "$crd_base/cassandra/operator.yaml" "rook_client/cassandra"
+python generate_model_classes.py "$crd_base/edgefs/operator.yaml" "rook_client/edgefs"
 
 
-python setup.py mkcodes
 python setup.py develop
 
-# curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/common.yaml > ceph_common.yaml
-cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/ceph/common.yaml ceph_common.yaml
+tox --skip-missing-interpreters=true -- --crd_base="$crd_base"
 
-python generate_model_classes.py ceph_common.yaml rook_client/ceph
-
-# curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/cassandra/operator.yaml > cassandra_operator.yaml
-cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/cassandra/operator.yaml cassandra_operator.yaml
-
-python generate_model_classes.py cassandra_operator.yaml rook_client/cassandra
-
-# curl https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/edgefs/operator.yaml > edgefs_operator.yaml
-cp ~/go/src/github.com/rook/rook/cluster/examples/kubernetes/edgefs/operator.yaml edgefs_operator.yaml
-
-python generate_model_classes.py edgefs_operator.yaml rook_client/edgefs
-
-
-
-python setup.py test
+deactivate
