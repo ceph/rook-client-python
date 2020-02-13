@@ -7,6 +7,9 @@ setup(
     name='rook-client',
     version='1.0.0',
     packages=find_packages(),
+    package_data = {
+        'rook_client': ['py.typed'],
+    },
     url='',
     license='MIT',
     author='Sebastian Wagner',
