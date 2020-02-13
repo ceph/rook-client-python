@@ -432,33 +432,6 @@ class Config(CrdObject):
         self._encryptedDevice = new_val
 
 
-class DirectoriesItem(CrdObject):
-    _properties = [
-        ('path', 'path', str, False, False)
-    ]        
-
-    def __init__(self,
-                 path=_omit,  # type: Optional[str]
-                 ):
-        super(DirectoriesItem, self).__init__(
-            path=path,
-        )
-
-    @property
-    def path(self):
-        # type: () -> str
-        return self._property_impl('path')
-    
-    @path.setter
-    def path(self, new_val):
-        # type: (Optional[str]) -> None
-        self._path = new_val
-
-
-class DirectoriesList(CrdObjectList):
-    _items_type = DirectoriesItem
-
-
 class DevicesItem(CrdObject):
     _properties = [
         ('name', 'name', str, False, False),
@@ -506,7 +479,6 @@ class NodesItem(CrdObject):
         ('useAllDevices', 'useAllDevices', bool, False, False),
         ('deviceFilter', 'deviceFilter', str, False, False),
         ('devicePathFilter', 'devicePathFilter', str, False, False),
-        ('directories', 'directories', DirectoriesList, False, False),
         ('devices', 'devices', DevicesList, False, False),
         ('resources', 'resources', object, False, False)
     ]        
@@ -517,7 +489,6 @@ class NodesItem(CrdObject):
                  useAllDevices=_omit,  # type: Optional[bool]
                  deviceFilter=_omit,  # type: Optional[str]
                  devicePathFilter=_omit,  # type: Optional[str]
-                 directories=_omit,  # type: Optional[Union[List[DirectoriesItem], CrdObjectList]]
                  devices=_omit,  # type: Optional[Union[List[DevicesItem], CrdObjectList]]
                  resources=_omit,  # type: Optional[Any]
                  ):
@@ -527,7 +498,6 @@ class NodesItem(CrdObject):
             useAllDevices=useAllDevices,
             deviceFilter=deviceFilter,
             devicePathFilter=devicePathFilter,
-            directories=directories,
             devices=devices,
             resources=resources,
         )
@@ -583,16 +553,6 @@ class NodesItem(CrdObject):
         self._devicePathFilter = new_val
     
     @property
-    def directories(self):
-        # type: () -> Union[List[DirectoriesItem], CrdObjectList]
-        return self._property_impl('directories')
-    
-    @directories.setter
-    def directories(self, new_val):
-        # type: (Optional[Union[List[DirectoriesItem], CrdObjectList]]) -> None
-        self._directories = new_val
-    
-    @property
     def devices(self):
         # type: () -> Union[List[DevicesItem], CrdObjectList]
         return self._property_impl('devices')
@@ -625,7 +585,6 @@ class Storage(CrdObject):
         ('useAllDevices', 'useAllDevices', bool, False, False),
         ('deviceFilter', 'deviceFilter', str, False, False),
         ('devicePathFilter', 'devicePathFilter', str, False, False),
-        ('directories', 'directories', DirectoriesList, False, False),
         ('config', 'config', object, False, False),
         ('storageClassDeviceSets', 'storageClassDeviceSets', object, False, False)
     ]        
@@ -637,7 +596,6 @@ class Storage(CrdObject):
                  useAllDevices=_omit,  # type: Optional[bool]
                  deviceFilter=_omit,  # type: Optional[str]
                  devicePathFilter=_omit,  # type: Optional[str]
-                 directories=_omit,  # type: Optional[Union[List[DirectoriesItem], CrdObjectList]]
                  config=_omit,  # type: Optional[Any]
                  storageClassDeviceSets=_omit,  # type: Optional[Any]
                  ):
@@ -648,7 +606,6 @@ class Storage(CrdObject):
             useAllDevices=useAllDevices,
             deviceFilter=deviceFilter,
             devicePathFilter=devicePathFilter,
-            directories=directories,
             config=config,
             storageClassDeviceSets=storageClassDeviceSets,
         )
@@ -712,16 +669,6 @@ class Storage(CrdObject):
     def devicePathFilter(self, new_val):
         # type: (Optional[str]) -> None
         self._devicePathFilter = new_val
-    
-    @property
-    def directories(self):
-        # type: () -> Union[List[DirectoriesItem], CrdObjectList]
-        return self._property_impl('directories')
-    
-    @directories.setter
-    def directories(self, new_val):
-        # type: (Optional[Union[List[DirectoriesItem], CrdObjectList]]) -> None
-        self._directories = new_val
     
     @property
     def config(self):

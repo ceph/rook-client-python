@@ -9,6 +9,7 @@ from rook_client.ceph.cephcluster import CephCluster
 from rook_client.ceph.cephfilesystem import CephFilesystem
 from rook_client.ceph.cephnfs import CephNFS
 from rook_client.ceph.cephobjectstore import CephObjectStore
+from rook_client.ceph.cephblockpool import CephBlockPool
 from rook_client.edgefs.cluster import Cluster as EdgefsCluster
 
 
@@ -32,6 +33,9 @@ def _load_example(crd_base, what):
         (True, CephObjectStore, "ceph/object-test.yaml"),
         (True, CephObjectStore, "ceph/object.yaml"),
         (True, CephNFS, "ceph/nfs.yaml"),
+        (True, CephBlockPool, "ceph/pool.yaml"),
+        (True, CephBlockPool, "ceph/pool-ec.yaml"),
+        (True, CephBlockPool, "ceph/pool-test.yaml"),
 
         # schema invalid:
         # (False, CassandraCluster, "cassandra/cluster.yaml"),
