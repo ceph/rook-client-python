@@ -7,12 +7,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        py_version: [2.7, 3.5, 3.8]
+
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+    - name: Set up Python ${{ matrix.py_version }}
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8
+        python-version: ${{ matrix.py_version }}
     - name: clone rook
       run: |
         git clone --depth 1 https://github.com/rook/rook.git
