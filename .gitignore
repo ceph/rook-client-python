@@ -9,3 +9,4 @@ __pycache__
 *.pyc
 rook_client/tests/test_README.py
 .tox
+wheelhouse/
