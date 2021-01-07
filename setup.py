@@ -11,7 +11,7 @@ setup(
         'rook_client': ['py.typed'],
     },
     url='',
-    license='MIT',
+    license='Apache License v2',
     author='Sebastian Wagner',
     author_email='swagner@suse.com',
     description='Client model classes for the CRDs exposed by Rook',
