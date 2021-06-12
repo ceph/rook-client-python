@@ -266,7 +266,7 @@ def handle_property(elem_name, elem: dict, required: bool):
 
     assert False, str((elem_name, elem))
 
-def spec_get_schema(c_dict: Dict) -> Optional[Dict]:
+def spec_get_schema(c_dict: Dict) -> Dict:
     try:
         return c_dict['spec']['validation']['openAPIV3Schema']
     except (KeyError, TypeError):
@@ -276,7 +276,7 @@ def spec_get_schema(c_dict: Dict) -> Optional[Dict]:
         raise RuntimeError(f'todo: {[v["name"] for v in versions]}')
     return c_dict['spec']['versions'][0]["schema"]['openAPIV3Schema']
 
-def handle_crd(c_dict) -> Optional[CRDClass]:
+def handle_crd(c_dict: dict) -> Optional[CRDClass]:
     try:
         name = c_dict['spec']['names']['kind']
         s = spec_get_schema(c_dict)
@@ -284,10 +284,13 @@ def handle_crd(c_dict) -> Optional[CRDClass]:
         return None
     s['required'] = ['spec']
     c = handle_property(name, s, True)
-    k8s_attrs = [CRDAttribute('apiVersion', False, True, 'string'),
-                 CRDAttribute('metadata', False, True, 'object'),
-                 CRDAttribute('status', False, False, 'object')]
-    return CRDClass(c.name, False, True, k8s_attrs + c.attrs, base_class='CrdClass')
+    if 'apiVersion' not in [a.name for a in c.attrs]:
+        c.attrs.append(CRDAttribute('apiVersion', False, True, 'string'))
+    if 'metadata' not in [a.name for a in c.attrs]:
+        c.attrs.append(CRDAttribute('metadata', False, True, 'object'))
+    if 'status' not in [a.name for a in c.attrs]:
+        c.attrs.append(CRDAttribute('status', False, False, 'object'))
+    return CRDClass(c.name, False, True, c.attrs, base_class='CrdClass')
 
 
 def local(yaml_filename):
