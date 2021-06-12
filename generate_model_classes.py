@@ -17,7 +17,7 @@ Usage:
 import os
 from abc import ABC, abstractmethod
 from collections import OrderedDict
-from typing import List, Union, Iterator, Optional
+from typing import List, Union, Iterator, Optional, Dict
 
 import yaml
 try:
@@ -230,11 +230,20 @@ def handle_property(elem_name, elem: dict, required: bool):
         return CRDAttribute(elem_name, nullable, required, 'object')
     assert False, str((elem_name, elem))
 
+def spec_get_schema(c_dict: Dict) -> Optional[Dict]:
+    try:
+        return c_dict['spec']['validation']['openAPIV3Schema']
+    except (KeyError, TypeError):
+        pass
+    versions = c_dict['spec']['versions']
+    if len(versions) != 1:
+        raise RuntimeError(f'todo: {[v["name"] for v in versions]}')
+    return c_dict['spec']['versions'][0]["schema"]['openAPIV3Schema']
 
 def handle_crd(c_dict) -> Optional[CRDClass]:
     try:
         name = c_dict['spec']['names']['kind']
-        s = c_dict['spec']['validation']['openAPIV3Schema']
+        s = spec_get_schema(c_dict)
     except (KeyError, TypeError):
         return None
     s['required'] = ['spec']
