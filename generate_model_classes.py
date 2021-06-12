@@ -50,7 +50,7 @@ class CRDBase(ABC):
 
     @property
     def py_name(self):
-        return self.name
+        return self.name.replace('-', '_')
 
     @property
     @abstractmethod
