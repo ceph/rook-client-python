@@ -119,6 +119,7 @@ class CRDAttribute(CRDBase):
             'string': 'str',
             'object': 'Any',
             'number': 'float',
+            'x-kubernetes-int-or-string': 'Union[int, str]',
         }[self.type]
 
     def flatten(self) -> Iterator[Union['CRDClass', 'CRDList', 'CRDAttribute']]:
@@ -260,6 +261,9 @@ def handle_property(elem_name, elem: dict, required: bool):
         return CRDAttribute(elem_name, nullable, required, elem['type'])
     elif elem == {}:
         return CRDAttribute(elem_name, nullable, required, 'object')
+    elif 'x-kubernetes-int-or-string' in elem:
+        return CRDAttribute(elem_name, nullable, required, 'x-kubernetes-int-or-string')
+
     assert False, str((elem_name, elem))
 
 def spec_get_schema(c_dict: Dict) -> Optional[Dict]:
