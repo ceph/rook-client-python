@@ -50,6 +50,8 @@ class CRDBase(ABC):
 
     @property
     def py_name(self):
+        if self.name == 'exec':
+            return 'exec_1'
         return self.name.replace('-', '_')
 
     @property
