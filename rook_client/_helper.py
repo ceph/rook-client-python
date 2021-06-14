@@ -107,10 +107,19 @@ class CrdObjectList(list):
         # type: () -> List
         if self._items_type is None:
             return self
-        return [e.to_json() for e in self]
+        if issubclass(self._items_type, CrdObject) or issubclass(self._items_type, CrdObjectList):
+            return [e.to_json() for e in self]
+        return list(self)
+
 
     @classmethod
     def from_json(cls, data, breadcrumb=''):
         if cls._items_type is None:
             return cls(data)
-        return cls(cls._items_type.from_json(e, breadcrumb + '[]') for e in data)
+        if issubclass(cls._items_type, CrdObject) or issubclass(cls._items_type, CrdObjectList):
+            return cls(cls._items_type.from_json(e, breadcrumb + '[]') for e in data)
+        return cls(data)
+
+    def __repr__(self):
+        return '{}({})'.format(self.__class__.__name__, repr(list(self)))
+
