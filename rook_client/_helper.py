@@ -26,7 +26,10 @@ def _str_to_class(cls, typ_str):
 def _property_from_json(cls, data, breadcrumb, name, py_name, typ_str, required, nullable):
     if not required and name not in data:
         return _omit
-    obj = data[name]
+    try:
+        obj = data[name]
+    except KeyError as e:
+        raise ValueError('KeyError in {}: {}'.format(breadcrumb, e))
     if nullable and obj is None:
         return obj
     typ = _str_to_class(cls, typ_str)
@@ -117,7 +120,7 @@ class CrdObjectList(list):
         if cls._items_type is None:
             return cls(data)
         if issubclass(cls._items_type, CrdObject) or issubclass(cls._items_type, CrdObjectList):
-            return cls(cls._items_type.from_json(e, breadcrumb + '[]') for e in data)
+            return cls(cls._items_type.from_json(e, breadcrumb + '[{}]'.format(i)) for i, e in enumerate(data))
         return cls(data)
 
     def __repr__(self):
