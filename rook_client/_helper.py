@@ -1,4 +1,5 @@
 import logging
+import sys
 try:
     from typing import List, Dict, Any, Optional
 except ImportError:
@@ -16,13 +17,19 @@ _omit = object()  # type: ignore
 # Don't add any additionalProperties to objects. Useful for completeness testing
 STRICT = False
 
+def _str_to_class(cls, typ_str):
+    if isinstance(typ_str, str):
+        return getattr(sys.modules[cls.__module__], typ_str)
+    return typ_str
 
-def _property_from_json(data, breadcrumb, name, py_name, typ, required, nullable):
+
+def _property_from_json(cls, data, breadcrumb, name, py_name, typ_str, required, nullable):
     if not required and name not in data:
         return _omit
     obj = data[name]
     if nullable and obj is None:
         return obj
+    typ = _str_to_class(cls, typ_str)
     if issubclass(typ, CrdObject) or issubclass(typ, CrdObjectList):
         return typ.from_json(obj, breadcrumb + '.' + name)
     return obj
@@ -45,8 +52,9 @@ class CrdObject(object):
             raise AttributeError(name + ' not found')
         return obj
 
-    def _property_to_json(self, name, py_name, typ, required, nullable):
+    def _property_to_json(self, name, py_name, typ_str, required, nullable):
         obj = getattr(self, '_' + py_name)
+        typ = _str_to_class(self.__class__, typ_str)
         if issubclass(typ, CrdObject) or issubclass(typ, CrdObjectList):
             if nullable and obj is None:
                 return obj
@@ -66,7 +74,7 @@ class CrdObject(object):
     def from_json(cls, data, breadcrumb=''):
         try:
             sanitized = {
-                p[1]: _property_from_json(data, breadcrumb, *p) for p in cls._properties
+                p[1]: _property_from_json(cls, data, breadcrumb, *p) for p in cls._properties
             }
             extra = {k:v for k,v in data.items() if k not in sanitized}
             ret = cls(**sanitized)

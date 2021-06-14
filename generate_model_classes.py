@@ -57,6 +57,11 @@ class CRDBase(ABC):
     def py_type(self):
         ...
 
+    @property
+    def py_type_escaped(self):
+        return self.py_type
+
+
     @abstractmethod
     def flatten(self) -> Iterator[Union['CRDClass', 'CRDList', 'CRDAttribute']]:
         ...
@@ -150,6 +155,10 @@ class CRDList(CRDBase):
         return self.name[0].upper() + self.name[1:] + 'List'
 
     @property
+    def py_type_escaped(self):
+        return f"'{self.py_type}'"
+
+    @property
     def py_param_type(self):
         inner = f'Union[List[{self.items.py_type}], CrdObjectList]'
         return f'Optional[{inner}]' if (self.nullable or not self.required) else inner
@@ -205,11 +214,16 @@ class CRDClass(CRDBase):
     def py_type(self):
         return self.name[0].upper() + self.name[1:]
 
+    @property
+    def py_type_escaped(self):
+        return f"'{self.py_type}'"
+
+
     def py_properties(self):
         def a_to_tuple(a):
             return ', '.join((f"'{a.name}'",
                        f"'{a.py_name}'",
-                       a.py_type.replace('Any', 'object'),
+                       a.py_type_escaped.replace('Any', 'object'),
                        str(a.required),
                        str(a.nullable)))
 
