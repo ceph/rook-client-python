@@ -12,65 +12,39 @@ from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 class Spec(CrdObject):
     _properties = [
-        ('caps', 'caps', object, True, False),
-        ('name', 'name', str, False, False)
+        ('realm', 'realm', str, True, False)
     ]        
 
     def __init__(self,
-                 caps,  # type: Any
-                 name=_omit,  # type: Optional[str]
+                 realm,  # type: str
                  ):
         super(Spec, self).__init__(
-            caps=caps,
-            name=name,
+            realm=realm,
         )
 
     @property
-    def caps(self):
-        # type: () -> Any
-        return self._property_impl('caps')
-    
-    @caps.setter
-    def caps(self, new_val):
-        # type: (Any) -> None
-        self._caps = new_val
-    
-    @property
-    def name(self):
+    def realm(self):
         # type: () -> str
-        return self._property_impl('name')
+        return self._property_impl('realm')
     
-    @name.setter
-    def name(self, new_val):
-        # type: (Optional[str]) -> None
-        self._name = new_val
+    @realm.setter
+    def realm(self, new_val):
+        # type: (str) -> None
+        self._realm = new_val
 
 
 class Status(CrdObject):
     _properties = [
-        ('info', 'info', object, False, True),
         ('phase', 'phase', str, False, False)
     ]        
 
     def __init__(self,
-                 info=_omit,  # type: Optional[Any]
                  phase=_omit,  # type: Optional[str]
                  ):
         super(Status, self).__init__(
-            info=info,
             phase=phase,
         )
 
-    @property
-    def info(self):
-        # type: () -> Optional[Any]
-        return self._property_impl('info')
-    
-    @info.setter
-    def info(self, new_val):
-        # type: (Optional[Any]) -> None
-        self._info = new_val
-    
     @property
     def phase(self):
         # type: () -> str
@@ -82,7 +56,7 @@ class Status(CrdObject):
         self._phase = new_val
 
 
-class CephClient(CrdClass):
+class CephObjectZoneGroup(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
@@ -98,7 +72,7 @@ class CephClient(CrdClass):
                  metadata=_omit,  # type: Optional[Any]
                  status=_omit,  # type: Optional[Status]
                  ):
-        super(CephClient, self).__init__(
+        super(CephObjectZoneGroup, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,

@@ -12,38 +12,38 @@ from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 class Spec(CrdObject):
     _properties = [
-        ('caps', 'caps', object, True, False),
-        ('name', 'name', str, False, False)
+        ('displayName', 'displayName', str, False, False),
+        ('store', 'store', str, False, False)
     ]        
 
     def __init__(self,
-                 caps,  # type: Any
-                 name=_omit,  # type: Optional[str]
+                 displayName=_omit,  # type: Optional[str]
+                 store=_omit,  # type: Optional[str]
                  ):
         super(Spec, self).__init__(
-            caps=caps,
-            name=name,
+            displayName=displayName,
+            store=store,
         )
 
     @property
-    def caps(self):
-        # type: () -> Any
-        return self._property_impl('caps')
+    def displayName(self):
+        # type: () -> str
+        return self._property_impl('displayName')
     
-    @caps.setter
-    def caps(self, new_val):
-        # type: (Any) -> None
-        self._caps = new_val
+    @displayName.setter
+    def displayName(self, new_val):
+        # type: (Optional[str]) -> None
+        self._displayName = new_val
     
     @property
-    def name(self):
+    def store(self):
         # type: () -> str
-        return self._property_impl('name')
+        return self._property_impl('store')
     
-    @name.setter
-    def name(self, new_val):
+    @store.setter
+    def store(self, new_val):
         # type: (Optional[str]) -> None
-        self._name = new_val
+        self._store = new_val
 
 
 class Status(CrdObject):
@@ -82,7 +82,7 @@ class Status(CrdObject):
         self._phase = new_val
 
 
-class CephClient(CrdClass):
+class CephObjectStoreUser(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
@@ -98,7 +98,7 @@ class CephClient(CrdClass):
                  metadata=_omit,  # type: Optional[Any]
                  status=_omit,  # type: Optional[Status]
                  ):
-        super(CephClient, self).__init__(
+        super(CephObjectStoreUser, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,
