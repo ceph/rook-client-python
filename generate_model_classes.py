@@ -18,6 +18,7 @@ import os
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from typing import List, Union, Iterator, Optional, Dict, TypeVar, Callable
+import copy
 
 import yaml
 try:
@@ -135,13 +136,8 @@ class CRDAttribute(CRDBase):
     def toplevel(self):
         return ''
 
-    def __eq__(self, other):
-        if type(self) != type(other):
-            return False
-        return self.toplevel() == other.toplevel()
-
     def __hash__(self):
-        return hash(self.toplevel())
+        return hash(repr(self))
 
 
 @dataclass
@@ -335,18 +331,44 @@ def remove_duplicates(items: List[T]) -> List[T]:
 
 
 def unify_classes(left: CRDBase, right: CRDBase) -> CRDBase:
-    assert left.py_type == right.py_type
-    assert type(left) == type(right), (type(left), type(right), left.py_type, right.toplevel())
+    assert left.name == right.name
+
     if isinstance(left, CRDClass) and isinstance(right, CRDClass):
+        assert left.py_type == right.py_type
         assert left.base_class == right.base_class
-        return CRDClass(
+        ret = CRDClass(
             name=left.name,
             nullable=left.nullable or right.nullable,
             required=False,
-            attrs=remove_duplicates(right.attrs + left.attrs),
+            attrs=remove_duplicates_by(right.attrs + left.attrs, lambda a: a.name, unify_classes),  # type: ignore
             base_class=left.base_class
         )
+        for a in ret.attrs:
+            # we have to set all required properties to False
+            a.required = False
+        return ret
+
+    elif isinstance(left, CRDAttribute) and isinstance(right, CRDAttribute):
+        assert left.type == right.type
+        assert left.name == right.name
+        assert left.default_value == right.default_value
+        return CRDAttribute(
+            name=left.name,
+            nullable=left.nullable or right.nullable,
+            required=False,
+            type=left.type,
+            default_value=left.default_value
+        )
+    elif type(left) != type(right):
+        # handwaving
+        return CRDAttribute(
+            name=left.name,
+            nullable=left.nullable or right.nullable,
+            required=False,
+            type='object'
+        )
     else:
+        assert left == right, (repr(left), repr(right))
         return left
 
 
