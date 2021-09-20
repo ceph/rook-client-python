@@ -12,83 +12,47 @@ from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
 class Spec(CrdObject):
     _properties = [
-        ('caps', 'caps', object, True, False),
-        ('name', 'name', str, False, False)
+        ('parameters', 'parameters', object, False, False),
+        ('provisioner', 'provisioner', str, True, False)
     ]        
 
     def __init__(self,
-                 caps,  # type: Any
-                 name=_omit,  # type: Optional[str]
+                 provisioner,  # type: str
+                 parameters=_omit,  # type: Optional[Any]
                  ):
         super(Spec, self).__init__(
-            caps=caps,
-            name=name,
+            provisioner=provisioner,
+            parameters=parameters,
         )
 
     @property
-    def caps(self):
+    def parameters(self):
         # type: () -> Any
-        return self._property_impl('caps')
+        return self._property_impl('parameters')
     
-    @caps.setter
-    def caps(self, new_val):
-        # type: (Any) -> None
-        self._caps = new_val
-    
-    @property
-    def name(self):
-        # type: () -> str
-        return self._property_impl('name')
-    
-    @name.setter
-    def name(self, new_val):
-        # type: (Optional[str]) -> None
-        self._name = new_val
-
-
-class Status(CrdObject):
-    _properties = [
-        ('info', 'info', object, False, True),
-        ('phase', 'phase', str, False, False)
-    ]        
-
-    def __init__(self,
-                 info=_omit,  # type: Optional[Any]
-                 phase=_omit,  # type: Optional[str]
-                 ):
-        super(Status, self).__init__(
-            info=info,
-            phase=phase,
-        )
-
-    @property
-    def info(self):
-        # type: () -> Optional[Any]
-        return self._property_impl('info')
-    
-    @info.setter
-    def info(self, new_val):
+    @parameters.setter
+    def parameters(self, new_val):
         # type: (Optional[Any]) -> None
-        self._info = new_val
+        self._parameters = new_val
     
     @property
-    def phase(self):
+    def provisioner(self):
         # type: () -> str
-        return self._property_impl('phase')
+        return self._property_impl('provisioner')
     
-    @phase.setter
-    def phase(self, new_val):
-        # type: (Optional[str]) -> None
-        self._phase = new_val
+    @provisioner.setter
+    def provisioner(self, new_val):
+        # type: (str) -> None
+        self._provisioner = new_val
 
 
-class CephClient(CrdClass):
+class VolumeReplicationClass(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
         ('metadata', 'metadata', object, False, False),
         ('spec', 'spec', 'Spec', True, False),
-        ('status', 'status', 'Status', False, False)
+        ('status', 'status', object, False, False)
     ]        
 
     def __init__(self,
@@ -96,9 +60,9 @@ class CephClient(CrdClass):
                  apiVersion=_omit,  # type: Optional[str]
                  kind=_omit,  # type: Optional[str]
                  metadata=_omit,  # type: Optional[Any]
-                 status=_omit,  # type: Optional[Status]
+                 status=_omit,  # type: Optional[Any]
                  ):
-        super(CephClient, self).__init__(
+        super(VolumeReplicationClass, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,
@@ -148,10 +112,10 @@ class CephClient(CrdClass):
     
     @property
     def status(self):
-        # type: () -> Status
+        # type: () -> Any
         return self._property_impl('status')
     
     @status.setter
     def status(self, new_val):
-        # type: (Optional[Status]) -> None
+        # type: (Optional[Any]) -> None
         self._status = new_val

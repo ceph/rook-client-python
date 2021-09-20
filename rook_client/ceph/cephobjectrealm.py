@@ -10,67 +10,64 @@ except ImportError:
 
 from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
-class Spec(CrdObject):
+class Pull(CrdObject):
     _properties = [
-        ('caps', 'caps', object, True, False),
-        ('name', 'name', str, False, False)
+        ('endpoint', 'endpoint', str, True, False)
     ]        
 
     def __init__(self,
-                 caps,  # type: Any
-                 name=_omit,  # type: Optional[str]
+                 endpoint,  # type: str
                  ):
-        super(Spec, self).__init__(
-            caps=caps,
-            name=name,
+        super(Pull, self).__init__(
+            endpoint=endpoint,
         )
 
     @property
-    def caps(self):
-        # type: () -> Any
-        return self._property_impl('caps')
-    
-    @caps.setter
-    def caps(self, new_val):
-        # type: (Any) -> None
-        self._caps = new_val
-    
-    @property
-    def name(self):
+    def endpoint(self):
         # type: () -> str
-        return self._property_impl('name')
+        return self._property_impl('endpoint')
     
-    @name.setter
-    def name(self, new_val):
-        # type: (Optional[str]) -> None
-        self._name = new_val
+    @endpoint.setter
+    def endpoint(self, new_val):
+        # type: (str) -> None
+        self._endpoint = new_val
+
+
+class Spec(CrdObject):
+    _properties = [
+        ('pull', 'pull', 'Pull', True, False)
+    ]        
+
+    def __init__(self,
+                 pull,  # type: Pull
+                 ):
+        super(Spec, self).__init__(
+            pull=pull,
+        )
+
+    @property
+    def pull(self):
+        # type: () -> Pull
+        return self._property_impl('pull')
+    
+    @pull.setter
+    def pull(self, new_val):
+        # type: (Pull) -> None
+        self._pull = new_val
 
 
 class Status(CrdObject):
     _properties = [
-        ('info', 'info', object, False, True),
         ('phase', 'phase', str, False, False)
     ]        
 
     def __init__(self,
-                 info=_omit,  # type: Optional[Any]
                  phase=_omit,  # type: Optional[str]
                  ):
         super(Status, self).__init__(
-            info=info,
             phase=phase,
         )
 
-    @property
-    def info(self):
-        # type: () -> Optional[Any]
-        return self._property_impl('info')
-    
-    @info.setter
-    def info(self, new_val):
-        # type: (Optional[Any]) -> None
-        self._info = new_val
-    
     @property
     def phase(self):
         # type: () -> str
@@ -82,23 +79,23 @@ class Status(CrdObject):
         self._phase = new_val
 
 
-class CephClient(CrdClass):
+class CephObjectRealm(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
         ('metadata', 'metadata', object, False, False),
-        ('spec', 'spec', 'Spec', True, False),
+        ('spec', 'spec', 'Spec', True, True),
         ('status', 'status', 'Status', False, False)
     ]        
 
     def __init__(self,
-                 spec,  # type: Spec
+                 spec,  # type: Optional[Spec]
                  apiVersion=_omit,  # type: Optional[str]
                  kind=_omit,  # type: Optional[str]
                  metadata=_omit,  # type: Optional[Any]
                  status=_omit,  # type: Optional[Status]
                  ):
-        super(CephClient, self).__init__(
+        super(CephObjectRealm, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,
@@ -138,12 +135,12 @@ class CephClient(CrdClass):
     
     @property
     def spec(self):
-        # type: () -> Spec
+        # type: () -> Optional[Spec]
         return self._property_impl('spec')
     
     @spec.setter
     def spec(self, new_val):
-        # type: (Spec) -> None
+        # type: (Optional[Spec]) -> None
         self._spec = new_val
     
     @property

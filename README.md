@@ -60,7 +60,6 @@ def objectstore(api_name, name, namespace, instances):
                 )
             ),
             gateway=cos.Gateway(
-                type='s3',
                 port=80,
                 instances=instances
             )

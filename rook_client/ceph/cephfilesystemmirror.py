@@ -10,42 +10,6 @@ except ImportError:
 
 from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
-class Rados(CrdObject):
-    _properties = [
-        ('namespace', 'namespace', str, True, False),
-        ('pool', 'pool', str, True, False)
-    ]        
-
-    def __init__(self,
-                 namespace,  # type: str
-                 pool,  # type: str
-                 ):
-        super(Rados, self).__init__(
-            namespace=namespace,
-            pool=pool,
-        )
-
-    @property
-    def namespace(self):
-        # type: () -> str
-        return self._property_impl('namespace')
-    
-    @namespace.setter
-    def namespace(self, new_val):
-        # type: (str) -> None
-        self._namespace = new_val
-    
-    @property
-    def pool(self):
-        # type: () -> str
-        return self._property_impl('pool')
-    
-    @pool.setter
-    def pool(self, new_val):
-        # type: (str) -> None
-        self._pool = new_val
-
-
 class ValuesList(CrdObjectList):
     _items_type = str
 
@@ -876,46 +840,30 @@ class Resources(CrdObject):
         self._requests = new_val
 
 
-class Server(CrdObject):
+class Spec(CrdObject):
     _properties = [
-        ('active', 'active', int, True, False),
         ('annotations', 'annotations', object, False, True),
         ('labels', 'labels', object, False, True),
-        ('logLevel', 'logLevel', str, False, False),
         ('placement', 'placement', 'Placement', False, True),
         ('priorityClassName', 'priorityClassName', str, False, False),
         ('resources', 'resources', 'Resources', False, True)
     ]        
 
     def __init__(self,
-                 active,  # type: int
                  annotations=_omit,  # type: Optional[Any]
                  labels=_omit,  # type: Optional[Any]
-                 logLevel=_omit,  # type: Optional[str]
                  placement=_omit,  # type: Optional[Placement]
                  priorityClassName=_omit,  # type: Optional[str]
                  resources=_omit,  # type: Optional[Resources]
                  ):
-        super(Server, self).__init__(
-            active=active,
+        super(Spec, self).__init__(
             annotations=annotations,
             labels=labels,
-            logLevel=logLevel,
             placement=placement,
             priorityClassName=priorityClassName,
             resources=resources,
         )
 
-    @property
-    def active(self):
-        # type: () -> int
-        return self._property_impl('active')
-    
-    @active.setter
-    def active(self, new_val):
-        # type: (int) -> None
-        self._active = new_val
-    
     @property
     def annotations(self):
         # type: () -> Optional[Any]
@@ -935,16 +883,6 @@ class Server(CrdObject):
     def labels(self, new_val):
         # type: (Optional[Any]) -> None
         self._labels = new_val
-    
-    @property
-    def logLevel(self):
-        # type: () -> str
-        return self._property_impl('logLevel')
-    
-    @logLevel.setter
-    def logLevel(self, new_val):
-        # type: (Optional[str]) -> None
-        self._logLevel = new_val
     
     @property
     def placement(self):
@@ -977,42 +915,6 @@ class Server(CrdObject):
         self._resources = new_val
 
 
-class Spec(CrdObject):
-    _properties = [
-        ('rados', 'rados', 'Rados', True, False),
-        ('server', 'server', 'Server', True, False)
-    ]        
-
-    def __init__(self,
-                 rados,  # type: Rados
-                 server,  # type: Server
-                 ):
-        super(Spec, self).__init__(
-            rados=rados,
-            server=server,
-        )
-
-    @property
-    def rados(self):
-        # type: () -> Rados
-        return self._property_impl('rados')
-    
-    @rados.setter
-    def rados(self, new_val):
-        # type: (Rados) -> None
-        self._rados = new_val
-    
-    @property
-    def server(self):
-        # type: () -> Server
-        return self._property_impl('server')
-    
-    @server.setter
-    def server(self, new_val):
-        # type: (Server) -> None
-        self._server = new_val
-
-
 class Status(CrdObject):
     _properties = [
         ('phase', 'phase', str, False, False)
@@ -1036,7 +938,7 @@ class Status(CrdObject):
         self._phase = new_val
 
 
-class CephNFS(CrdClass):
+class CephFilesystemMirror(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
@@ -1052,7 +954,7 @@ class CephNFS(CrdClass):
                  metadata=_omit,  # type: Optional[Any]
                  status=_omit,  # type: Optional[Status]
                  ):
-        super(CephNFS, self).__init__(
+        super(CephFilesystemMirror, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,

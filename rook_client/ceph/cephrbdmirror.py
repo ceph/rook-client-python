@@ -10,40 +10,31 @@ except ImportError:
 
 from .._helper import _omit, CrdObject, CrdObjectList, CrdClass
 
-class Rados(CrdObject):
+class SecretNamesList(CrdObjectList):
+    _items_type = str
+
+
+class Peers(CrdObject):
     _properties = [
-        ('namespace', 'namespace', str, True, False),
-        ('pool', 'pool', str, True, False)
+        ('secretNames', 'secretNames', 'SecretNamesList', False, False)
     ]        
 
     def __init__(self,
-                 namespace,  # type: str
-                 pool,  # type: str
+                 secretNames=_omit,  # type: Optional[Union[List[str], CrdObjectList]]
                  ):
-        super(Rados, self).__init__(
-            namespace=namespace,
-            pool=pool,
+        super(Peers, self).__init__(
+            secretNames=secretNames,
         )
 
     @property
-    def namespace(self):
-        # type: () -> str
-        return self._property_impl('namespace')
+    def secretNames(self):
+        # type: () -> Union[List[str], CrdObjectList]
+        return self._property_impl('secretNames')
     
-    @namespace.setter
-    def namespace(self, new_val):
-        # type: (str) -> None
-        self._namespace = new_val
-    
-    @property
-    def pool(self):
-        # type: () -> str
-        return self._property_impl('pool')
-    
-    @pool.setter
-    def pool(self, new_val):
-        # type: (str) -> None
-        self._pool = new_val
+    @secretNames.setter
+    def secretNames(self, new_val):
+        # type: (Optional[Union[List[str], CrdObjectList]]) -> None
+        self._secretNames = new_val
 
 
 class ValuesList(CrdObjectList):
@@ -876,46 +867,36 @@ class Resources(CrdObject):
         self._requests = new_val
 
 
-class Server(CrdObject):
+class Spec(CrdObject):
     _properties = [
-        ('active', 'active', int, True, False),
         ('annotations', 'annotations', object, False, True),
+        ('count', 'count', int, True, False),
         ('labels', 'labels', object, False, True),
-        ('logLevel', 'logLevel', str, False, False),
+        ('peers', 'peers', 'Peers', False, True),
         ('placement', 'placement', 'Placement', False, True),
         ('priorityClassName', 'priorityClassName', str, False, False),
         ('resources', 'resources', 'Resources', False, True)
     ]        
 
     def __init__(self,
-                 active,  # type: int
+                 count,  # type: int
                  annotations=_omit,  # type: Optional[Any]
                  labels=_omit,  # type: Optional[Any]
-                 logLevel=_omit,  # type: Optional[str]
+                 peers=_omit,  # type: Optional[Peers]
                  placement=_omit,  # type: Optional[Placement]
                  priorityClassName=_omit,  # type: Optional[str]
                  resources=_omit,  # type: Optional[Resources]
                  ):
-        super(Server, self).__init__(
-            active=active,
+        super(Spec, self).__init__(
+            count=count,
             annotations=annotations,
             labels=labels,
-            logLevel=logLevel,
+            peers=peers,
             placement=placement,
             priorityClassName=priorityClassName,
             resources=resources,
         )
 
-    @property
-    def active(self):
-        # type: () -> int
-        return self._property_impl('active')
-    
-    @active.setter
-    def active(self, new_val):
-        # type: (int) -> None
-        self._active = new_val
-    
     @property
     def annotations(self):
         # type: () -> Optional[Any]
@@ -925,6 +906,16 @@ class Server(CrdObject):
     def annotations(self, new_val):
         # type: (Optional[Any]) -> None
         self._annotations = new_val
+    
+    @property
+    def count(self):
+        # type: () -> int
+        return self._property_impl('count')
+    
+    @count.setter
+    def count(self, new_val):
+        # type: (int) -> None
+        self._count = new_val
     
     @property
     def labels(self):
@@ -937,14 +928,14 @@ class Server(CrdObject):
         self._labels = new_val
     
     @property
-    def logLevel(self):
-        # type: () -> str
-        return self._property_impl('logLevel')
+    def peers(self):
+        # type: () -> Optional[Peers]
+        return self._property_impl('peers')
     
-    @logLevel.setter
-    def logLevel(self, new_val):
-        # type: (Optional[str]) -> None
-        self._logLevel = new_val
+    @peers.setter
+    def peers(self, new_val):
+        # type: (Optional[Peers]) -> None
+        self._peers = new_val
     
     @property
     def placement(self):
@@ -977,42 +968,6 @@ class Server(CrdObject):
         self._resources = new_val
 
 
-class Spec(CrdObject):
-    _properties = [
-        ('rados', 'rados', 'Rados', True, False),
-        ('server', 'server', 'Server', True, False)
-    ]        
-
-    def __init__(self,
-                 rados,  # type: Rados
-                 server,  # type: Server
-                 ):
-        super(Spec, self).__init__(
-            rados=rados,
-            server=server,
-        )
-
-    @property
-    def rados(self):
-        # type: () -> Rados
-        return self._property_impl('rados')
-    
-    @rados.setter
-    def rados(self, new_val):
-        # type: (Rados) -> None
-        self._rados = new_val
-    
-    @property
-    def server(self):
-        # type: () -> Server
-        return self._property_impl('server')
-    
-    @server.setter
-    def server(self, new_val):
-        # type: (Server) -> None
-        self._server = new_val
-
-
 class Status(CrdObject):
     _properties = [
         ('phase', 'phase', str, False, False)
@@ -1036,7 +991,7 @@ class Status(CrdObject):
         self._phase = new_val
 
 
-class CephNFS(CrdClass):
+class CephRBDMirror(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
@@ -1052,7 +1007,7 @@ class CephNFS(CrdClass):
                  metadata=_omit,  # type: Optional[Any]
                  status=_omit,  # type: Optional[Status]
                  ):
-        super(CephNFS, self).__init__(
+        super(CephRBDMirror, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,

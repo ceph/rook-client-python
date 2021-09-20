@@ -61,71 +61,19 @@ class ErasureCoded(CrdObject):
 
 class SnapshotSchedulesItem(CrdObject):
     _properties = [
-        ('image', 'image', str, False, False),
-        ('items', 'items', 'ItemsList', False, False),
-        ('namespace', 'namespace', str, False, False),
-        ('pool', 'pool', str, False, False),
         ('interval', 'interval', str, False, False),
         ('startTime', 'startTime', str, False, False)
     ]        
 
     def __init__(self,
-                 image=_omit,  # type: Optional[str]
-                 items=_omit,  # type: Optional[Union[List[ItemsItem], CrdObjectList]]
-                 namespace=_omit,  # type: Optional[str]
-                 pool=_omit,  # type: Optional[str]
                  interval=_omit,  # type: Optional[str]
                  startTime=_omit,  # type: Optional[str]
                  ):
         super(SnapshotSchedulesItem, self).__init__(
-            image=image,
-            items=items,
-            namespace=namespace,
-            pool=pool,
             interval=interval,
             startTime=startTime,
         )
 
-    @property
-    def image(self):
-        # type: () -> str
-        return self._property_impl('image')
-    
-    @image.setter
-    def image(self, new_val):
-        # type: (Optional[str]) -> None
-        self._image = new_val
-    
-    @property
-    def items(self):
-        # type: () -> Union[List[ItemsItem], CrdObjectList]
-        return self._property_impl('items')
-    
-    @items.setter
-    def items(self, new_val):
-        # type: (Optional[Union[List[ItemsItem], CrdObjectList]]) -> None
-        self._items = new_val
-    
-    @property
-    def namespace(self):
-        # type: () -> str
-        return self._property_impl('namespace')
-    
-    @namespace.setter
-    def namespace(self, new_val):
-        # type: (Optional[str]) -> None
-        self._namespace = new_val
-    
-    @property
-    def pool(self):
-        # type: () -> str
-        return self._property_impl('pool')
-    
-    @pool.setter
-    def pool(self, new_val):
-        # type: (Optional[str]) -> None
-        self._pool = new_val
-    
     @property
     def interval(self):
         # type: () -> str
@@ -396,7 +344,7 @@ class StatusCheck(CrdObject):
         self._mirror = new_val
 
 
-class Spec(CrdObject):
+class DataPool(CrdObject):
     _properties = [
         ('compressionMode', 'compressionMode', str, False, True),
         ('crushRoot', 'crushRoot', str, False, True),
@@ -424,7 +372,7 @@ class Spec(CrdObject):
                  replicated=_omit,  # type: Optional[Replicated]
                  statusCheck=_omit,  # type: Optional[StatusCheck]
                  ):
-        super(Spec, self).__init__(
+        super(DataPool, self).__init__(
             compressionMode=compressionMode,
             crushRoot=crushRoot,
             deviceClass=deviceClass,
@@ -549,554 +497,220 @@ class Spec(CrdObject):
         self._statusCheck = new_val
 
 
-class PeersItem(CrdObject):
+class MetadataPool(CrdObject):
     _properties = [
-        ('client_name', 'client_name', str, False, False),
-        ('direction', 'direction', str, False, False),
-        ('mirror_uuid', 'mirror_uuid', str, False, False),
-        ('site_name', 'site_name', str, False, False),
-        ('uuid', 'uuid', str, False, False)
+        ('compressionMode', 'compressionMode', str, False, True),
+        ('crushRoot', 'crushRoot', str, False, True),
+        ('deviceClass', 'deviceClass', str, False, True),
+        ('enableRBDStats', 'enableRBDStats', bool, False, False),
+        ('erasureCoded', 'erasureCoded', 'ErasureCoded', False, False),
+        ('failureDomain', 'failureDomain', str, False, False),
+        ('mirroring', 'mirroring', 'Mirroring', False, False),
+        ('parameters', 'parameters', object, False, True),
+        ('quotas', 'quotas', 'Quotas', False, True),
+        ('replicated', 'replicated', 'Replicated', False, False),
+        ('statusCheck', 'statusCheck', 'StatusCheck', False, False)
     ]        
 
     def __init__(self,
-                 client_name=_omit,  # type: Optional[str]
-                 direction=_omit,  # type: Optional[str]
-                 mirror_uuid=_omit,  # type: Optional[str]
-                 site_name=_omit,  # type: Optional[str]
-                 uuid=_omit,  # type: Optional[str]
+                 compressionMode=_omit,  # type: Optional[str]
+                 crushRoot=_omit,  # type: Optional[str]
+                 deviceClass=_omit,  # type: Optional[str]
+                 enableRBDStats=_omit,  # type: Optional[bool]
+                 erasureCoded=_omit,  # type: Optional[ErasureCoded]
+                 failureDomain=_omit,  # type: Optional[str]
+                 mirroring=_omit,  # type: Optional[Mirroring]
+                 parameters=_omit,  # type: Optional[Any]
+                 quotas=_omit,  # type: Optional[Quotas]
+                 replicated=_omit,  # type: Optional[Replicated]
+                 statusCheck=_omit,  # type: Optional[StatusCheck]
                  ):
-        super(PeersItem, self).__init__(
-            client_name=client_name,
-            direction=direction,
-            mirror_uuid=mirror_uuid,
-            site_name=site_name,
-            uuid=uuid,
+        super(MetadataPool, self).__init__(
+            compressionMode=compressionMode,
+            crushRoot=crushRoot,
+            deviceClass=deviceClass,
+            enableRBDStats=enableRBDStats,
+            erasureCoded=erasureCoded,
+            failureDomain=failureDomain,
+            mirroring=mirroring,
+            parameters=parameters,
+            quotas=quotas,
+            replicated=replicated,
+            statusCheck=statusCheck,
         )
 
     @property
-    def client_name(self):
-        # type: () -> str
-        return self._property_impl('client_name')
+    def compressionMode(self):
+        # type: () -> Optional[str]
+        return self._property_impl('compressionMode')
     
-    @client_name.setter
-    def client_name(self, new_val):
+    @compressionMode.setter
+    def compressionMode(self, new_val):
         # type: (Optional[str]) -> None
-        self._client_name = new_val
+        self._compressionMode = new_val
     
     @property
-    def direction(self):
-        # type: () -> str
-        return self._property_impl('direction')
+    def crushRoot(self):
+        # type: () -> Optional[str]
+        return self._property_impl('crushRoot')
     
-    @direction.setter
-    def direction(self, new_val):
+    @crushRoot.setter
+    def crushRoot(self, new_val):
         # type: (Optional[str]) -> None
-        self._direction = new_val
+        self._crushRoot = new_val
     
     @property
-    def mirror_uuid(self):
-        # type: () -> str
-        return self._property_impl('mirror_uuid')
+    def deviceClass(self):
+        # type: () -> Optional[str]
+        return self._property_impl('deviceClass')
     
-    @mirror_uuid.setter
-    def mirror_uuid(self, new_val):
+    @deviceClass.setter
+    def deviceClass(self, new_val):
         # type: (Optional[str]) -> None
-        self._mirror_uuid = new_val
+        self._deviceClass = new_val
     
     @property
-    def site_name(self):
-        # type: () -> str
-        return self._property_impl('site_name')
+    def enableRBDStats(self):
+        # type: () -> bool
+        return self._property_impl('enableRBDStats')
     
-    @site_name.setter
-    def site_name(self, new_val):
-        # type: (Optional[str]) -> None
-        self._site_name = new_val
+    @enableRBDStats.setter
+    def enableRBDStats(self, new_val):
+        # type: (Optional[bool]) -> None
+        self._enableRBDStats = new_val
     
     @property
-    def uuid(self):
-        # type: () -> str
-        return self._property_impl('uuid')
+    def erasureCoded(self):
+        # type: () -> ErasureCoded
+        return self._property_impl('erasureCoded')
     
-    @uuid.setter
-    def uuid(self, new_val):
+    @erasureCoded.setter
+    def erasureCoded(self, new_val):
+        # type: (Optional[ErasureCoded]) -> None
+        self._erasureCoded = new_val
+    
+    @property
+    def failureDomain(self):
+        # type: () -> str
+        return self._property_impl('failureDomain')
+    
+    @failureDomain.setter
+    def failureDomain(self, new_val):
         # type: (Optional[str]) -> None
-        self._uuid = new_val
+        self._failureDomain = new_val
+    
+    @property
+    def mirroring(self):
+        # type: () -> Mirroring
+        return self._property_impl('mirroring')
+    
+    @mirroring.setter
+    def mirroring(self, new_val):
+        # type: (Optional[Mirroring]) -> None
+        self._mirroring = new_val
+    
+    @property
+    def parameters(self):
+        # type: () -> Optional[Any]
+        return self._property_impl('parameters')
+    
+    @parameters.setter
+    def parameters(self, new_val):
+        # type: (Optional[Any]) -> None
+        self._parameters = new_val
+    
+    @property
+    def quotas(self):
+        # type: () -> Optional[Quotas]
+        return self._property_impl('quotas')
+    
+    @quotas.setter
+    def quotas(self, new_val):
+        # type: (Optional[Quotas]) -> None
+        self._quotas = new_val
+    
+    @property
+    def replicated(self):
+        # type: () -> Replicated
+        return self._property_impl('replicated')
+    
+    @replicated.setter
+    def replicated(self, new_val):
+        # type: (Optional[Replicated]) -> None
+        self._replicated = new_val
+    
+    @property
+    def statusCheck(self):
+        # type: () -> StatusCheck
+        return self._property_impl('statusCheck')
+    
+    @statusCheck.setter
+    def statusCheck(self, new_val):
+        # type: (Optional[StatusCheck]) -> None
+        self._statusCheck = new_val
 
 
-class PeersList(CrdObjectList):
-    _items_type = PeersItem
-
-
-class MirroringInfo(CrdObject):
+class Spec(CrdObject):
     _properties = [
-        ('details', 'details', str, False, False),
-        ('lastChanged', 'lastChanged', str, False, False),
-        ('lastChecked', 'lastChecked', str, False, False),
-        ('mode', 'mode', str, False, False),
-        ('peers', 'peers', 'PeersList', False, False),
-        ('site_name', 'site_name', str, False, False)
+        ('dataPool', 'dataPool', 'DataPool', True, True),
+        ('metadataPool', 'metadataPool', 'MetadataPool', True, True),
+        ('zoneGroup', 'zoneGroup', str, True, False)
     ]        
 
     def __init__(self,
-                 details=_omit,  # type: Optional[str]
-                 lastChanged=_omit,  # type: Optional[str]
-                 lastChecked=_omit,  # type: Optional[str]
-                 mode=_omit,  # type: Optional[str]
-                 peers=_omit,  # type: Optional[Union[List[PeersItem], CrdObjectList]]
-                 site_name=_omit,  # type: Optional[str]
+                 dataPool,  # type: Optional[DataPool]
+                 metadataPool,  # type: Optional[MetadataPool]
+                 zoneGroup,  # type: str
                  ):
-        super(MirroringInfo, self).__init__(
-            details=details,
-            lastChanged=lastChanged,
-            lastChecked=lastChecked,
-            mode=mode,
-            peers=peers,
-            site_name=site_name,
+        super(Spec, self).__init__(
+            dataPool=dataPool,
+            metadataPool=metadataPool,
+            zoneGroup=zoneGroup,
         )
 
     @property
-    def details(self):
+    def dataPool(self):
+        # type: () -> Optional[DataPool]
+        return self._property_impl('dataPool')
+    
+    @dataPool.setter
+    def dataPool(self, new_val):
+        # type: (Optional[DataPool]) -> None
+        self._dataPool = new_val
+    
+    @property
+    def metadataPool(self):
+        # type: () -> Optional[MetadataPool]
+        return self._property_impl('metadataPool')
+    
+    @metadataPool.setter
+    def metadataPool(self, new_val):
+        # type: (Optional[MetadataPool]) -> None
+        self._metadataPool = new_val
+    
+    @property
+    def zoneGroup(self):
         # type: () -> str
-        return self._property_impl('details')
+        return self._property_impl('zoneGroup')
     
-    @details.setter
-    def details(self, new_val):
-        # type: (Optional[str]) -> None
-        self._details = new_val
-    
-    @property
-    def lastChanged(self):
-        # type: () -> str
-        return self._property_impl('lastChanged')
-    
-    @lastChanged.setter
-    def lastChanged(self, new_val):
-        # type: (Optional[str]) -> None
-        self._lastChanged = new_val
-    
-    @property
-    def lastChecked(self):
-        # type: () -> str
-        return self._property_impl('lastChecked')
-    
-    @lastChecked.setter
-    def lastChecked(self, new_val):
-        # type: (Optional[str]) -> None
-        self._lastChecked = new_val
-    
-    @property
-    def mode(self):
-        # type: () -> str
-        return self._property_impl('mode')
-    
-    @mode.setter
-    def mode(self, new_val):
-        # type: (Optional[str]) -> None
-        self._mode = new_val
-    
-    @property
-    def peers(self):
-        # type: () -> Union[List[PeersItem], CrdObjectList]
-        return self._property_impl('peers')
-    
-    @peers.setter
-    def peers(self, new_val):
-        # type: (Optional[Union[List[PeersItem], CrdObjectList]]) -> None
-        self._peers = new_val
-    
-    @property
-    def site_name(self):
-        # type: () -> str
-        return self._property_impl('site_name')
-    
-    @site_name.setter
-    def site_name(self, new_val):
-        # type: (Optional[str]) -> None
-        self._site_name = new_val
-
-
-class States(CrdObject):
-    _properties = [
-        ('error', 'error', int, False, False),
-        ('replaying', 'replaying', int, False, False),
-        ('starting_replay', 'starting_replay', int, False, False),
-        ('stopped', 'stopped', int, False, False),
-        ('stopping_replay', 'stopping_replay', int, False, False),
-        ('syncing', 'syncing', int, False, False),
-        ('unknown', 'unknown', int, False, False)
-    ]        
-
-    def __init__(self,
-                 error=_omit,  # type: Optional[int]
-                 replaying=_omit,  # type: Optional[int]
-                 starting_replay=_omit,  # type: Optional[int]
-                 stopped=_omit,  # type: Optional[int]
-                 stopping_replay=_omit,  # type: Optional[int]
-                 syncing=_omit,  # type: Optional[int]
-                 unknown=_omit,  # type: Optional[int]
-                 ):
-        super(States, self).__init__(
-            error=error,
-            replaying=replaying,
-            starting_replay=starting_replay,
-            stopped=stopped,
-            stopping_replay=stopping_replay,
-            syncing=syncing,
-            unknown=unknown,
-        )
-
-    @property
-    def error(self):
-        # type: () -> int
-        return self._property_impl('error')
-    
-    @error.setter
-    def error(self, new_val):
-        # type: (Optional[int]) -> None
-        self._error = new_val
-    
-    @property
-    def replaying(self):
-        # type: () -> int
-        return self._property_impl('replaying')
-    
-    @replaying.setter
-    def replaying(self, new_val):
-        # type: (Optional[int]) -> None
-        self._replaying = new_val
-    
-    @property
-    def starting_replay(self):
-        # type: () -> int
-        return self._property_impl('starting_replay')
-    
-    @starting_replay.setter
-    def starting_replay(self, new_val):
-        # type: (Optional[int]) -> None
-        self._starting_replay = new_val
-    
-    @property
-    def stopped(self):
-        # type: () -> int
-        return self._property_impl('stopped')
-    
-    @stopped.setter
-    def stopped(self, new_val):
-        # type: (Optional[int]) -> None
-        self._stopped = new_val
-    
-    @property
-    def stopping_replay(self):
-        # type: () -> int
-        return self._property_impl('stopping_replay')
-    
-    @stopping_replay.setter
-    def stopping_replay(self, new_val):
-        # type: (Optional[int]) -> None
-        self._stopping_replay = new_val
-    
-    @property
-    def syncing(self):
-        # type: () -> int
-        return self._property_impl('syncing')
-    
-    @syncing.setter
-    def syncing(self, new_val):
-        # type: (Optional[int]) -> None
-        self._syncing = new_val
-    
-    @property
-    def unknown(self):
-        # type: () -> int
-        return self._property_impl('unknown')
-    
-    @unknown.setter
-    def unknown(self, new_val):
-        # type: (Optional[int]) -> None
-        self._unknown = new_val
-
-
-class Summary(CrdObject):
-    _properties = [
-        ('daemon_health', 'daemon_health', str, False, False),
-        ('health', 'health', str, False, False),
-        ('image_health', 'image_health', str, False, False),
-        ('states', 'states', 'States', False, True)
-    ]        
-
-    def __init__(self,
-                 daemon_health=_omit,  # type: Optional[str]
-                 health=_omit,  # type: Optional[str]
-                 image_health=_omit,  # type: Optional[str]
-                 states=_omit,  # type: Optional[States]
-                 ):
-        super(Summary, self).__init__(
-            daemon_health=daemon_health,
-            health=health,
-            image_health=image_health,
-            states=states,
-        )
-
-    @property
-    def daemon_health(self):
-        # type: () -> str
-        return self._property_impl('daemon_health')
-    
-    @daemon_health.setter
-    def daemon_health(self, new_val):
-        # type: (Optional[str]) -> None
-        self._daemon_health = new_val
-    
-    @property
-    def health(self):
-        # type: () -> str
-        return self._property_impl('health')
-    
-    @health.setter
-    def health(self, new_val):
-        # type: (Optional[str]) -> None
-        self._health = new_val
-    
-    @property
-    def image_health(self):
-        # type: () -> str
-        return self._property_impl('image_health')
-    
-    @image_health.setter
-    def image_health(self, new_val):
-        # type: (Optional[str]) -> None
-        self._image_health = new_val
-    
-    @property
-    def states(self):
-        # type: () -> Optional[States]
-        return self._property_impl('states')
-    
-    @states.setter
-    def states(self, new_val):
-        # type: (Optional[States]) -> None
-        self._states = new_val
-
-
-class MirroringStatus(CrdObject):
-    _properties = [
-        ('details', 'details', str, False, False),
-        ('lastChanged', 'lastChanged', str, False, False),
-        ('lastChecked', 'lastChecked', str, False, False),
-        ('summary', 'summary', 'Summary', False, False)
-    ]        
-
-    def __init__(self,
-                 details=_omit,  # type: Optional[str]
-                 lastChanged=_omit,  # type: Optional[str]
-                 lastChecked=_omit,  # type: Optional[str]
-                 summary=_omit,  # type: Optional[Summary]
-                 ):
-        super(MirroringStatus, self).__init__(
-            details=details,
-            lastChanged=lastChanged,
-            lastChecked=lastChecked,
-            summary=summary,
-        )
-
-    @property
-    def details(self):
-        # type: () -> str
-        return self._property_impl('details')
-    
-    @details.setter
-    def details(self, new_val):
-        # type: (Optional[str]) -> None
-        self._details = new_val
-    
-    @property
-    def lastChanged(self):
-        # type: () -> str
-        return self._property_impl('lastChanged')
-    
-    @lastChanged.setter
-    def lastChanged(self, new_val):
-        # type: (Optional[str]) -> None
-        self._lastChanged = new_val
-    
-    @property
-    def lastChecked(self):
-        # type: () -> str
-        return self._property_impl('lastChecked')
-    
-    @lastChecked.setter
-    def lastChecked(self, new_val):
-        # type: (Optional[str]) -> None
-        self._lastChecked = new_val
-    
-    @property
-    def summary(self):
-        # type: () -> Summary
-        return self._property_impl('summary')
-    
-    @summary.setter
-    def summary(self, new_val):
-        # type: (Optional[Summary]) -> None
-        self._summary = new_val
-
-
-class ItemsItem(CrdObject):
-    _properties = [
-        ('interval', 'interval', str, False, False),
-        ('start_time', 'start_time', str, False, False)
-    ]        
-
-    def __init__(self,
-                 interval=_omit,  # type: Optional[str]
-                 start_time=_omit,  # type: Optional[str]
-                 ):
-        super(ItemsItem, self).__init__(
-            interval=interval,
-            start_time=start_time,
-        )
-
-    @property
-    def interval(self):
-        # type: () -> str
-        return self._property_impl('interval')
-    
-    @interval.setter
-    def interval(self, new_val):
-        # type: (Optional[str]) -> None
-        self._interval = new_val
-    
-    @property
-    def start_time(self):
-        # type: () -> str
-        return self._property_impl('start_time')
-    
-    @start_time.setter
-    def start_time(self, new_val):
-        # type: (Optional[str]) -> None
-        self._start_time = new_val
-
-
-class ItemsList(CrdObjectList):
-    _items_type = ItemsItem
-
-
-class SnapshotScheduleStatus(CrdObject):
-    _properties = [
-        ('details', 'details', str, False, False),
-        ('lastChanged', 'lastChanged', str, False, False),
-        ('lastChecked', 'lastChecked', str, False, False),
-        ('snapshotSchedules', 'snapshotSchedules', 'SnapshotSchedulesList', False, True)
-    ]        
-
-    def __init__(self,
-                 details=_omit,  # type: Optional[str]
-                 lastChanged=_omit,  # type: Optional[str]
-                 lastChecked=_omit,  # type: Optional[str]
-                 snapshotSchedules=_omit,  # type: Optional[Union[List[SnapshotSchedulesItem], CrdObjectList]]
-                 ):
-        super(SnapshotScheduleStatus, self).__init__(
-            details=details,
-            lastChanged=lastChanged,
-            lastChecked=lastChecked,
-            snapshotSchedules=snapshotSchedules,
-        )
-
-    @property
-    def details(self):
-        # type: () -> str
-        return self._property_impl('details')
-    
-    @details.setter
-    def details(self, new_val):
-        # type: (Optional[str]) -> None
-        self._details = new_val
-    
-    @property
-    def lastChanged(self):
-        # type: () -> str
-        return self._property_impl('lastChanged')
-    
-    @lastChanged.setter
-    def lastChanged(self, new_val):
-        # type: (Optional[str]) -> None
-        self._lastChanged = new_val
-    
-    @property
-    def lastChecked(self):
-        # type: () -> str
-        return self._property_impl('lastChecked')
-    
-    @lastChecked.setter
-    def lastChecked(self, new_val):
-        # type: (Optional[str]) -> None
-        self._lastChecked = new_val
-    
-    @property
-    def snapshotSchedules(self):
-        # type: () -> Optional[Union[List[SnapshotSchedulesItem], CrdObjectList]]
-        return self._property_impl('snapshotSchedules')
-    
-    @snapshotSchedules.setter
-    def snapshotSchedules(self, new_val):
-        # type: (Optional[Union[List[SnapshotSchedulesItem], CrdObjectList]]) -> None
-        self._snapshotSchedules = new_val
+    @zoneGroup.setter
+    def zoneGroup(self, new_val):
+        # type: (str) -> None
+        self._zoneGroup = new_val
 
 
 class Status(CrdObject):
     _properties = [
-        ('info', 'info', object, False, True),
-        ('mirroringInfo', 'mirroringInfo', 'MirroringInfo', False, False),
-        ('mirroringStatus', 'mirroringStatus', 'MirroringStatus', False, False),
-        ('phase', 'phase', str, False, False),
-        ('snapshotScheduleStatus', 'snapshotScheduleStatus', 'SnapshotScheduleStatus', False, False)
+        ('phase', 'phase', str, False, False)
     ]        
 
     def __init__(self,
-                 info=_omit,  # type: Optional[Any]
-                 mirroringInfo=_omit,  # type: Optional[MirroringInfo]
-                 mirroringStatus=_omit,  # type: Optional[MirroringStatus]
                  phase=_omit,  # type: Optional[str]
-                 snapshotScheduleStatus=_omit,  # type: Optional[SnapshotScheduleStatus]
                  ):
         super(Status, self).__init__(
-            info=info,
-            mirroringInfo=mirroringInfo,
-            mirroringStatus=mirroringStatus,
             phase=phase,
-            snapshotScheduleStatus=snapshotScheduleStatus,
         )
 
-    @property
-    def info(self):
-        # type: () -> Optional[Any]
-        return self._property_impl('info')
-    
-    @info.setter
-    def info(self, new_val):
-        # type: (Optional[Any]) -> None
-        self._info = new_val
-    
-    @property
-    def mirroringInfo(self):
-        # type: () -> MirroringInfo
-        return self._property_impl('mirroringInfo')
-    
-    @mirroringInfo.setter
-    def mirroringInfo(self, new_val):
-        # type: (Optional[MirroringInfo]) -> None
-        self._mirroringInfo = new_val
-    
-    @property
-    def mirroringStatus(self):
-        # type: () -> MirroringStatus
-        return self._property_impl('mirroringStatus')
-    
-    @mirroringStatus.setter
-    def mirroringStatus(self, new_val):
-        # type: (Optional[MirroringStatus]) -> None
-        self._mirroringStatus = new_val
-    
     @property
     def phase(self):
         # type: () -> str
@@ -1106,19 +720,9 @@ class Status(CrdObject):
     def phase(self, new_val):
         # type: (Optional[str]) -> None
         self._phase = new_val
-    
-    @property
-    def snapshotScheduleStatus(self):
-        # type: () -> SnapshotScheduleStatus
-        return self._property_impl('snapshotScheduleStatus')
-    
-    @snapshotScheduleStatus.setter
-    def snapshotScheduleStatus(self, new_val):
-        # type: (Optional[SnapshotScheduleStatus]) -> None
-        self._snapshotScheduleStatus = new_val
 
 
-class CephBlockPool(CrdClass):
+class CephObjectZone(CrdClass):
     _properties = [
         ('apiVersion', 'apiVersion', str, False, False),
         ('kind', 'kind', str, False, False),
@@ -1134,7 +738,7 @@ class CephBlockPool(CrdClass):
                  metadata=_omit,  # type: Optional[Any]
                  status=_omit,  # type: Optional[Status]
                  ):
-        super(CephBlockPool, self).__init__(
+        super(CephObjectZone, self).__init__(
             spec=spec,
             apiVersion=apiVersion,
             kind=kind,
